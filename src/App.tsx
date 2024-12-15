@@ -10,6 +10,7 @@ import { MainLayout } from './components/layout/MainLayout'
 import { HomePage } from './screens/Home'
 import { ComingSoon } from './components/ComingSoon'
 import './i18n/config'
+import { GamePage } from './screens/GameScreen'
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState(0)
@@ -38,10 +39,10 @@ export default function App() {
             </MainLayout>
           } />
           <Route path="/game" element={
-            <MainLayout>
-              <ComingSoon />
-            </MainLayout>
-          } />
+  <MainLayout>
+    <GamePage />
+  </MainLayout>
+} />
           <Route path="/earn" element={
             <MainLayout>
               <ComingSoon />

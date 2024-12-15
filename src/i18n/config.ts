@@ -61,6 +61,12 @@ const resources = {
       },
       header: {
         title: 'Adrena Games'
+      },
+      game: {
+        title: 'Nub Packy',
+        packies: 'Packies',
+        lightning: 'Lightning',
+        leaderboard: 'Leaderboard'
       }
     }
   },
@@ -123,6 +129,12 @@ const resources = {
       },
       header: {
         title: 'Juegos Adrena'
+      },
+      game: {
+        title: "Nub Packy",
+        packies: "Paquetes",
+        lightning: "Relámpago",
+        leaderboard: "Tabla de clasificación"
       }
     }
   },
@@ -185,6 +197,12 @@ const resources = {
       },
       header: {
         title: 'Jeux Adrena'
+      },
+      game: {
+        title: "Nub Packy",
+        packies: "Paquets",
+        lightning: "Éclair",
+        leaderboard: "Classement"
       }
     }
   },
@@ -247,6 +265,12 @@ const resources = {
       },
       header: {
         title: 'Adrena Spiele'
+      },
+      game: {
+        title: "Nub Packy",
+        packies: "Pakete",
+        lightning: "Blitz",
+        leaderboard: "Bestenliste"
       }
     }
   },
@@ -309,6 +333,12 @@ const resources = {
       },
       header: {
         title: 'Adrena Games'
+      },
+      game: {
+        title: "Nub Packy",
+        packies: "Mga Packy",
+        lightning: "Kidlat",
+        leaderboard: "Leaderboard"
       }
     }
   },
@@ -371,6 +401,12 @@ const resources = {
       },
       header: {
         title: 'アドレナゲームズ'
+      },
+      game: {
+        title: "Nub Packy",
+        packies: "パッキー",
+        lightning: "ライトニング",
+        leaderboard: "リーダーボード"
       }
     }
   },
@@ -433,6 +469,12 @@ const resources = {
       },
       header: {
         title: '아드레나 게임즈'
+      },
+      game: {
+        title: "Nub Packy",
+        packies: "패키",
+        lightning: "번개",
+        leaderboard: "리더보드"
       }
     }
   },
@@ -495,7 +537,14 @@ const resources = {
       },
       header: {
         title: 'Adrena 游戏'
+      },
+      game: {
+        title: "Nub Packy",
+        packies: "包裹",
+        lightning: "闪电",
+        leaderboard: "排行榜"
       }
+      
     }
   }
 };
