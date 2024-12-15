@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import home1 from '/src/assets/home1.png'
 import home2 from '/src/assets/home2.png'
 import home3 from '/src/assets/home3.png'
-
+import glacierFont from '/src/assets/Glacier-Regular.ttf'
 export function HomePage() {
   const { t } = useTranslation()
   
@@ -41,7 +41,7 @@ const cards = [
         {`
           @font-face {
             font-family: 'HomeFont';
-            src: url('/src/assets/Glacier-Regular.ttf') format('truetype');
+            src: url('${glacierFont}') format('truetype');
           }
         `}
       </style>
