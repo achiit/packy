@@ -1,33 +1,39 @@
 'use client'
 import { useTranslation } from 'react-i18next'
+import home1 from '/src/assets/home1.png'
+import home2 from '/src/assets/home2.png'
+import home3 from '/src/assets/home3.png'
 
 export function HomePage() {
   const { t } = useTranslation()
   
-  const cards = [
-    {
-      title: t('cards.packySpin.title'),
-      title1:t('cards.packySpin.title1'),
-      subtitle: t('cards.packySpin.subtitle'),
-      action: t('cards.packySpin.action'),
-      background: '/src/assets/home1.png',
-      alignment: 'items-end'
-    },
-    {
-      title: t('cards.packyBookings.title'),
-      title1:t('cards.packyBookings.title1'),
-      action: t('cards.packyBookings.action'),
-      background: '/src/assets/home2.png',
-      alignment: 'items-start'
-    },
-    {
-      title: t('cards.packyReferEarn.title'),
-      title1:t('cards.packyReferEarn.title1'),
-      action: t('cards.packyReferEarn.action'),
-      background: '/src/assets/home3.png',
-      alignment: 'items-end'
-    }
-  ]
+// At the top of your file, import the images
+
+// Then modify your cards array to use these imports
+const cards = [
+  {
+    title: t('cards.packySpin.title'),
+    title1: t('cards.packySpin.title1'),
+    subtitle: t('cards.packySpin.subtitle'),
+    action: t('cards.packySpin.action'),
+    background: home1,  // Use the imported image
+    alignment: 'items-end'
+  },
+  {
+    title: t('cards.packyBookings.title'),
+    title1: t('cards.packyBookings.title1'),
+    action: t('cards.packyBookings.action'),
+    background: home2,  // Use the imported image
+    alignment: 'items-start'
+  },
+  {
+    title: t('cards.packyReferEarn.title'),
+    title1: t('cards.packyReferEarn.title1'),
+    action: t('cards.packyReferEarn.action'),
+    background: home3,  // Use the imported image
+    alignment: 'items-end'
+  }
+]
 
   return (
     <>
