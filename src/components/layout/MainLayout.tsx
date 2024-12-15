@@ -16,8 +16,15 @@ export function MainLayout({ children }: MainLayoutProps) {
       <header className="flex justify-between items-center px-4 py-3">
         <h1 className="text-xl font-bold">{t('header.title')}</h1>
         <div className="flex gap-2">
-          <img src="/src/assets/wallet.png" alt="wallet" className="w-6 h-6" />
-          <img src="/src/assets/intro4.png" alt="notifications" className="w-6 h-6" />
+          {/* Wallet Button */}
+          <button className="p-2">
+            <img src="/src/assets/wallet.png" alt="wallet" className="w-8 h-8" />
+          </button>
+
+          {/* Notifications Button with Circular Box */}
+          <button className="p-2 rounded-full bg-[#EFEEE9] flex justify-center items-center">
+            <img src="/src/assets/intro4.png" alt="notifications" className="w-6 h-6" />
+          </button>
         </div>
       </header>
 

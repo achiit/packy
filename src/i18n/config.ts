@@ -45,7 +45,7 @@ const resources = {
         packySpin: {
           title: 'packy',
           title1:'spin',
-          subtitle: 'Spin & Win',
+          subtitle: 'spin & win',
           action: 'Play now'
         },
         packyBookings: {

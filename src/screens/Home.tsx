@@ -31,38 +31,46 @@ export function HomePage() {
   ]
 
   return (
-    <div className="p-1 space-y-4 max-w-md mx-auto font-inter">
-      {cards.map((card, index) => (
-        <div 
-          key={index}
-          className="relative w-full h-[180px] rounded-2xl overflow-hidden"
-          style={{
-            backgroundImage: `url(${card.background})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        >
-          <div className={`absolute inset-0 p-4 flex flex-col justify-between ${card.alignment}`}>
-            <div className="w-1/8">
-              <h3 className="text-[#38644c] text-xl font-medium capitalize">{card.title}</h3>
-              <h3 className="text-[#38644c] text-xl font-medium capitalize">{card.title1}</h3>
+    <>
+      <style jsx global>{`
+        @font-face {
+          font-family: 'HomeFont';
+          src: url('/src/assets/Glacier-Regular.ttf') format('opentype');
+        }
+      `}</style>
+      
+      <div className="p-1 space-y-4 max-w-md mx-auto font-inter">
+        {cards.map((card, index) => (
+          <div 
+            key={index}
+            className="relative w-full h-[180px] rounded-2xl overflow-hidden"
+            style={{
+              backgroundImage: `url(${card.background})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
+            <div className={`absolute inset-0 p-4 flex flex-col justify-between ${card.alignment}`}>
+              <div className="w-1/8">
+                <h3 style={{ fontFamily: 'HomeFont' }} className="text-[#38644c] text-xl ">{card.title}</h3>
+                <h3 style={{ fontFamily: 'HomeFont' }} className="text-[#38644c] text-xl ">{card.title1}</h3>
 
-              {card.subtitle && (
-                <p className="text-[#38644c] text-sm mt-1">{card.subtitle}</p>
-              )}
-            </div>
-            <div>
-              <button 
-                className="px-6 py-2 rounded-full text-white text-sm font-medium bg-[#FF9800] hover:bg-[#F57C00] transition-colors"
-                onClick={() => console.log(`Clicked ${card.action}`)}
-              >
-                {card.action}
-              </button>
+                {card.subtitle && (
+                  <p style={{ fontFamily: 'HomeFont' }} className="text-[#38644c] text-sm mt-1">{card.subtitle}</p>
+                )}
+              </div>
+              <div>
+                <button 
+                  className="px-6 py-2 rounded-full text-white text-sm font-medium bg-[#FF9800] hover:bg-[#F57C00] transition-colors"
+                  onClick={() => console.log(`Clicked ${card.action}`)}
+                >
+                  {card.action}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </>
   )
 }
-

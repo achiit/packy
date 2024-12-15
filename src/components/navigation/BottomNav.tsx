@@ -24,7 +24,7 @@ export function BottomNav({ currentPath }: { currentPath: string }) {
           key={item.label}
           to={item.path}
           className={`flex flex-col items-center ${
-            item.isGame ? '-mt-8' : ''
+            item.isGame ? '-mt-17' : ''
           }`}
         >
           {item.isGame ? (
@@ -39,7 +39,7 @@ export function BottomNav({ currentPath }: { currentPath: string }) {
                 className={`w-6 h-6 ${currentPath === item.path ? 'opacity-100' : 'opacity-50'}`} 
               />
               {item.comingSoon && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-red-500 text-white text-[10px] px-1 rounded whitespace-nowrap">
+                <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 bg-red-500 text-white text-[7px] px-1 rounded whitespace-nowrap">
                   coming soon
                 </div>
               )}

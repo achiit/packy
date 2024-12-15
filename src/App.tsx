@@ -8,6 +8,7 @@ import { IntroScreen4 } from './screens/IntroScreen4'
 import { SwipeableViews } from './components/SwipeableView'
 import { MainLayout } from './components/layout/MainLayout'
 import { HomePage } from './screens/Home'
+import { ComingSoon } from './components/ComingSoon'
 import './i18n/config'
 
 export default function App() {
@@ -33,22 +34,22 @@ export default function App() {
           } />
           <Route path="/booking" element={
             <MainLayout>
-              <div>Booking Page (Coming Soon)</div>
+              <ComingSoon />
             </MainLayout>
           } />
           <Route path="/game" element={
             <MainLayout>
-              <div>Game Page</div>
+              <ComingSoon />
             </MainLayout>
           } />
           <Route path="/earn" element={
             <MainLayout>
-              <div>Earn Page</div>
+              <ComingSoon />
             </MainLayout>
           } />
           <Route path="/profile" element={
             <MainLayout>
-              <div>Profile Page</div>
+              <ComingSoon />
             </MainLayout>
           } />
           <Route path="*" element={<Navigate to="/" replace />} />
