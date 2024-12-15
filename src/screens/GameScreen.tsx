@@ -28,12 +28,12 @@ export function GamePage() {
       <div className="h-[60px] flex items-center justify-between">
         <div className="flex items-center gap-2 bg-[#F6F6F6] rounded-full px-4 py-2">
           <img src={intro4} alt="Packy" className="w-6 h-6" />
-          <span className="font-medium text-black">{packies} {t('game.packies')}</span>
+          <span className="font-medium text-black text-xs">{packies} {t('game.packies')}</span>
         </div>
 
         <button className="flex items-center gap-2 bg-[#F6F6F6] rounded-full px-4 py-2">
           <img src={intro4} alt="Packy" className="w-6 h-6" />
-          <span className="text-gray-600">{t('game.title')}</span>
+          <span className="text-gray-600 text-xs">{t('game.title')}</span>
           <ChevronRight className="w-4 h-4 text-gray-400" />
         </button>
       </div>
@@ -42,7 +42,7 @@ export function GamePage() {
       <div className="h-[calc(100%-120px)] flex items-center justify-center">
         <button
           onClick={handleTap}
-          className={`relative w-64 h-64 rounded-full
+          className={`relative w-60 h-60 rounded-full
             transition-all duration-100 ease-out
             ${isPressed ? 'scale-105' : 'scale-100'}
             bg-white
@@ -63,12 +63,12 @@ export function GamePage() {
       <div className="h-[60px] flex items-center justify-between">
         <div className="flex items-center gap-2">
           <img src={flash} alt="Lightning" className="w-6 h-6" />
-          <span className="text-[#9FE870] font-medium">{lightning}/100 {t('game.lightning')}</span>
+          <span className="text-[#9FE870] font-medium text-xs">{lightning}/100 {t('game.lightning')}</span>
         </div>
 
         <button className="flex items-center gap-2 bg-[#F6F6F6] rounded-full px-4 py-2">
           <img src={intro4} alt="Packy" className="w-6 h-6" />
-          <span className="text-gray-600">{t('game.leaderboard')}</span>
+          <span className="text-gray-600 text-xs">{t('game.leaderboard')}</span>
           <ChevronRight className="w-4 h-4 text-gray-400" />
         </button>
       </div>
