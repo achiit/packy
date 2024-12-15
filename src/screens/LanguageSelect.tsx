@@ -26,7 +26,7 @@ export function LanguageSelect({ onContinue }: LanguageSelectProps) {
       <div className="min-h-screen flex flex-col justify-end bg-white px-6">
         <div className="flex-1 flex flex-col justify-end pb-8">
           <h2 className="text-[28px] font-semibold mb-8">{t('selectLanguage')}</h2>
-          <div className="space-y-7 mb-8">
+          <div className="space-y-6 mb-8">
             {languages.map((lang) => (
               <button
                 key={lang.code}

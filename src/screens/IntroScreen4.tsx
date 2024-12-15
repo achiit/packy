@@ -16,7 +16,7 @@ export function IntroScreen4({ onContinue }: IntroScreen4Props) {
         <img 
           src={intro4} 
           alt="Welcome"
-          className="w-64 h-64 object-contain mb-10" // Adjusted image size
+          className="w-48 h-48 object-contain mb-10" // Adjusted image size
         />
         <h2 className="text-2xl font-bold mb-2">
           {t('intro4.title')}

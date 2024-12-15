@@ -1,16 +1,60 @@
 import { useState } from 'react'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { LanguageSelect } from './screens/LanguageSelect'
 import { IntroScreen1 } from './screens/IntroScreen1'
 import { IntroScreen2 } from './screens/IntroScreen2'
 import { IntroScreen3 } from './screens/IntroScreen3'
 import { IntroScreen4 } from './screens/IntroScreen4'
 import { SwipeableViews } from './components/SwipeableView'
+import { MainLayout } from './components/layout/MainLayout'
+import { HomePage } from './screens/Home'
+import './i18n/config'
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState(0)
+  const [showMainApp, setShowMainApp] = useState(false)
 
   const handleContinue = () => {
-    setCurrentScreen((prev) => prev + 1)
+    if (currentScreen === 4) {
+      setShowMainApp(true)
+    } else {
+      setCurrentScreen((prev) => prev + 1)
+    }
+  }
+
+  if (showMainApp) {
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={
+            <MainLayout>
+              <HomePage />
+            </MainLayout>
+          } />
+          <Route path="/booking" element={
+            <MainLayout>
+              <div>Booking Page (Coming Soon)</div>
+            </MainLayout>
+          } />
+          <Route path="/game" element={
+            <MainLayout>
+              <div>Game Page</div>
+            </MainLayout>
+          } />
+          <Route path="/earn" element={
+            <MainLayout>
+              <div>Earn Page</div>
+            </MainLayout>
+          } />
+          <Route path="/profile" element={
+            <MainLayout>
+              <div>Profile Page</div>
+            </MainLayout>
+          } />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    )
   }
 
   const screens = [
@@ -32,4 +76,3 @@ export default function App() {
     </div>
   )
 }
-

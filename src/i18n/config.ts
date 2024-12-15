@@ -32,6 +32,35 @@ const resources = {
         it: 'Italian',
         ko: 'Korean',
         'zh-CN': 'Chinese'
+      },
+      navigation: {
+        home: 'Home',
+        booking: 'Booking',
+        game: 'Game',
+        earn: 'earn',
+        profile: 'Profile',
+        comingSoon: 'coming soon'
+      },
+      cards: {
+        packySpin: {
+          title: 'packy',
+          title1:'spin',
+          subtitle: 'Spin & Win',
+          action: 'Play now'
+        },
+        packyBookings: {
+          title: 'packy',
+          title1:'bookings',
+          action: 'Book now'
+        },
+        packyReferEarn: {
+          title: 'packy',
+          title1:' refer & earn',
+          action: 'Book now'
+        }
+      },
+      header: {
+        title: 'Adrena Games'
       }
     }
   },
@@ -65,6 +94,35 @@ const resources = {
         it: 'Italiano',
         ko: 'Coreano',
         'zh-CN': 'Chino'
+      },
+      navigation: {
+        home: 'Inicio',
+        booking: 'Reservas',
+        game: 'Juego',
+        earn: 'Ganar',
+        profile: 'Perfil',
+        comingSoon: 'próximamente'
+      },
+      cards: {
+        packySpin: {
+          title: 'packy',
+          title1: 'spin',
+          subtitle: 'Gira y Gana',
+          action: 'Jugar ahora'
+        },
+        packyBookings: {
+          title: 'packy',
+          title1: 'bookings',
+          action: 'Reservar ahora'
+        },
+        packyReferEarn: {
+          title: 'packy',
+          title1: 'refer & earn',
+          action: 'Reservar ahora'
+        }
+      },
+      header: {
+        title: 'Juegos Adrena'
       }
     }
   },
@@ -98,6 +156,35 @@ const resources = {
         it: 'Italien',
         ko: 'Coréen',
         'zh-CN': 'Chinois'
+      },
+      navigation: {
+        home: 'Accueil',
+        booking: 'Réservation',
+        game: 'Jeu',
+        earn: 'Gagner',
+        profile: 'Profil',
+        comingSoon: 'à venir'
+      },
+      cards: {
+        packySpin: {
+          title: 'packy',
+          title1: 'spin',
+          subtitle: 'Tournez et Gagnez',
+          action: 'Jouer maintenant'
+        },
+        packyBookings: {
+          title: 'packy',
+          title1: 'bookings',
+          action: 'Réserver maintenant'
+        },
+        packyReferEarn: {
+          title: 'packy',
+          title1: 'refer & earn',
+          action: 'Réserver maintenant'
+        }
+      },
+      header: {
+        title: 'Jeux Adrena'
       }
     }
   },
@@ -131,10 +218,39 @@ const resources = {
         it: 'Italienisch',
         ko: 'Koreanisch',
         'zh-CN': 'Chinesisch'
+      },
+      navigation: {
+        home: 'Startseite',
+        booking: 'Buchung',
+        game: 'Spiel',
+        earn: 'Verdienen',
+        profile: 'Profil',
+        comingSoon: 'demnächst'
+      },
+      cards: {
+        packySpin: {
+          title: 'packy',
+          title1: 'spin',
+          subtitle: 'Drehen und Gewinnen',
+          action: 'Jetzt spielen'
+        },
+        packyBookings: {
+          title: 'packy',
+          title1: 'bookings',
+          action: 'Jetzt buchen'
+        },
+        packyReferEarn: {
+          title: 'packy',
+          title1: 'refer & earn',
+          action: 'Jetzt buchen'
+        }
+      },
+      header: {
+        title: 'Adrena Spiele'
       }
     }
   },
-  'tl-PH': {
+  "tl-PH": {
     translation: {
       selectLanguage: 'Piliin ang Wika',
       continue: 'Magpatuloy',
@@ -164,6 +280,35 @@ const resources = {
         it: 'Italyano',
         ko: 'Koreano',
         'zh-CN': 'Tsino'
+      },
+      navigation: {
+        home: 'Home',
+        booking: 'Booking',
+        game: 'Laro',
+        earn: 'Kumita',
+        profile: 'Profile',
+        comingSoon: 'malapit na'
+      },
+      cards: {
+        packySpin: {
+          title: 'packy',
+          title1: 'spin',
+          subtitle: 'Ikutin at Manalo',
+          action: 'Maglaro ngayon'
+        },
+        packyBookings: {
+          title: 'packy',
+          title1: 'bookings',
+          action: 'Mag-book ngayon'
+        },
+        packyReferEarn: {
+          title: 'packy',
+          title1: 'refer & earn',
+          action: 'Mag-book ngayon'
+        }
+      },
+      header: {
+        title: 'Adrena Games'
       }
     }
   },
@@ -197,6 +342,35 @@ const resources = {
         it: 'イタリア語',
         ko: '韓国語',
         'zh-CN': '中国語'
+      },
+      navigation: {
+        home: 'ホーム',
+        booking: '予約',
+        game: 'ゲーム',
+        earn: '稼ぐ',
+        profile: 'プロフィール',
+        comingSoon: '近日公開'
+      },
+      cards: {
+        packySpin: {
+          title: 'packy',
+          title1: 'spin',
+          subtitle: '回して勝とう',
+          action: '今すぐプレイ'
+        },
+        packyBookings: {
+          title: 'packy',
+          title1: 'bookings',
+          action: '今すぐ予約'
+        },
+        packyReferEarn: {
+          title: 'packy',
+          title1: 'refer & earn',
+          action: '今すぐ予約'
+        }
+      },
+      header: {
+        title: 'アドレナゲームズ'
       }
     }
   },
@@ -230,6 +404,35 @@ const resources = {
         it: '이탈리아어',
         ko: '한국어',
         'zh-CN': '중국어'
+      },
+      navigation: {
+        home: '홈',
+        booking: '예약',
+        game: '게임',
+        earn: '수익',
+        profile: '프로필',
+        comingSoon: '출시 예정'
+      },
+      cards: {
+        packySpin: {
+          title: 'packy',
+          title1: 'spin',
+          subtitle: '돌리고 승리하세요',
+          action: '지금 플레이'
+        },
+        packyBookings: {
+          title: 'packy',
+          title1: 'bookings',
+          action: '지금 예약'
+        },
+        packyReferEarn: {
+          title: 'packy',
+          title1: 'refer & earn',
+          action: '지금 예약'
+        }
+      },
+      header: {
+        title: '아드레나 게임즈'
       }
     }
   },
@@ -263,23 +466,52 @@ const resources = {
         it: '意大利语',
         ko: '韩语',
         'zh-CN': '中文'
+      },
+      navigation: {
+        home: '主页',
+        booking: '预订',
+        game: '游戏',
+        earn: '赚取',
+        profile: '个人资料',
+        comingSoon: '即将推出'
+      },
+      cards: {
+        packySpin: {
+          title: 'packy',
+          title1: 'spin',
+          subtitle: '转盘赢大奖',
+          action: '立即游戏'
+        },
+        packyBookings: {
+          title: 'packy',
+          title1: 'bookings',
+          action: '立即预订'
+        },
+        packyReferEarn: {
+          title: 'packy',
+          title1: 'refer & earn',
+          action: '立即预订'
+        }
+      },
+      header: {
+        title: 'Adrena 游戏'
       }
     }
   }
-}
+};
 
 i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'en', // default language
+    lng: 'en',
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false
     },
     react: {
-      useSuspense: false // recommended for handling loading state
+      useSuspense: false
     }
-  })
+  });
 
-export default i18n
+export default i18n;
