@@ -1,5 +1,4 @@
 'use client'
-
 import { useTranslation } from 'react-i18next'
 
 export function HomePage() {
@@ -32,12 +31,14 @@ export function HomePage() {
 
   return (
     <>
-      <style jsx global>{`
-        @font-face {
-          font-family: 'HomeFont';
-          src: url('/src/assets/Glacier-Regular.ttf') format('opentype');
-        }
-      `}</style>
+      <style>
+        {`
+          @font-face {
+            font-family: 'HomeFont';
+            src: url('/src/assets/Glacier-Regular.ttf') format('truetype');
+          }
+        `}
+      </style>
       
       <div className="p-1 space-y-4 max-w-md mx-auto font-inter">
         {cards.map((card, index) => (
@@ -51,15 +52,15 @@ export function HomePage() {
             }}
           >
             <div className={`absolute inset-0 p-4 flex flex-col justify-between ${card.alignment}`}>
-              <div className="w-1/8">
-                <h3 style={{ fontFamily: 'HomeFont' }} className="text-[#38644c] text-xl ">{card.title}</h3>
-                <h3 style={{ fontFamily: 'HomeFont' }} className="text-[#38644c] text-xl ">{card.title1}</h3>
+              <div className={`w-full ${index === 1 ? 'text-left' : 'text-right'}`}>
+                <h3 style={{ fontFamily: 'HomeFont' }} className="text-[#38644c] text-2xl">{card.title}</h3>
+                <h3 style={{ fontFamily: 'HomeFont' }} className="text-[#38644c] text-2xl">{card.title1}</h3>
 
                 {card.subtitle && (
                   <p style={{ fontFamily: 'HomeFont' }} className="text-[#38644c] text-sm mt-1">{card.subtitle}</p>
                 )}
               </div>
-              <div>
+              <div className={`w-full ${index === 1 ? 'text-left' : 'text-right'}`}>
                 <button 
                   className="px-6 py-2 rounded-full text-white text-sm font-medium bg-[#FF9800] hover:bg-[#F57C00] transition-colors"
                   onClick={() => console.log(`Clicked ${card.action}`)}
