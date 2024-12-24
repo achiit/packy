@@ -11,6 +11,8 @@ import { HomePage } from './screens/Home'
 import { ComingSoon } from './components/ComingSoon'
 import './i18n/config'
 import { GamePage } from './screens/GameScreen'
+import { ProfileScreen } from './screens/ProfileScreen'
+import { EarnScreen } from './screens/EarnScreen'
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState(0)
@@ -39,18 +41,18 @@ export default function App() {
             </MainLayout>
           } />
           <Route path="/game" element={
-  <MainLayout>
-    <GamePage />
-  </MainLayout>
-} />
+            <MainLayout>
+              <GamePage />
+            </MainLayout>
+          } />
           <Route path="/earn" element={
             <MainLayout>
-              <ComingSoon />
+              <EarnScreen />
             </MainLayout>
           } />
           <Route path="/profile" element={
             <MainLayout>
-              <ComingSoon />
+              <ProfileScreen />
             </MainLayout>
           } />
           <Route path="*" element={<Navigate to="/" replace />} />

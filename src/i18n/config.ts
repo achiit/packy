@@ -1,7 +1,7 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
-const resources = {
+export const resources = {
   en: {
     translation: {
       selectLanguage: 'Select Language',
@@ -67,7 +67,30 @@ const resources = {
         packies: 'Packies',
         lightning: 'Lightning',
         leaderboard: 'Leaderboard'
-      }
+      },
+      profile: {
+        title: "Unpaid founder (99% unpaid)",
+        goToProfile: "Go to profile",
+        selectLanguage: "Select Language",
+        claimReward: "Claim Reward (Spin)",
+        additionalItems: "Additional Items",
+        inviteEarn: "Invite and earn",
+        helpSupport: "Help & Support",
+        telegramChannel: "Telegram Channel",
+        support: "Support",
+        madeWith: "Made with",
+        version: "V 1.0.1"
+      },
+      earn: {
+        title: "Adrena Games",
+        claimNow: "Claim now", 
+        inviteFriends: "Invite Friends",
+        completeNow: "Complete Now",
+        followPackyX: "Follow packy on X",
+        packyCommunity: "Join packy's Discord Community",
+        followAdrena: "Follow Adrena on Instagram",
+        points: "{{amount}} Adrena points"
+       }
     }
   },
   es: {
@@ -135,7 +158,30 @@ const resources = {
         packies: "Paquetes",
         lightning: "Relámpago",
         leaderboard: "Tabla de clasificación"
-      }
+      },
+      profile: {
+        title: "Unpaid founder (99% unpaid)",
+        goToProfile: "Go to profile",
+        selectLanguage: "Select Language",
+        claimReward: "Claim Reward (Spin)",
+        additionalItems: "Additional Items",
+        inviteEarn: "Invite and earn",
+        helpSupport: "Help & Support",
+        telegramChannel: "Telegram Channel",
+        support: "Support",
+        madeWith: "Made with",
+        version: "V 1.0.1"
+      },
+      earn: {
+        title: "Jeux Adrena",
+        claimNow: "Réclamer maintenant",
+        inviteFriends: "Inviter des amis",
+        completeNow: "Terminer maintenant",
+        followPackyX: "Suivre packy sur X",
+        packyCommunity: "Rejoindre la communauté Discord de packy",
+        followAdrena: "Suivre Adrena sur Instagram",
+        points: "{{amount}} points Adrena"
+       }
     }
   },
   fr: {
@@ -203,7 +249,30 @@ const resources = {
         packies: "Paquets",
         lightning: "Éclair",
         leaderboard: "Classement"
-      }
+      },
+      profile: {
+        title: "Fondateur non rémunéré (99% non payé)",
+        goToProfile: "Voir le profil",
+        selectLanguage: "Choisir la langue",
+        claimReward: "Réclamer la récompense (Tour)",
+        additionalItems: "Articles supplémentaires",
+        inviteEarn: "Inviter et gagner",
+        helpSupport: "Aide & Support",
+        telegramChannel: "Canal Telegram",
+        support: "Support",
+        madeWith: "Fait avec",
+        version: "V 1.0.1"
+       },
+       earn: {
+        title: "Jeux Adrena",
+        claimNow: "Réclamer maintenant",
+        inviteFriends: "Inviter des amis",
+        completeNow: "Terminer maintenant",
+        followPackyX: "Suivre packy sur X",
+        packyCommunity: "Rejoindre la communauté Discord de packy",
+        followAdrena: "Suivre Adrena sur Instagram",
+        points: "{{amount}} points Adrena"
+       }
     }
   },
   de: {
@@ -271,7 +340,30 @@ const resources = {
         packies: "Pakete",
         lightning: "Blitz",
         leaderboard: "Bestenliste"
-      }
+      },
+      profile: {
+        title: "Unbezahlter Gründer (99% unbezahlt)",
+        goToProfile: "Zum Profil",
+        selectLanguage: "Sprache wählen",
+        claimReward: "Belohnung einfordern (Drehen)",
+        additionalItems: "Zusätzliche Artikel",
+        inviteEarn: "Einladen und verdienen",
+        helpSupport: "Hilfe & Support",
+        telegramChannel: "Telegram-Kanal",
+        support: "Support",
+        madeWith: "Gemacht mit",
+        version: "V 1.0.1"
+       },
+       earn: {
+        title: "Adrena Spiele",
+        claimNow: "Jetzt einlösen",
+        inviteFriends: "Freunde einladen",
+        completeNow: "Jetzt abschließen",
+        followPackyX: "Packy auf X folgen",
+        packyCommunity: "Packys Discord-Community beitreten",
+        followAdrena: "Adrena auf Instagram folgen",
+        points: "{{amount}} Adrena-Punkte"
+       }
     }
   },
   "tl-PH": {
@@ -339,7 +431,31 @@ const resources = {
         packies: "Mga Packy",
         lightning: "Kidlat",
         leaderboard: "Leaderboard"
-      }
+      },
+      profile: {
+        title: "Hindi bayad na founder (99% hindi bayad)",
+        goToProfile: "Pumunta sa profile",
+        selectLanguage: "Piliin ang Wika",
+        claimReward: "Kunin ang Gantimpala (Ikot)",
+        additionalItems: "Karagdagang mga Item",
+        inviteEarn: "Mag-imbita at kumita",
+        helpSupport: "Tulong at Suporta",
+        telegramChannel: "Telegram Channel",
+        support: "Suporta",
+        madeWith: "Ginawa gamit ang",
+        version: "V 1.0.1"
+       },
+       earn: {
+        title: "Mga Larong Adrena",
+        claimNow: "Kunin ngayon",
+        inviteFriends: "Mag-imbita ng Kaibigan",
+        completeNow: "Kumpletuhin Ngayon",
+        followPackyX: "Sundan si packy sa X",
+        packyCommunity: "Sumali sa Discord Community ni packy",
+        followAdrena: "Sundan ang Adrena sa Instagram",
+        points: "{{amount}} Adrena points"
+       }
+       
     }
   },
   ja: {
@@ -407,7 +523,30 @@ const resources = {
         packies: "パッキー",
         lightning: "ライトニング",
         leaderboard: "リーダーボード"
-      }
+      },
+      profile: {
+        title: "無給創業者（99%無給）",
+        goToProfile: "プロフィールへ",
+        selectLanguage: "言語選択",
+        claimReward: "報酬を受け取る（スピン）",
+        additionalItems: "追加アイテム",
+        inviteEarn: "招待して稼ぐ",
+        helpSupport: "ヘルプ＆サポート",
+        telegramChannel: "Telegramチャンネル",
+        support: "サポート",
+        madeWith: "制作",
+        version: "V 1.0.1"
+       },
+       earn: {
+        title: "アドレナゲーム",
+        claimNow: "今すぐ受け取る",
+        inviteFriends: "友達を招待",
+        completeNow: "今すぐ完了",
+        followPackyX: "Xでpackyをフォロー",
+        packyCommunity: "packyのDiscordコミュニティに参加",
+        followAdrena: "InstagramでAdrenaをフォロー",
+        points: "{{amount}}アドレナポイント"
+       }
     }
   },
   ko: {
@@ -475,7 +614,31 @@ const resources = {
         packies: "패키",
         lightning: "번개",
         leaderboard: "리더보드"
-      }
+      },
+      profile: {
+        title: "무급 창업자 (99% 무급)",
+        goToProfile: "프로필로 가기",
+        selectLanguage: "언어 선택",
+        claimReward: "보상 받기 (스핀)",
+        additionalItems: "추가 아이템",
+        inviteEarn: "초대하고 수익 얻기",
+        helpSupport: "도움말 & 지원",
+        telegramChannel: "텔레그램 채널",
+        support: "지원",
+        madeWith: "제작",
+        version: "V 1.0.1"
+       },
+       earn: {
+        title: "아드레나 게임",
+        claimNow: "지금 받기",
+        inviteFriends: "친구 초대",
+        completeNow: "지금 완료",
+        followPackyX: "X에서 packy 팔로우",
+        packyCommunity: "packy의 Discord 커뮤니티 가입",
+        followAdrena: "Instagram에서 Adrena 팔로우",
+        points: "{{amount}} 아드레나 포인트"
+       }
+       
     }
   },
   'zh-CN': {
@@ -543,8 +706,30 @@ const resources = {
         packies: "包裹",
         lightning: "闪电",
         leaderboard: "排行榜"
-      }
-      
+      },
+      profile: {
+        title: "无薪创始人（99%无薪）",
+        goToProfile: "前往个人资料",
+        selectLanguage: "选择语言",
+        claimReward: "领取奖励（转盘）",
+        additionalItems: "附加项目",
+        inviteEarn: "邀请赚取",
+        helpSupport: "帮助与支持",
+        telegramChannel: "Telegram频道",
+        support: "支持",
+        madeWith: "制作工具",
+        version: "V 1.0.1"
+       },
+       earn: {
+        title: "阿德雷娜游戏",
+        claimNow: "立即领取",
+        inviteFriends: "邀请好友",
+        completeNow: "立即完成",
+        followPackyX: "在X上关注packy",
+        packyCommunity: "加入packy的Discord社区",
+        followAdrena: "在Instagram上关注Adrena",
+        points: "{{amount}}阿德雷娜积分"
+       }
     }
   }
 };
