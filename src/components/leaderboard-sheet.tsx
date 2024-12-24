@@ -41,7 +41,7 @@ export function LeaderboardSheet({ isOpen, onClose }: LeaderboardSheetProps) {
           {/* Bottom Sheet */}
           <motion.div
             initial={{ y: "100%" }}
-            animate={{ y: "5%" }}
+            animate={{ y: "2%" }}
             exit={{ y: "100%" }}
             transition={{ type: "spring", bounce: 0, duration: 0.4 }}
             className="fixed bottom-0 left-0 right-0 h-[85vh] bg-white rounded-t-[32px] z-50"
