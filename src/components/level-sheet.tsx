@@ -143,7 +143,7 @@ export function LevelSheet({ isOpen, onClose }: LevelSheetProps) {
                 {/* Upcoming Levels */}
                 <div className="px-4 pb-8">
                   <h3 className="text-xl text-gray-500 mb-4">Upcoming Levels</h3>
-                  <h4 className="text-lg text-gray-500 mb-3">Bronze</h4>
+
                   
                   {/* Level Items */}
                   <div className="space-y-3">
