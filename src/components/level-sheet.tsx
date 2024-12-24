@@ -1,6 +1,6 @@
 "use client"
 
-import { useTranslation } from 'react-i18next'
+
 import { X } from 'lucide-react'
 import crownIcon from '../assets/animatedcrown.png'
 import backpackIcon from '../assets/packy.png'
@@ -16,7 +16,7 @@ interface LevelSheetProps {
 }
 
 export function LevelSheet({ isOpen, onClose }: LevelSheetProps) {
-  const { t } = useTranslation()
+
   const [activeTab, setActiveTab] = useState<'all' | 'completed'>('all')
   const [isHeaderSticky, setIsHeaderSticky] = useState(false)
   const headerRef = useRef<HTMLDivElement>(null)
