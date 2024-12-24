@@ -41,7 +41,7 @@ export function LeaderboardSheet({ isOpen, onClose }: LeaderboardSheetProps) {
           {/* Bottom Sheet */}
           <motion.div
             initial={{ y: "100%" }}
-            animate={{ y: "15%" }}
+            animate={{ y: "5%" }}
             exit={{ y: "100%" }}
             transition={{ type: "spring", bounce: 0, duration: 0.4 }}
             className="fixed bottom-0 left-0 right-0 h-[85vh] bg-white rounded-t-[32px] z-50"
@@ -85,7 +85,7 @@ export function LeaderboardSheet({ isOpen, onClose }: LeaderboardSheetProps) {
                 <div className="relative px-8 flex justify-between items-end">
                   {/* Second Place - Left */}
                   <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 rounded-full bg-[#f3ff9f] p-2 flex items-center justify-center">
+                    <div className="w-14 h-14 rounded-full bg-[#f3ff9f] p-2 flex items-center justify-center">
                       <img src={players[1].avatar} alt={players[1].name} className="w-8 h-8" />
                     </div>
                     <p className="mt-0 text-sm font-medium">{players[1].name.split(' ')[0]}</p>
@@ -106,7 +106,7 @@ export function LeaderboardSheet({ isOpen, onClose }: LeaderboardSheetProps) {
 
                   {/* Third Place - Right */}
                   <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 rounded-full bg-[#f3ff9f] p-2 flex items-center justify-center">
+                    <div className="w-14 h-14 rounded-full bg-[#f3ff9f] p-2 flex items-center justify-center">
                       <img src={players[2].avatar} alt={players[2].name} className="w-8 h-8" />
                     </div>
                     <p className="mt-0 text-sm font-medium">{players[2].name.split(' ')[0]}</p>
