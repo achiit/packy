@@ -1,3 +1,5 @@
+"use client"
+
 import { useTranslation } from 'react-i18next'
 import { ChevronRight } from 'lucide-react'
 import giftIcon from '../assets/gift1.png'
@@ -9,23 +11,21 @@ export function EarnScreen() {
 
   return (
     <div className="min-h-screen bg-white py-4 px-0 space-y-6">
-
-
       {/* Top Cards Grid */}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="bg-[#D6F905] rounded-[20px] p-4 flex flex-col items-center relative aspect-square border-2 border-[#b8cc0c]">
-          <div className="flex-1 flex items-center">
+      <div className="grid grid-cols-2 gap-4 ">
+        <div className="bg-[#D6F905] rounded-[20px]  flex flex-col items-center relative aspect-square border-2 border-[#b8cc0c]">
+          <div className="flex-1 flex items-center justify-center mb-1">
             <img src={giftIcon} alt="Gift" className="w-24 h-24" />
           </div>
-          <button className="w-[90%] absolute bottom-3 bg-[#E67E22] text-black py-2 px-4 rounded-full font-medium border-2 border-[#c0560e] ">
-            {t('earn.claimNow')} 🎁
+          <button className="w-[90%] absolute bottom-2 bg-[#E67E22] text-black py-2 px-4 rounded-full font-medium border-2 border-[#c0560e]">
+            {t('earn.claimNow')}
           </button>
         </div>
         <div className="bg-[#D6F905] rounded-[20px] p-4 flex flex-col items-center relative aspect-square border-2 border-[#b8cc0c]">
-          <div className="flex-1 flex items-center">
+          <div className="flex-1 flex items-center justify-center mb-1">
             <img src={treasureIcon} alt="Treasure" className="w-24 h-24" />
           </div>
-          <button className="w-[90%] absolute bottom-3 bg-[#E67E22] text-black py-2 px-4 rounded-full font-medium border-2 border-[#c0560e] ">
+          <button className="w-[90%] absolute bottom-2 bg-[#E67E22] text-black py-2 px-4 rounded-full font-medium border-2 border-[#c0560e]">
             {t('earn.inviteFriends')}
           </button>
         </div>
@@ -71,4 +71,5 @@ export function EarnScreen() {
       </div>
     </div>
   )
-} 
+}
+

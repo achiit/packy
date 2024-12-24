@@ -1,6 +1,7 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
+export const defaultNS = 'translation'
 export const resources = {
   en: {
     translation: {
@@ -90,7 +91,27 @@ export const resources = {
         packyCommunity: "Join packy's Discord Community",
         followAdrena: "Follow Adrena on Instagram",
         points: "{{amount}} Adrena points"
-       }
+       },
+       levels: {
+        title: "Packy levels & Perks",
+        currentLevel: "You're at this level",
+        levelBronze: "Level 1 - Bronze",
+        nubPacky: "Nub Packy",
+        needMore: "Need {{amount}} Packy more to upgrade",
+        tabs: {
+          all: "All",
+          completed: "Completed"
+        },
+        upcomingLevels: "Upcoming Levels",
+        bronze: "Bronze",
+        levels: {
+          gm: "GM Packy",
+          captain: "Captain Packy",
+          gn: "GN Packy",
+          qt: "QT Packy"
+        },
+        unlockWith: "Unlock with {{amount}} Packy"
+      }
     }
   },
   es: {
@@ -181,7 +202,27 @@ export const resources = {
         packyCommunity: "Rejoindre la communauté Discord de packy",
         followAdrena: "Suivre Adrena sur Instagram",
         points: "{{amount}} points Adrena"
-       }
+       },
+       levels: {
+        title: "Packy levels & Perks",
+        currentLevel: "You're at this level",
+        levelBronze: "Level 1 - Bronze",
+        nubPacky: "Nub Packy",
+        needMore: "Need {{amount}} Packy more to upgrade",
+        tabs: {
+          all: "All",
+          completed: "Completed"
+        },
+        upcomingLevels: "Upcoming Levels",
+        bronze: "Bronze",
+        levels: {
+          gm: "GM Packy",
+          captain: "Captain Packy",
+          gn: "GN Packy",
+          qt: "QT Packy"
+        },
+        unlockWith: "Unlock with {{amount}} Packy"
+      }
     }
   },
   fr: {
@@ -272,7 +313,27 @@ export const resources = {
         packyCommunity: "Rejoindre la communauté Discord de packy",
         followAdrena: "Suivre Adrena sur Instagram",
         points: "{{amount}} points Adrena"
-       }
+       },
+       levels: {
+        title: "Packy levels & Perks",
+        currentLevel: "You're at this level",
+        levelBronze: "Level 1 - Bronze",
+        nubPacky: "Nub Packy",
+        needMore: "Need {{amount}} Packy more to upgrade",
+        tabs: {
+          all: "All",
+          completed: "Completed"
+        },
+        upcomingLevels: "Upcoming Levels",
+        bronze: "Bronze",
+        levels: {
+          gm: "GM Packy",
+          captain: "Captain Packy",
+          gn: "GN Packy",
+          qt: "QT Packy"
+        },
+        unlockWith: "Unlock with {{amount}} Packy"
+      }
     }
   },
   de: {
@@ -363,7 +424,27 @@ export const resources = {
         packyCommunity: "Packys Discord-Community beitreten",
         followAdrena: "Adrena auf Instagram folgen",
         points: "{{amount}} Adrena-Punkte"
-       }
+       },
+       levels: {
+        title: "Packy levels & Perks",
+        currentLevel: "You're at this level",
+        levelBronze: "Level 1 - Bronze",
+        nubPacky: "Nub Packy",
+        needMore: "Need {{amount}} Packy more to upgrade",
+        tabs: {
+          all: "All",
+          completed: "Completed"
+        },
+        upcomingLevels: "Upcoming Levels",
+        bronze: "Bronze",
+        levels: {
+          gm: "GM Packy",
+          captain: "Captain Packy",
+          gn: "GN Packy",
+          qt: "QT Packy"
+        },
+        unlockWith: "Unlock with {{amount}} Packy"
+      }
     }
   },
   "tl-PH": {
@@ -454,7 +535,27 @@ export const resources = {
         packyCommunity: "Sumali sa Discord Community ni packy",
         followAdrena: "Sundan ang Adrena sa Instagram",
         points: "{{amount}} Adrena points"
-       }
+       },
+       levels: {
+        title: "Packy levels & Perks",
+        currentLevel: "You're at this level",
+        levelBronze: "Level 1 - Bronze",
+        nubPacky: "Nub Packy",
+        needMore: "Need {{amount}} Packy more to upgrade",
+        tabs: {
+          all: "All",
+          completed: "Completed"
+        },
+        upcomingLevels: "Upcoming Levels",
+        bronze: "Bronze",
+        levels: {
+          gm: "GM Packy",
+          captain: "Captain Packy",
+          gn: "GN Packy",
+          qt: "QT Packy"
+        },
+        unlockWith: "Unlock with {{amount}} Packy"
+      }
        
     }
   },
@@ -543,10 +644,30 @@ export const resources = {
         inviteFriends: "友達を招待",
         completeNow: "今すぐ完了",
         followPackyX: "Xでpackyをフォロー",
-        packyCommunity: "packyのDiscordコミュニティに参加",
+        packyCommunity: "加入packyのDiscordコミュニティに参加",
         followAdrena: "InstagramでAdrenaをフォロー",
         points: "{{amount}}アドレナポイント"
-       }
+       },
+       levels: {
+        title: "Packy levels & Perks",
+        currentLevel: "You're at this level",
+        levelBronze: "Level 1 - Bronze",
+        nubPacky: "Nub Packy",
+        needMore: "Need {{amount}} Packy more to upgrade",
+        tabs: {
+          all: "All",
+          completed: "Completed"
+        },
+        upcomingLevels: "Upcoming Levels",
+        bronze: "Bronze",
+        levels: {
+          gm: "GM Packy",
+          captain: "Captain Packy",
+          gn: "GN Packy",
+          qt: "QT Packy"
+        },
+        unlockWith: "Unlock with {{amount}} Packy"
+      }
     }
   },
   ko: {
@@ -637,8 +758,27 @@ export const resources = {
         packyCommunity: "packy의 Discord 커뮤니티 가입",
         followAdrena: "Instagram에서 Adrena 팔로우",
         points: "{{amount}} 아드레나 포인트"
-       }
-       
+       },
+       levels: {
+        title: "Packy levels & Perks",
+        currentLevel: "You're at this level",
+        levelBronze: "Level 1 - Bronze",
+        nubPacky: "Nub Packy",
+        needMore: "Need {{amount}} Packy more to upgrade",
+        tabs: {
+          all: "All",
+          completed: "Completed"
+        },
+        upcomingLevels: "Upcoming Levels",
+        bronze: "Bronze",
+        levels: {
+          gm: "GM Packy",
+          captain: "Captain Packy",
+          gn: "GN Packy",
+          qt: "QT Packy"
+        },
+        unlockWith: "Unlock with {{amount}} Packy"
+      }
     }
   },
   'zh-CN': {
@@ -729,7 +869,27 @@ export const resources = {
         packyCommunity: "加入packy的Discord社区",
         followAdrena: "在Instagram上关注Adrena",
         points: "{{amount}}阿德雷娜积分"
-       }
+       },
+       levels: {
+        title: "Packy levels & Perks",
+        currentLevel: "You're at this level",
+        levelBronze: "Level 1 - Bronze",
+        nubPacky: "Nub Packy",
+        needMore: "Need {{amount}} Packy more to upgrade",
+        tabs: {
+          all: "All",
+          completed: "Completed"
+        },
+        upcomingLevels: "Upcoming Levels",
+        bronze: "Bronze",
+        levels: {
+          gm: "GM Packy",
+          captain: "Captain Packy",
+          gn: "GN Packy",
+          qt: "QT Packy"
+        },
+        unlockWith: "Unlock with {{amount}} Packy"
+      }
     }
   }
 };

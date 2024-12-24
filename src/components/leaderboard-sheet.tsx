@@ -4,6 +4,7 @@ import { X } from 'lucide-react'
 import { motion, AnimatePresence } from "framer-motion"
 import intro4 from '../assets/packy.png'
 import curveShape from '../assets/leaderboard.png'
+import crownIcon from '../assets/crown.png'
 
 interface Player {
   name: string
@@ -62,14 +63,7 @@ export function LeaderboardSheet({ isOpen, onClose }: LeaderboardSheetProps) {
 
               {/* Crown icon */}
               <div className="absolute left-8 top-6">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M2.5 7.5L5.5 16.5H18.5L21.5 7.5L16.5 10.5L12 4.5L7.5 10.5L2.5 7.5Z" 
-                    stroke="#4B7BF7" 
-                    strokeWidth="2" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <img src={crownIcon} alt="Crown" className="w-8 h-8" />
               </div>
 
               {/* Close button */}

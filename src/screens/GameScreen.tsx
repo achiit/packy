@@ -9,6 +9,7 @@ import intro4 from '../assets/packy.png'
 import flash from '../assets/flash.png'
 import Confetti from 'react-confetti'
 import { LeaderboardSheet } from '../components/leaderboard-sheet'
+import { LevelSheet } from '../components/level-sheet'
 
 export function GamePage() {
   const { t } = useTranslation()
@@ -26,6 +27,7 @@ export function GamePage() {
   const lastTapTimeRef = useRef(Date.now())
   const fadeTimeoutRef = useRef<number>()
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false)
+  const [isLevelSheetOpen, setIsLevelSheetOpen] = useState(false)
 
   // Cleanup function for fade timeout
   useEffect(() => {
@@ -171,9 +173,14 @@ export function GamePage() {
         </motion.div>
 
         <div className="flex items-center gap-2 px-3 py-2 bg-[#F6F6F6] border border-gray-200 rounded-[15px]">
-
-          <img src={intro4} alt="Packy" className="w-6 h-6" />
-          <span className="text-gray-600 text-xs">{t('game.title')}</span>
+          <button 
+            className="flex items-center gap-2"
+            onClick={() => setIsLevelSheetOpen(true)}
+          >
+            <img src={intro4} alt="Backpack" className="w-4 h-4" />
+            <span className="text-xs">{t('game.title')}</span>
+          
+          </button>
           <ChevronRight className="w-4 h-4 text-gray-400" />
         </div>
       </div>
@@ -222,6 +229,10 @@ export function GamePage() {
         </div>
       </div>
       <LeaderboardSheet isOpen={isLeaderboardOpen} onClose={() => setIsLeaderboardOpen(false)} />
+      <LevelSheet 
+        isOpen={isLevelSheetOpen} 
+        onClose={() => setIsLevelSheetOpen(false)} 
+      />
     </div>
   )
 }
