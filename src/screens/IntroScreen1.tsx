@@ -21,7 +21,7 @@ export function IntroScreen1({ onContinue }: IntroScreen1Props) {
           className="w-48 h-48 object-contain mb-10"
         />
         <h2 className="text-3xl font-bold mb-3">
-        {t('intro1.title,')}{user?.username && `${user.username} `}
+        {t('intro1.title')}{user?.username && `${user.username} `}
         </h2>
         <p className="text-gray-500 text-center text-lg">
           {t('intro1.subtitle')}
