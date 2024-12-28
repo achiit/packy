@@ -8,7 +8,7 @@ export const resources = {
       selectLanguage: 'Select Language',
       continue: 'Continue',
       intro1: {
-        title: 'Hey Name',
+        title: 'Hey',
         subtitle: 'Welcome to Packy Games'
       },
       intro2: {

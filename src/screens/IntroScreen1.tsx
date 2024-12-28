@@ -10,7 +10,7 @@ interface IntroScreen1Props {
 
 export function IntroScreen1({ onContinue }: IntroScreen1Props) {
   const { t } = useTranslation()
-  const { user, isLoading, error } = useTelegram()
+  const { user } = useTelegram()
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
@@ -21,21 +21,11 @@ export function IntroScreen1({ onContinue }: IntroScreen1Props) {
           className="w-48 h-48 object-contain mb-10"
         />
         <h2 className="text-3xl font-bold mb-3">
-          {t('intro1.title')}
+          {user?.first_name && `${user.first_name}, `}{t('intro1.title')}
         </h2>
         <p className="text-gray-500 text-center text-lg">
           {t('intro1.subtitle')}
         </p>
-        
-        {/* Display user information */}
-        {isLoading && <p>Loading user data...</p>}
-        {error && <p className="text-red-500">{error}</p>}
-        {user && (
-          <div className="mt-4 text-center">
-            <p>Welcome, {user.first_name}!</p>
-            {user.username && <p>@{user.username}</p>}
-          </div>
-        )}
       </div>
       <div className="p-6">
         <ProgressDots total={5} current={1} />
