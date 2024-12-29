@@ -7,10 +7,17 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 import intro4 from '../assets/packy.png'
 import flash from '../assets/flash.png'
-import Confetti from 'react-confetti'
 import { LeaderboardSheet } from '../components/leaderboard-sheet'
 import { LevelSheet } from '../components/level-sheet'
 import { useTelegram } from '../context/TelegramContext'
+
+interface FloatingElement {
+  id: number
+  x: number
+  y: number
+  angle: number
+  delay: number
+}
 
 export function GamePage() {
   const { t } = useTranslation()
@@ -19,56 +26,11 @@ export function GamePage() {
   const [lightning, setLightning] = useState(0)
   const [isPressed, setIsPressed] = useState(false)
   const [showBounce, setShowBounce] = useState(false)
-  const [confettiPieces, setConfettiPieces] = useState<Array<{
-    key: number,
-    x: number,
-    y: number,
-    opacity: number
-  }>>([])
-  const confettiKeyRef = useRef(0)
-  const lastTapTimeRef = useRef(Date.now())
-  const fadeTimeoutRef = useRef<number>()
+  const [floatingElements, setFloatingElements] = useState<FloatingElement[]>([])
+  const idCounterRef = useRef(0)
+  const buttonRef = useRef<HTMLButtonElement>(null)
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false)
   const [isLevelSheetOpen, setIsLevelSheetOpen] = useState(false)
-
-  // Cleanup function for fade timeout
-  useEffect(() => {
-    return () => {
-      if (fadeTimeoutRef.current) {
-        clearTimeout(fadeTimeoutRef.current)
-      }
-    }
-  }, [])
-
-  // Check for inactivity and start fade
-  useEffect(() => {
-    const checkInactivity = setInterval(() => {
-      const now = Date.now()
-      if (now - lastTapTimeRef.current > 4000 && confettiPieces.length > 0) {
-        const fadeInterval = setInterval(() => {
-          setConfettiPieces(prev => {
-            const newPieces = prev.map(piece => ({
-              ...piece,
-              opacity: piece.opacity - 0.1
-            })).filter(piece => piece.opacity > 0)
-
-            if (newPieces.length === 0) {
-              clearInterval(fadeInterval)
-            }
-
-            return newPieces
-          })
-        }, 50)
-
-        setTimeout(() => {
-          clearInterval(fadeInterval)
-          setConfettiPieces([])
-        }, 1000)
-      }
-    }, 1000)
-
-    return () => clearInterval(checkInactivity)
-  }, [confettiPieces.length])
 
   // Initialize packies from Firestore data
   useEffect(() => {
@@ -79,27 +41,37 @@ export function GamePage() {
 
   // Handle the tap interaction
   const handleTap = useCallback(async (event: React.MouseEvent<HTMLButtonElement>) => {
-    lastTapTimeRef.current = Date.now()
+    if (!buttonRef.current) return
 
-    const buttonRect = event.currentTarget.getBoundingClientRect()
-    const centerX = buttonRect.left + buttonRect.width / 2
-    const centerY = buttonRect.top + buttonRect.height / 2
+    const rect = buttonRef.current.getBoundingClientRect()
+    const centerX = rect.left + (rect.width / 2)
+    const centerY = rect.top + (rect.height / 2)
 
-    setConfettiPieces(prev => [
-      ...prev.filter(piece => piece.opacity > 0),
-      {
-        key: confettiKeyRef.current++,
+    // Create 8 elements in a circle around the center
+    const newElements = Array.from({ length: 8 }, (_, i) => {
+      const angle = (i * Math.PI * 2) / 8 // Evenly space around circle
+      return {
+        id: idCounterRef.current++,
         x: centerX,
         y: centerY,
-        opacity: 1
+        angle: angle,
+        delay: i * 0.05 // Stagger the animations
       }
-    ])
+    })
+
+    setFloatingElements(prev => [...prev, ...newElements])
+
+    // Remove elements after animation
+    setTimeout(() => {
+      setFloatingElements(prev => 
+        prev.filter(el => !newElements.find(newEl => newEl.id === el.id))
+      )
+    }, 1000)
 
     setLightning(prev => {
       if (prev + 1 >= 100) {
         const newPackiesCount = packies + 1
         setPackies(newPackiesCount)
-        // Update Firestore with new packies count
         updatePackies(newPackiesCount)
         setShowBounce(true)
         setTimeout(() => setShowBounce(false), 2000)
@@ -114,6 +86,41 @@ export function GamePage() {
 
   return (
     <div className="h-[calc(98vh-150px)] flex flex-col bg-white px-0 overflow-hidden relative">
+      {/* Floating Elements Animations */}
+      <AnimatePresence>
+        {floatingElements.map(element => (
+          <motion.div
+            key={element.id}
+            initial={{ 
+              opacity: 0,
+              scale: 0.2,
+              x: element.x,
+              y: element.y
+            }}
+            animate={{ 
+              opacity: [0, 1, 0],
+              scale: [0.2, 1.5, 0.8],
+              x: element.x + Math.cos(element.angle) * 100, // Increased radius
+              y: element.y + Math.sin(element.angle) * 100 - 50, // Added upward drift
+              transition: {
+                duration: 0.8,
+                delay: element.delay,
+                ease: "easeOut"
+              }
+            }}
+            className="fixed pointer-events-none z-50 font-bold text-2xl"
+            style={{
+              background: 'linear-gradient(to right, #9FE870, #70E8C5)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              transform: 'translate(-50%, -50%)'
+            }}
+          >
+            +1
+          </motion.div>
+        ))}
+      </AnimatePresence>
+
       {/* Bouncing Animation */}
       <AnimatePresence>
         {showBounce && (
@@ -146,29 +153,6 @@ export function GamePage() {
         )}
       </AnimatePresence>
 
-      {/* Confetti */}
-      {confettiPieces.map(piece => (
-        <Confetti
-          key={piece.key}
-          width={window.innerWidth}
-          height={window.innerHeight}
-          numberOfPieces={50}
-          gravity={0.3}
-          initialVelocityY={15}
-          initialVelocityX={5}
-          confettiSource={{
-            x: piece.x - 50,
-            y: piece.y - 50,
-            w: 100,
-            h: 100
-          }}
-          recycle={true}
-          tweenDuration={3000}
-          colors={['#9FE870', '#70E88F', '#70E8C5', '#70BDE8']}
-          opacity={piece.opacity}
-        />
-      ))}
-
       {/* Header */}
       <div className="h-[60px] flex items-center justify-between">
         <motion.div
@@ -191,15 +175,15 @@ export function GamePage() {
           >
             <img src={intro4} alt="Backpack" className="w-4 h-4" />
             <span className="text-xs">{t('game.title')}</span>
-          
           </button>
           <ChevronRight className="w-4 h-4 text-gray-400" />
         </div>
       </div>
 
       {/* Main Game Area */}
-      <div className="h-[calc(100%-120px)] flex items-center justify-center">
+      <div className="h-[calc(100%-120px)] flex items-center justify-center relative">
         <button
+          ref={buttonRef}
           onClick={handleTap}
           className={`relative w-60 h-60 rounded-full
             transition-all duration-100 ease-out
