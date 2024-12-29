@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { db } from '../config/firebase';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, DocumentData } from 'firebase/firestore';
 
 interface TelegramUser {
   id: number;
@@ -9,18 +9,23 @@ interface TelegramUser {
   last_name?: string;
 }
 
+interface UserDataFromDB extends TelegramUser {
+  createdAt: string;
+  lastLogin: string;
+}
+
 interface TelegramContextType {
   user: TelegramUser | null;
   isLoading: boolean;
   error: string | null;
-  userDataFromDB: any; // You can create a more specific type if needed
+  userDataFromDB: UserDataFromDB | null;
 }
 
 const TelegramContext = createContext<TelegramContextType | undefined>(undefined);
 
 export function TelegramProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<TelegramUser | null>(null);
-  const [userDataFromDB, setUserDataFromDB] = useState(null);
+  const [userDataFromDB, setUserDataFromDB] = useState<UserDataFromDB | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -33,22 +38,25 @@ export function TelegramProvider({ children }: { children: React.ReactNode }) {
       
       if (!docSnap.exists()) {
         // If document doesn't exist, create it
-        await setDoc(userRef, {
+        const newUserData: UserDataFromDB = {
           ...userData,
           createdAt: new Date().toISOString(),
           lastLogin: new Date().toISOString(),
-        });
+        };
+        await setDoc(userRef, newUserData);
       } else {
         // If document exists, just update the lastLogin
-        await setDoc(userRef, {
+        const updatedData = {
           ...userData,
           lastLogin: new Date().toISOString(),
-        }, { merge: true });
+        };
+        await setDoc(userRef, updatedData, { merge: true });
       }
 
       // Fetch the latest data
       const updatedDocSnap = await getDoc(userRef);
-      setUserDataFromDB(updatedDocSnap.data());
+      const data = updatedDocSnap.data() as UserDataFromDB;
+      setUserDataFromDB(data);
     } catch (err) {
       console.error('Error saving user to Firestore:', err);
       setError('Failed to save user data');
