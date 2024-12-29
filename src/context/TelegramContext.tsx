@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { db } from '../config/firebase';
-import { doc, setDoc, getDoc, DocumentData } from 'firebase/firestore';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 interface TelegramUser {
   id: number;
