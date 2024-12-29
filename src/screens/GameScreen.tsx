@@ -10,9 +10,11 @@ import flash from '../assets/flash.png'
 import Confetti from 'react-confetti'
 import { LeaderboardSheet } from '../components/leaderboard-sheet'
 import { LevelSheet } from '../components/level-sheet'
+import { useTelegram } from '../context/TelegramContext'
 
 export function GamePage() {
   const { t } = useTranslation()
+  const { userDataFromDB, updatePackies } = useTelegram()
   const [packies, setPackies] = useState(0)
   const [lightning, setLightning] = useState(0)
   const [isPressed, setIsPressed] = useState(false)
@@ -68,8 +70,15 @@ export function GamePage() {
     return () => clearInterval(checkInactivity)
   }, [confettiPieces.length])
 
+  // Initialize packies from Firestore data
+  useEffect(() => {
+    if (userDataFromDB) {
+      setPackies(userDataFromDB.packies || 0)
+    }
+  }, [userDataFromDB])
+
   // Handle the tap interaction
-  const handleTap = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleTap = useCallback(async (event: React.MouseEvent<HTMLButtonElement>) => {
     lastTapTimeRef.current = Date.now()
 
     const buttonRect = event.currentTarget.getBoundingClientRect()
@@ -88,7 +97,10 @@ export function GamePage() {
 
     setLightning(prev => {
       if (prev + 1 >= 100) {
-        setPackies(p => p + 1)
+        const newPackiesCount = packies + 1
+        setPackies(newPackiesCount)
+        // Update Firestore with new packies count
+        updatePackies(newPackiesCount)
         setShowBounce(true)
         setTimeout(() => setShowBounce(false), 2000)
         return 0
@@ -98,7 +110,7 @@ export function GamePage() {
 
     setIsPressed(true)
     setTimeout(() => setIsPressed(false), 100)
-  }, [])
+  }, [packies, updatePackies])
 
   return (
     <div className="h-[calc(98vh-150px)] flex flex-col bg-white px-0 overflow-hidden relative">

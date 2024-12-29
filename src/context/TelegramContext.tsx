@@ -12,6 +12,7 @@ interface TelegramUser {
 interface UserDataFromDB extends TelegramUser {
   createdAt: string;
   lastLogin: string;
+  packies: number;
 }
 
 interface TelegramContextType {
@@ -19,6 +20,7 @@ interface TelegramContextType {
   isLoading: boolean;
   error: string | null;
   userDataFromDB: UserDataFromDB | null;
+  updatePackies: (newCount: number) => Promise<void>;
 }
 
 const TelegramContext = createContext<TelegramContextType | undefined>(undefined);
@@ -29,34 +31,48 @@ export function TelegramProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const updatePackies = async (newCount: number) => {
+    if (!user) return;
+    
+    try {
+      const userRef = doc(db, 'users', user.id.toString());
+      await setDoc(userRef, {
+        packies: newCount,
+        lastUpdated: new Date().toISOString(),
+      }, { merge: true });
+
+      setUserDataFromDB(prev => prev ? { ...prev, packies: newCount } : null);
+    } catch (err) {
+      console.error('Error updating packies:', err);
+      setError('Failed to update packies');
+    }
+  };
+
   const saveUserToFirestore = async (userData: TelegramUser) => {
     try {
       const userRef = doc(db, 'users', userData.id.toString());
       
-      // First check if the document exists
       const docSnap = await getDoc(userRef);
       
       if (!docSnap.exists()) {
-        // If document doesn't exist, create it
         const newUserData: UserDataFromDB = {
           ...userData,
           createdAt: new Date().toISOString(),
           lastLogin: new Date().toISOString(),
+          packies: 0, // Initialize packies count
         };
         await setDoc(userRef, newUserData);
+        setUserDataFromDB(newUserData);
       } else {
-        // If document exists, just update the lastLogin
+        const existingData = docSnap.data() as UserDataFromDB;
         const updatedData = {
+          ...existingData,
           ...userData,
           lastLogin: new Date().toISOString(),
         };
         await setDoc(userRef, updatedData, { merge: true });
+        setUserDataFromDB(updatedData);
       }
-
-      // Fetch the latest data
-      const updatedDocSnap = await getDoc(userRef);
-      const data = updatedDocSnap.data() as UserDataFromDB;
-      setUserDataFromDB(data);
     } catch (err) {
       console.error('Error saving user to Firestore:', err);
       setError('Failed to save user data');
@@ -84,7 +100,7 @@ export function TelegramProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <TelegramContext.Provider value={{ user, isLoading, error, userDataFromDB }}>
+    <TelegramContext.Provider value={{ user, isLoading, error, userDataFromDB, updatePackies }}>
       {children}
     </TelegramContext.Provider>
   );
