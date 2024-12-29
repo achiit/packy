@@ -40,7 +40,7 @@ export function GamePage() {
   }, [userDataFromDB])
 
   // Handle the tap interaction
-  const handleTap = useCallback(async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleTap = useCallback(async () => {
     if (!buttonRef.current) return
 
     const rect = buttonRef.current.getBoundingClientRect()
