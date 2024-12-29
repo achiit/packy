@@ -5,13 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import intro4 from '../assets/packy.png'
 import curveShape from '../assets/leaderboard.png'
 import crownIcon from '../assets/crown.png'
-
-interface Player {
-  name: string
-  score: string
-  avatar: string
-  rank?: number
-}
+import { useLeaderboard } from '../hooks/useLeaderboard'
 
 interface LeaderboardSheetProps {
   isOpen: boolean
@@ -19,12 +13,26 @@ interface LeaderboardSheetProps {
 }
 
 export function LeaderboardSheet({ isOpen, onClose }: LeaderboardSheetProps) {
-  const players: Player[] = [
-    { name: "Freddie Miner", score: "20.01M", avatar: intro4 },
-    { name: "Nilson", score: "18.05M", avatar: intro4 },
-    { name: "Alex mystry", score: "12.01M", avatar: intro4 },
-    { name: "Sara Lee", score: "10.05M", avatar: intro4 },
-  ]
+  const { leaderboardData, isLoading } = useLeaderboard();
+
+  // Format user display name
+  const formatDisplayName = (user: typeof leaderboardData[0]) => {
+    if (user.username) return user.username;
+    return user.first_name ? 
+      `${user.first_name} ${user.last_name || ''}`.trim() : 
+      'Anonymous User';
+  };
+
+  // Format score
+  const formatScore = (packies: number) => {
+    if (packies >= 1000000) return `${(packies / 1000000).toFixed(2)}M`;
+    if (packies >= 1000) return `${(packies / 1000).toFixed(1)}K`;
+    return packies.toString();
+  };
+
+  // Get top 3 players and rest of the list
+  const topThree = leaderboardData.slice(0, 3);
+  const restOfList = leaderboardData.slice(3);
 
   return (
     <AnimatePresence>
@@ -49,65 +57,58 @@ export function LeaderboardSheet({ isOpen, onClose }: LeaderboardSheetProps) {
             style={{ touchAction: 'none' }}
             onTouchMove={(e) => e.stopPropagation()}
           >
-            {/* Top curved section */}
+            {/* Rest of the layout structure remains the same */}
             <div className="relative h-[270px]">
-              {/* Background curve image */}
-              <img 
-                src={curveShape} 
-                alt=""
-                className="absolute top-32 left-0 right-0 w-[calc(100%-30px)] h-[200px] mx-4 object-contain"
-                style={{
-                  objectPosition: 'center top'
-                }}
-              />
-
-              {/* Crown icon */}
+              <img src={curveShape} alt="" className="absolute top-32 left-0 right-0 w-[calc(100%-30px)] h-[200px] mx-4 object-contain" />
               <div className="absolute left-8 top-6">
                 <img src={crownIcon} alt="Crown" className="w-8 h-8" />
               </div>
-
-              {/* Close button */}
-              <button 
-                onClick={onClose} 
-                className="absolute right-8 top-6 w-10 h-10 rounded-full bg-black/5 flex items-center justify-center z-50"
-              >
+              <button onClick={onClose} className="absolute right-8 top-6 w-10 h-10 rounded-full bg-black/5 flex items-center justify-center z-50">
                 <X className="w-5 h-5 text-gray-600" />
               </button>
 
               {/* Top 3 players layout */}
-              <div className="absolute inset-x-0 top-6 pt-32">
-                <div className="relative px-8 flex justify-between items-end">
-                  {/* Second Place - Left */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-14 h-14 rounded-full bg-[#f3ff9f] p-2 flex items-center justify-center">
-                      <img src={players[1].avatar} alt={players[1].name} className="w-8 h-8" />
-                    </div>
-                    <p className="mt-0 text-sm font-medium">{players[1].name.split(' ')[0]}</p>
-                    <p className="text-xs text-gray-500">{players[1].score}</p>
-                  </div>
-
-                  {/* First Place - Center */}
-                  <div className="absolute left-1/2 -translate-x-1/2 bottom-20 flex flex-col items-center">
-                    <div className="relative">
-                      <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-2xl">👑</span>
-                      <div className="w-16 h-16 rounded-full bg-[#f3ff9f] p-2 flex items-center justify-center">
-                        <img src={players[0].avatar} alt={players[0].name} className="w-10 h-10" />
+              {!isLoading && topThree.length > 0 && (
+                <div className="absolute inset-x-0 top-6 pt-32">
+                  <div className="relative px-8 flex justify-between items-end">
+                    {/* Second Place - Left */}
+                    {topThree[1] && (
+                      <div className="flex flex-col items-center">
+                        <div className="w-14 h-14 rounded-full bg-[#f3ff9f] p-2 flex items-center justify-center">
+                          <img src={intro4} alt={formatDisplayName(topThree[1])} className="w-8 h-8" />
+                        </div>
+                        <p className="mt-0 text-sm font-medium">{formatDisplayName(topThree[1])}</p>
+                        <p className="text-xs text-gray-500">{formatScore(topThree[1].packies)}</p>
                       </div>
-                    </div>
-                    <p className="mt-0 text-sm font-medium">{players[0].name}</p>
-                    <p className="text-xs text-gray-500">{players[0].score}</p>
-                  </div>
+                    )}
 
-                  {/* Third Place - Right */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-14 h-14 rounded-full bg-[#f3ff9f] p-2 flex items-center justify-center">
-                      <img src={players[2].avatar} alt={players[2].name} className="w-8 h-8" />
-                    </div>
-                    <p className="mt-0 text-sm font-medium">{players[2].name.split(' ')[0]}</p>
-                    <p className="text-xs text-gray-500">{players[2].score}</p>
+                    {/* First Place - Center */}
+                    {topThree[0] && (
+                      <div className="absolute left-1/2 -translate-x-1/2 bottom-20 flex flex-col items-center">
+                        <div className="relative">
+                          <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-2xl">👑</span>
+                          <div className="w-16 h-16 rounded-full bg-[#f3ff9f] p-2 flex items-center justify-center">
+                            <img src={intro4} alt={formatDisplayName(topThree[0])} className="w-10 h-10" />
+                          </div>
+                        </div>
+                        <p className="mt-0 text-sm font-medium">{formatDisplayName(topThree[0])}</p>
+                        <p className="text-xs text-gray-500">{formatScore(topThree[0].packies)}</p>
+                      </div>
+                    )}
+
+                    {/* Third Place - Right */}
+                    {topThree[2] && (
+                      <div className="flex flex-col items-center">
+                        <div className="w-14 h-14 rounded-full bg-[#f3ff9f] p-2 flex items-center justify-center">
+                          <img src={intro4} alt={formatDisplayName(topThree[2])} className="w-8 h-8" />
+                        </div>
+                        <p className="mt-0 text-sm font-medium">{formatDisplayName(topThree[2])}</p>
+                        <p className="text-xs text-gray-500">{formatScore(topThree[2].packies)}</p>
+                      </div>
+                    )}
                   </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Scrollable container */}
@@ -118,22 +119,21 @@ export function LeaderboardSheet({ isOpen, onClose }: LeaderboardSheetProps) {
             >
               <div className="h-full overflow-y-auto px-4 overscroll-contain">
                 <div className="space-y-3 pt-4 pb-8">
-                  {players.map((player, index) => (
+                  {!isLoading && restOfList.map((player, index) => (
                     <div
-                      key={index}
-                      className="flex items-center justify-between bg-white rounded-2xl p-4
-                        border border-gray-100"
+                      key={player.id}
+                      className="flex items-center justify-between bg-white rounded-2xl p-4 border border-gray-100"
                     >
                       <div className="flex items-center gap-3">
                         <div className="w-12 h-12 rounded-full bg-[#f3ff9f] p-2 flex items-center justify-center">
-                          <img src={player.avatar} alt={player.name} className="w-8 h-8" />
+                          <img src={intro4} alt={formatDisplayName(player)} className="w-8 h-8" />
                         </div>
                         <div>
-                          <div className="font-medium text-sm">{player.name}</div>
-                          <div className="text-xs text-gray-500">{player.score}</div>
+                          <div className="font-medium text-sm">{formatDisplayName(player)}</div>
+                          <div className="text-xs text-gray-500">{formatScore(player.packies)}</div>
                         </div>
                       </div>
-                      <span className="text-gray-400 font-medium">{index + 1}</span>
+                      <span className="text-gray-400 font-medium">{index + 4}</span>
                     </div>
                   ))}
                 </div>
