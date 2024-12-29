@@ -9,10 +9,18 @@ import supportIcon from '../assets/support.png'
 import tonIcon from '../assets/ton.png'
 import { LevelSheet } from '../components/level-sheet'
 import { useState } from 'react'
+import { useTelegram } from '../context/TelegramContext'
+import { useNavigate } from 'react-router-dom'
 
 export function ProfileScreen() {
   const { t } = useTranslation()
+  const navigate = useNavigate()
+  const { user } = useTelegram()
   const [isLevelSheetOpen, setIsLevelSheetOpen] = useState(false)
+
+  const handleLanguageClick = () => {
+    navigate('/language') // Assuming '/language' is your language selection route
+  }
 
   return (
     <>
@@ -21,7 +29,6 @@ export function ProfileScreen() {
         <div className="px-0">
           <div 
             className="bg-[#D6F905] border-2 border-[#b8cc0c] rounded-[15px] p-4 flex items-center justify-between"
-            onClick={() => setIsLevelSheetOpen(true)}
           >
             <div className="flex items-center gap-3">
               <div className="relative">
@@ -29,8 +36,12 @@ export function ProfileScreen() {
                 <span className="absolute -top-1 -right-1 text-lg">👑</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-base font-medium">{t('profile.title')}</span>
-                <span className="text-sm text-gray-600">{t('profile.goToProfile')}</span>
+                <span className="text-base font-medium">
+                  {user?.first_name || ''} {user?.last_name || ''}
+                </span>
+                {user?.username && (
+                  <span className="text-sm text-gray-600">@{user.username}</span>
+                )}
               </div>
             </div>
             <ChevronRight className="w-5 h-5 text-gray-400" />
@@ -39,7 +50,10 @@ export function ProfileScreen() {
 
         {/* Main Options - Reduced padding */}
         <div className="space-y-2 px-2">
-          <button className="w-full flex items-center justify-between py-4 hover:bg-gray-50 active:bg-gray-100">
+          <button 
+            onClick={handleLanguageClick}
+            className="w-full flex items-center justify-between py-4 hover:bg-gray-50 active:bg-gray-100"
+          >
             <div className="flex items-center gap-3">
               <img src={languageIcon} alt="Language" className="w-8 h-8" />
               <span className="text-base">{t('profile.selectLanguage')}</span>
@@ -48,7 +62,6 @@ export function ProfileScreen() {
           </button>
 
           <button className="w-full flex items-center justify-between py-4 hover:bg-gray-50 active:bg-gray-100">
-
             <div className="flex items-center gap-3">
               <img src={rewardIcon} alt="Reward" className="w-8 h-8 " />
               <span className="text-base">{t('profile.claimReward')}</span>
@@ -61,7 +74,6 @@ export function ProfileScreen() {
         <div className="px-2">
           <h2 className="text-gray-500 text-sm px-0 mb-2">{t('profile.additionalItems')}</h2>
           <button className="w-full flex items-center justify-between py-4 hover:bg-gray-50 active:bg-gray-100">
-
             <div className="flex items-center gap-3">
               <img src={inviteIcon} alt="Invite" className="w-7 h-7 opacity-40" />
               <span className="text-base">{t('profile.inviteEarn')}</span>
@@ -74,8 +86,7 @@ export function ProfileScreen() {
         <div className="px-2">
           <h2 className="text-gray-500 text-sm px-0 mb-2">{t('profile.helpSupport')}</h2>
           <div className="space-y-2">
-          <button className="w-full flex items-center justify-between py-4 hover:bg-gray-50 active:bg-gray-100">
-
+            <button className="w-full flex items-center justify-between py-4 hover:bg-gray-50 active:bg-gray-100">
               <div className="flex items-center gap-3">
                 <img src={telegramIcon} alt="Telegram" className="w-7 h-7 opacity-40" />
                 <span className="text-base">{t('profile.telegramChannel')}</span>
@@ -84,7 +95,6 @@ export function ProfileScreen() {
             </button>
 
             <button className="w-full flex items-center justify-between py-4 hover:bg-gray-50 active:bg-gray-100">
-
               <div className="flex items-center gap-3">
                 <img src={supportIcon} alt="Support" className="w-9 h-9 " />
                 <span className="text-base">{t('profile.support')}</span>

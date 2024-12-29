@@ -13,6 +13,7 @@ import './i18n/config'
 import { GamePage } from './screens/GameScreen'
 import { ProfileScreen } from './screens/ProfileScreen'
 import { EarnScreen } from './screens/EarnScreen'
+import { LanguageScreen } from './screens/LanguageScreen'
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState(0)
@@ -55,6 +56,7 @@ export default function App() {
               <ProfileScreen />
             </MainLayout>
           } />
+          <Route path="/language" element={<LanguageScreen />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
