@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { LanguageSelect } from './screens/LanguageSelect'
+
 import { IntroScreen1 } from './screens/IntroScreen1'
 import { IntroScreen2 } from './screens/IntroScreen2'
 import { IntroScreen3 } from './screens/IntroScreen3'
@@ -13,7 +13,7 @@ import './i18n/config'
 import { GamePage } from './screens/GameScreen'
 import { ProfileScreen } from './screens/ProfileScreen'
 import { EarnScreen } from './screens/EarnScreen'
-import { LanguageScreen } from './screens/LanguageScreen'
+import { LanguageSelect } from './screens/LanguageSelect'
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState(0)
@@ -56,7 +56,7 @@ export default function App() {
               <ProfileScreen />
             </MainLayout>
           } />
-          <Route path="/language" element={<LanguageScreen />} />
+          {/* <Route path="/language" element={<LanguageScreen />} /> */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
