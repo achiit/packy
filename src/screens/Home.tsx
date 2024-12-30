@@ -4,8 +4,11 @@ import home1 from '/src/assets/home1.png'
 import home2 from '/src/assets/home2.png'
 import home3 from '/src/assets/home3.png'
 import glacierFont from '/src/assets/Glacier-Regular.ttf'
+import { useNavigate } from 'react-router-dom'
+
 export function HomePage() {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   
 // At the top of your file, import the images
 
@@ -34,6 +37,12 @@ const cards = [
     alignment: 'items-end'
   }
 ]
+
+  const handleCardClick = (index: number) => {
+    if (index === 0) {
+      navigate('/game')
+    }
+  }
 
   return (
     <>
@@ -69,7 +78,7 @@ const cards = [
               <div className={`w-full ${index === 1 ? 'text-left' : 'text-right'}`}>
                 <button 
                   className="px-6 py-2 rounded-full text-white text-sm font-medium bg-[#FF9800] hover:bg-[#F57C00] transition-colors"
-                  onClick={() => console.log(`Clicked ${card.action}`)}
+                  onClick={() => handleCardClick(index)}
                 >
                   {card.action}
                 </button>
