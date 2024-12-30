@@ -38,12 +38,14 @@ export function EarnScreen() {
     const diff = next.getTime() - now.getTime()
     const hours = Math.floor(diff / (1000 * 60 * 60))
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
-    setTimeRemaining(`${hours}h ${minutes}m`)
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000)
+    
+    setTimeRemaining(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`)
   }
 
   useEffect(() => {
     updateTimeRemaining()
-    const interval = setInterval(updateTimeRemaining, 60000) // Update every minute
+    const interval = setInterval(updateTimeRemaining, 1000) // Update every second
     return () => clearInterval(interval)
   }, [userDataFromDB?.lastClaimTime])
 
