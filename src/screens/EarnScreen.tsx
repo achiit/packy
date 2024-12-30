@@ -40,12 +40,18 @@ export function EarnScreen() {
         ...userDataFromDB,
         ...updates
       }
-      // @ts-ignore - Context will handle the type
       setUserDataFromDB(updatedData)
     }
 
-    // Then open URL in new tab
-    window.open(urls[platform], '_blank')
+    // Use Telegram WebApp to open URL
+    try {
+      // @ts-ignore - Telegram WebApp types
+      const telegram = window.Telegram.WebApp;
+      telegram.openLink(urls[platform]);
+    } catch (error) {
+      // Fallback to regular window.open
+      window.open(urls[platform], '_blank');
+    }
   }
 
   const isTwitterCompleted = userDataFromDB?.twitterCompleted
