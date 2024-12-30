@@ -1,11 +1,12 @@
 "use client"
 
 import { useTranslation } from 'react-i18next'
-import { ChevronRight, Check, Twitter, MessageCircle } from 'lucide-react'
-
+import { ChevronRight } from 'lucide-react'
+import { Check } from 'lucide-react'
 import giftIcon from '../assets/gift1.png'
 import treasureIcon from '../assets/gift2.png'
-
+import xLogo from '../assets/x logo.webp'
+import telegramLogo from '../assets/telegram1.png'
 import { useTelegram } from '../context/TelegramContext'
 
 export function EarnScreen() {
@@ -84,7 +85,7 @@ export function EarnScreen() {
           >
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center">
-                <Twitter className="w-6 h-6 text-white" />
+                <img src={xLogo} alt="X" className="w-6 h-6" />
               </div>
               <div className="flex flex-col text-left">
                 <span className="text-base font-medium">{t('earn.followPackyX')}</span>
@@ -108,7 +109,7 @@ export function EarnScreen() {
           >
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-[#229ED9] flex items-center justify-center">
-                <MessageCircle className="w-6 h-6 text-white" />
+                <img src={telegramLogo} alt="Telegram" className="w-6 h-6" />
               </div>
               <div className="flex flex-col text-left">
                 <span className="text-base font-medium">{t('earn.packyCommunity')}</span>
