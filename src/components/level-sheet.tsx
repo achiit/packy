@@ -1,6 +1,6 @@
 "use client"
 
-import { X } from 'lucide-react'
+import { X, ChevronRight } from 'lucide-react'
 import crownIcon from '../assets/animatedcrown.png'
 import backpackIcon from '../assets/packy.png'
 import lock from '../assets/lock.png'
@@ -59,7 +59,7 @@ interface LevelSheetProps {
 export function LevelSheet({ isOpen, onClose }: LevelSheetProps) {
   const { userDataFromDB } = useTelegram()
   const [activeTab, setActiveTab] = useState<'all' | 'completed'>('all')
-  const [isHeaderSticky, setIsHeaderSticky] = useState(false)
+
   const headerRef = useRef<HTMLDivElement>(null)
 
   const currentPackies = userDataFromDB?.packies || 0
@@ -80,9 +80,8 @@ export function LevelSheet({ isOpen, onClose }: LevelSheetProps) {
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     if (!headerRef.current) return
-    const scrollTop = e.currentTarget.scrollTop
-    const headerOffset = headerRef.current.offsetTop
-    setIsHeaderSticky(scrollTop > headerOffset)
+
+    // setIsHeaderSticky(scrollTop > headerOffset)
   }
 
   // Get remaining levels for the list
@@ -125,49 +124,50 @@ export function LevelSheet({ isOpen, onClose }: LevelSheetProps) {
               </div>
 
               <div className="flex-1 overflow-y-auto" onScroll={handleScroll}>
-                {/* Current Level Card */}
-                <h2 className="text-2xl px-6 py-4 font-bold">Packy levels & Perks</h2>
+                {/* Current Level Card - only show in 'all' tab */}
+                {activeTab === 'all' && (
+                  <>
+                    <h2 className="text-2xl px-6 py-4 font-bold">Packy levels & Perks</h2>
 
-                <div className="px-4 mb-3">
-                  <div className="bg-[#D6F905] rounded-[20px] p-3 border-2 border-[#b8cc0c]">
-                    <div className="flex items-center justify-between">
-                      <p className="text-l text-[#6c7e04]">You're at this level</p>
-                      <span className="bg-white px-2 py-0.5 rounded-full text-xs border border-grey">
-                        Level {currentLevel.level}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-4 mt-3">
-                      <div className="bg-white rounded-full p-3">
-                        <img 
-                          src={currentLevel.level === 0 ? backpackIcon : levelImages[currentLevel.level as keyof typeof levelImages]} 
-                          alt="Level" 
-                          className="w-12 h-12" 
-                        />
-                      </div>
-                      <div className="flex-1">
+                    <div className="px-4 mb-3">
+                      <div className="bg-[#D6F905] rounded-[20px] p-3 border-2 border-[#b8cc0c]">
                         <div className="flex items-center justify-between">
-                          <p className="text-2xl font-bold">{getLevelTitle(currentLevel.level)}</p>
+                          <p className="text-l text-[#6c7e04]">You're at this level</p>
+                          <span className="bg-white px-2 py-0.5 rounded-full text-xs border border-grey">
+                            Level {currentLevel.level}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-4 mt-3">
+                          <div className="bg-white rounded-full p-3">
+                            <img 
+                              src={currentLevel.level === 0 ? backpackIcon : levelImages[currentLevel.level as keyof typeof levelImages]} 
+                              alt="Level" 
+                              className="w-12 h-12" 
+                            />
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between">
+                              <p className="text-2xl font-bold">{getLevelTitle(currentLevel.level)}</p>
+                            </div>
+                          </div>
                         </div>
                       </div>
+                      {nextLevel && (
+                        <div className="mt-6 bg-white rounded-full border border-gray-400 py-3 px-8 text-center">
+                          <p className="text-gray-600 text-sm">
+                            Need {packiesNeeded} Packy more to upgrade
+                          </p>
+                        </div>
+                      )}
                     </div>
-                  </div>
-                  {nextLevel && (
-                    <div className="mt-6 bg-white rounded-full border border-gray-400 py-3 px-8 text-center">
-                      <p className="text-gray-600 text-sm">
-                        Need {packiesNeeded} Packy more to upgrade
-                      </p>
-                    </div>
-                  )}
-                </div>
+                  </>
+                )}
 
                 {/* Tabs */}
-                <div 
-                  ref={headerRef}
-                  className={cn(
-                    "flex gap-6 px-6 py-3 bg-white transition-all duration-200",
-                    isHeaderSticky && "sticky top-0 shadow-sm border-b"
-                  )}
-                >
+                <div ref={headerRef} className={cn(
+                  "flex gap-6 px-6 py-3 z-50 bg-white transition-all duration-200",
+                  "sticky top-0 shadow-sm border-b"
+                )}>
                   <button
                     className={cn(
                       "text-lg pb-1 border-b-2 transition-colors",
@@ -192,43 +192,83 @@ export function LevelSheet({ isOpen, onClose }: LevelSheetProps) {
                   </button>
                 </div>
 
-                {/* Upcoming Levels */}
+                {/* Content based on active tab */}
                 <div className="px-4 pb-8">
-                  <h3 className="text-xl text-gray-500 mb-4">Upcoming Levels</h3>
-
-                  {/* Level Items */}
-                  <div className="space-y-3">
-                    {remainingLevels.map((level) => (
-                      <div 
-                        key={level.level} 
-                        className="bg-white rounded-2xl border border-gray-300 p-4 flex items-center justify-between"
-                      >
-                        <div className="flex items-center gap-4">
-                          <div className="bg-[#D6F905] rounded-full p-2.5">
-                            <img 
-                              src={levelImages[level.level as keyof typeof levelImages]} 
-                              alt="Level" 
-                              className="w-6 h-6" 
-                            />
-                          </div>
-                          <div>
-                            <p className="text-lg font-medium">
-                              Level {level.level} | {getLevelTitle(level.level)}
-                            </p>
-                            <div className="flex items-center gap-2 mt-0.5">
-                              <img src={backpackIcon} alt="" className="w-4 h-4" />
-                              <p className="text-gray-500">
-                                Unlock with {level.packies} Packy
-                              </p>
+                  {activeTab === 'all' ? (
+                    <>
+                      <h3 className="text-xl text-gray-500 mb-4">Upcoming Levels</h3>
+                      <div className="space-y-3">
+                        {remainingLevels.map((level) => (
+                          <div 
+                            key={level.level} 
+                            className="bg-white rounded-2xl border border-gray-300 p-4 flex items-center justify-between"
+                          >
+                            <div className="flex items-center gap-4">
+                              <div className="bg-[#D6F905] rounded-full p-2.5">
+                                <img 
+                                  src={levelImages[level.level as keyof typeof levelImages]} 
+                                  alt="Level" 
+                                  className="w-6 h-6" 
+                                />
+                              </div>
+                              <div>
+                                <p className="text-lg font-medium">
+                                  Level {level.level} | {getLevelTitle(level.level)}
+                                </p>
+                                <div className="flex items-center gap-2 mt-0.5">
+                                  <img src={backpackIcon} alt="" className="w-4 h-4" />
+                                  <p className="text-gray-500">
+                                    Unlock with {level.packies} Packy
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="bg-gray-100 rounded-full p-2.5">
+                              <img src={lock} alt="Lock" className="w-7 h-7 opacity-40" />
                             </div>
                           </div>
-                        </div>
-                        <div className="bg-gray-100 rounded-full p-2.5">
-                          <img src={lock} alt="Lock" className="w-7 h-7 opacity-40" />
-                        </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
+                    </>
+                  ) : (
+                    <>
+                      <h3 className="text-xl text-gray-500 mb-4">Completed Levels</h3>
+                      <div className="space-y-3">
+                        {levelThresholds
+                          .filter(level => level.level <= currentLevel.level)
+                          .map((level) => (
+                            <div 
+                              key={level.level} 
+                              className="bg-white rounded-2xl border border-gray-300 p-4 flex items-center justify-between"
+                            >
+                              <div className="flex items-center gap-4">
+                                <div className="bg-[#D6F905] rounded-full p-2.5">
+                                  <img 
+                                    src={levelImages[level.level as keyof typeof levelImages]} 
+                                    alt="Level" 
+                                    className="w-6 h-6" 
+                                  />
+                                </div>
+                                <div>
+                                  <p className="text-lg font-medium">
+                                    Level {level.level} | {getLevelTitle(level.level)}
+                                  </p>
+                                  <div className="flex items-center gap-2 mt-0.5">
+                                    <img src={backpackIcon} alt="" className="w-4 h-4" />
+                                    <p className="text-gray-500">
+                                      Unlocked at {level.packies} Packy
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="bg-[#D6F905] rounded-full p-2.5">
+                                <ChevronRight className="w-5 h-5 text-black/70" />
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
