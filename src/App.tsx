@@ -14,7 +14,6 @@ import { GamePage } from './screens/GameScreen'
 import { ProfileScreen } from './screens/ProfileScreen'
 import { EarnScreen } from './screens/EarnScreen'
 import { LanguageSelect } from './screens/LanguageSelect'
-import { CompletedScreen } from './screens/CompletedScreen'
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState(0)
@@ -57,7 +56,6 @@ export default function App() {
               <ProfileScreen />
             </MainLayout>
           } />
-          <Route path="/completed" element={<CompletedScreen />} />
           {/* <Route path="/language" element={<LanguageScreen />} /> */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
