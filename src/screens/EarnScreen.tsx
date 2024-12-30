@@ -1,11 +1,11 @@
 "use client"
 
 import { useTranslation } from 'react-i18next'
-import { ChevronRight } from 'lucide-react'
-import { Check } from 'lucide-react'
+import { ChevronRight, Check, Twitter, MessageCircle } from 'lucide-react'
+
 import giftIcon from '../assets/gift1.png'
 import treasureIcon from '../assets/gift2.png'
-import packyAvatar from '../assets/packy.png'
+
 import { useTelegram } from '../context/TelegramContext'
 
 export function EarnScreen() {
@@ -83,7 +83,9 @@ export function EarnScreen() {
               ${isTwitterCompleted ? 'opacity-50' : ''}`}
           >
             <div className="flex items-center gap-4">
-              <img src={packyAvatar} alt="Packy" className="w-12 h-12 rounded-full" />
+              <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center">
+                <Twitter className="w-6 h-6 text-white" />
+              </div>
               <div className="flex flex-col text-left">
                 <span className="text-base font-medium">{t('earn.followPackyX')}</span>
                 <span className="text-sm text-gray-500">{t('earn.points', { amount: 500 })}</span>
@@ -105,7 +107,9 @@ export function EarnScreen() {
               ${isTelegramCompleted ? 'opacity-50' : ''}`}
           >
             <div className="flex items-center gap-4">
-              <img src={packyAvatar} alt="Packy" className="w-12 h-12 rounded-full" />
+              <div className="w-12 h-12 rounded-full bg-[#229ED9] flex items-center justify-center">
+                <MessageCircle className="w-6 h-6 text-white" />
+              </div>
               <div className="flex flex-col text-left">
                 <span className="text-base font-medium">{t('earn.packyCommunity')}</span>
                 <span className="text-sm text-gray-500">{t('earn.points', { amount: 1000 })}</span>
