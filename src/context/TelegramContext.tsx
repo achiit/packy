@@ -83,8 +83,8 @@ export function TelegramProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updateUserData = async (updates: any) => {
-    if (!user?.uid) return
-    await updateDoc(doc(db, 'users', user.uid), updates)
+    if (!user?.id) return
+    await updateDoc(doc(db, 'users', user.id.toString()), updates)
   }
 
   useEffect(() => {
