@@ -8,19 +8,82 @@ import treasureIcon from '../assets/gift2.png'
 import xLogo from '../assets/x logo.webp'
 import telegramLogo from '../assets/telegram1.png'
 import { useTelegram } from '../context/TelegramContext'
+import { useState, useEffect } from 'react'
+import { ClaimPopup } from '../components/claim-popup'
 
 export function EarnScreen() {
   const { t } = useTranslation()
   const { userDataFromDB, updateUserData, setUserDataFromDB } = useTelegram()
+  const [isClaimPopupOpen, setIsClaimPopupOpen] = useState(false)
+  const [timeRemaining, setTimeRemaining] = useState<string | null>(null)
+  const [nextClaimTime, setNextClaimTime] = useState<Date | null>(null)
+
+  const calculateNextClaimTime = () => {
+    if (!userDataFromDB?.lastClaimTime) return null
+    const lastClaim = new Date(userDataFromDB.lastClaimTime)
+    const cooldown = userDataFromDB.claimCooldown || 180 // default 3hrs
+    return new Date(lastClaim.getTime() + cooldown * 60 * 1000)
+  }
+
+  const updateTimeRemaining = () => {
+    const next = calculateNextClaimTime()
+    if (!next) return
+
+    const now = new Date()
+    if (now >= next) {
+      setTimeRemaining(null)
+      return
+    }
+
+    const diff = next.getTime() - now.getTime()
+    const hours = Math.floor(diff / (1000 * 60 * 60))
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+    setTimeRemaining(`${hours}h ${minutes}m`)
+  }
+
+  useEffect(() => {
+    updateTimeRemaining()
+    const interval = setInterval(updateTimeRemaining, 60000) // Update every minute
+    return () => clearInterval(interval)
+  }, [userDataFromDB?.lastClaimTime])
+
+  const handleClaim = async () => {
+    if (!userDataFromDB) return
+
+    const now = new Date()
+    const next = calculateNextClaimTime()
+    if (next && now < next) return // Still in cooldown
+
+    const claimCount = (userDataFromDB.claimCount || 0) + 1
+    const cooldown = 180 * Math.pow(2, claimCount - 1) // 3hrs * 2^(n-1)
+    
+    const updates = {
+      packies: (userDataFromDB.packies || 0) + 500,
+      lastClaimTime: now.toISOString(),
+      claimCooldown: cooldown,
+      claimCount: claimCount
+    }
+
+    await updateUserData(updates)
+    
+    if (userDataFromDB) {
+      const updatedData = {
+        ...userDataFromDB,
+        ...updates
+      }
+      setUserDataFromDB(updatedData)
+    }
+
+    setNextClaimTime(new Date(now.getTime() + cooldown * 60 * 1000))
+    setIsClaimPopupOpen(true)
+  }
 
   const handleSocialClick = async (platform: 'twitter' | 'telegram') => {
-    // URLs for social platforms
     const urls = {
       twitter: 'https://x.com/packy_xyz?s=21',
       telegram: 'https://t.me/PackyPlay'
     }
 
-    // First mark as completed and update packies
     const updates: any = {
       packies: (userDataFromDB?.packies || 0) + (platform === 'twitter' ? 500 : 1000)
     }
@@ -31,26 +94,17 @@ export function EarnScreen() {
       updates.telegramCompleted = true
     }
 
-    // Update Firestore and local state
     await updateUserData(updates)
-    
-    // Update local state immediately
     if (userDataFromDB) {
-      const updatedData = {
-        ...userDataFromDB,
-        ...updates
-      }
-      setUserDataFromDB(updatedData)
+      setUserDataFromDB({ ...userDataFromDB, ...updates })
     }
 
     // Use Telegram WebApp to open URL
     try {
-      // @ts-ignore - Telegram WebApp types
-      const telegram = window.Telegram.WebApp;
-      telegram.openLink(urls[platform]);
+      // @ts-ignore
+      window.Telegram.WebApp.openLink(urls[platform])
     } catch (error) {
-      // Fallback to regular window.open
-      window.open(urls[platform], '_blank');
+      window.open(urls[platform], '_blank')
     }
   }
 
@@ -65,8 +119,14 @@ export function EarnScreen() {
           <div className="flex-1 flex items-center justify-center mb-1">
             <img src={giftIcon} alt="Gift" className="w-24 h-24" />
           </div>
-          <button className="w-[90%] absolute bottom-2 bg-[#E67E22] text-black py-2 px-4 rounded-full font-medium border-2 border-[#c0560e]">
-            {t('earn.claimNow')}
+          <button 
+            onClick={handleClaim}
+            disabled={!!timeRemaining}
+            className={`w-[90%] absolute bottom-2 bg-[#E67E22] text-black py-2 px-4 
+              rounded-full font-medium border-2 border-[#c0560e]
+              ${timeRemaining ? 'opacity-50' : ''}`}
+          >
+            {timeRemaining ? timeRemaining : t('earn.claimNow')}
           </button>
         </div>
         <div className="bg-[#D6F905] rounded-[20px] p-4 flex flex-col items-center relative aspect-square border-2 border-[#b8cc0c]">
@@ -132,6 +192,13 @@ export function EarnScreen() {
           </button>
         </div>
       </div>
+
+      <ClaimPopup 
+        isOpen={isClaimPopupOpen}
+        onClose={() => setIsClaimPopupOpen(false)}
+        packies={500}
+        nextClaimTime={nextClaimTime!}
+      />
     </div>
   )
 }

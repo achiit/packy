@@ -15,6 +15,9 @@ interface UserDataFromDB extends TelegramUser {
   packies: number;
   twitterCompleted?: boolean;
   telegramCompleted?: boolean;
+  lastClaimTime?: string;
+  claimCooldown?: number; // in minutes (180 for 3hrs, 360 for 6hrs, etc)
+  claimCount?: number; // to track number of claims for multiplier
 }
 
 interface TelegramContextType {
