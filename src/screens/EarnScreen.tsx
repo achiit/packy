@@ -10,7 +10,7 @@ import { useTelegram } from '../context/TelegramContext'
 
 export function EarnScreen() {
   const { t } = useTranslation()
-  const { userDataFromDB, updateUserData } = useTelegram()
+  const { userDataFromDB, updateUserData, setUserDataFromDB } = useTelegram()
 
   const handleSocialClick = async (platform: 'twitter' | 'telegram') => {
     // URLs for social platforms
@@ -19,10 +19,7 @@ export function EarnScreen() {
       telegram: 'https://t.me/PackyPlay'
     }
 
-    // Open URL in new tab
-    window.open(urls[platform], '_blank')
-
-    // Update completion status and add packies in Firestore
+    // First mark as completed and update packies
     const updates: any = {
       packies: (userDataFromDB?.packies || 0) + (platform === 'twitter' ? 500 : 1000)
     }
@@ -33,7 +30,21 @@ export function EarnScreen() {
       updates.telegramCompleted = true
     }
 
+    // Update Firestore and local state
     await updateUserData(updates)
+    
+    // Update local state immediately
+    if (userDataFromDB) {
+      const updatedData = {
+        ...userDataFromDB,
+        ...updates
+      }
+      // @ts-ignore - Context will handle the type
+      setUserDataFromDB(updatedData)
+    }
+
+    // Then open URL in new tab
+    window.open(urls[platform], '_blank')
   }
 
   const isTwitterCompleted = userDataFromDB?.twitterCompleted

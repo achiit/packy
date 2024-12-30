@@ -24,6 +24,7 @@ interface TelegramContextType {
   userDataFromDB: UserDataFromDB | null;
   updatePackies: (newCount: number) => Promise<void>;
   updateUserData: (updates: any) => Promise<void>;
+  setUserDataFromDB: React.Dispatch<React.SetStateAction<UserDataFromDB | null>>;
 }
 
 const TelegramContext = createContext<TelegramContextType | undefined>(undefined);
@@ -108,7 +109,15 @@ export function TelegramProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <TelegramContext.Provider value={{ user, isLoading, error, userDataFromDB, updatePackies, updateUserData }}>
+    <TelegramContext.Provider value={{ 
+      user, 
+      isLoading, 
+      error, 
+      userDataFromDB, 
+      updatePackies, 
+      updateUserData,
+      setUserDataFromDB 
+    }}>
       {children}
     </TelegramContext.Provider>
   );
