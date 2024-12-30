@@ -2,10 +2,10 @@ import { useTranslation } from 'react-i18next'
 import { ChevronRight } from 'lucide-react'
 import profilePic from '../assets/intro1.png'
 import languageIcon from '../assets/language.png'
-import rewardIcon from '../assets/cup.png'
+// import rewardIcon from '../assets/cup.png'
 import inviteIcon from '../assets/inviteearn.png'
 import telegramIcon from '../assets/telegram.png'
-import supportIcon from '../assets/support.png'
+// import supportIcon from '../assets/support.png'
 import tonIcon from '../assets/ton.png'
 import { LevelSheet } from '../components/level-sheet'
 import { useState } from 'react'
@@ -20,6 +20,15 @@ export function ProfileScreen() {
 
   const handleLanguageClick = () => {
     navigate('/language') // Assuming '/language' is your language selection route
+  }
+
+  const handleTelegramClick = () => {
+    try {
+      // @ts-ignore
+      window.Telegram.WebApp.openLink('https://t.me/PackyPlay')
+    } catch (error) {
+      window.open('https://t.me/PackyPlay', '_blank')
+    }
   }
 
   return (
@@ -61,13 +70,13 @@ export function ProfileScreen() {
             <ChevronRight className="w-5 h-5 text-gray-400" />
           </button>
 
-          <button className="w-full flex items-center justify-between py-4 hover:bg-gray-50 active:bg-gray-100">
+          {/* <button className="w-full flex items-center justify-between py-4 hover:bg-gray-50 active:bg-gray-100">
             <div className="flex items-center gap-3">
               <img src={rewardIcon} alt="Reward" className="w-8 h-8 " />
               <span className="text-base">{t('profile.claimReward')}</span>
             </div>
             <ChevronRight className="w-5 h-5 text-gray-400" />
-          </button>
+          </button> */}
         </div>
 
         {/* Additional Items Section - Reduced padding */}
@@ -86,7 +95,10 @@ export function ProfileScreen() {
         <div className="px-2">
           <h2 className="text-gray-500 text-sm px-0 mb-2">{t('profile.helpSupport')}</h2>
           <div className="space-y-2">
-            <button className="w-full flex items-center justify-between py-4 hover:bg-gray-50 active:bg-gray-100">
+            <button 
+              onClick={handleTelegramClick}
+              className="w-full flex items-center justify-between py-4 hover:bg-gray-50 active:bg-gray-100"
+            >
               <div className="flex items-center gap-3">
                 <img src={telegramIcon} alt="Telegram" className="w-7 h-7 opacity-40" />
                 <span className="text-base">{t('profile.telegramChannel')}</span>
@@ -94,13 +106,13 @@ export function ProfileScreen() {
               <ChevronRight className="w-5 h-5 text-gray-400" />
             </button>
 
-            <button className="w-full flex items-center justify-between py-4 hover:bg-gray-50 active:bg-gray-100">
+            {/* <button className="w-full flex items-center justify-between py-4 hover:bg-gray-50 active:bg-gray-100">
               <div className="flex items-center gap-3">
                 <img src={supportIcon} alt="Support" className="w-9 h-9 " />
                 <span className="text-base">{t('profile.support')}</span>
               </div>
               <ChevronRight className="w-5 h-5 text-gray-400" />
-            </button>
+            </button> */}
           </div>
         </div>
 
