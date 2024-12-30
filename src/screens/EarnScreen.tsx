@@ -2,12 +2,42 @@
 
 import { useTranslation } from 'react-i18next'
 import { ChevronRight } from 'lucide-react'
+import { Check } from 'lucide-react'
 import giftIcon from '../assets/gift1.png'
 import treasureIcon from '../assets/gift2.png'
 import packyAvatar from '../assets/packy.png'
+import { useTelegram } from '../context/TelegramContext'
 
 export function EarnScreen() {
   const { t } = useTranslation()
+  const { userDataFromDB, updateUserData } = useTelegram()
+
+  const handleSocialClick = async (platform: 'twitter' | 'telegram') => {
+    // URLs for social platforms
+    const urls = {
+      twitter: 'https://x.com/packy_xyz?s=21',
+      telegram: 'https://t.me/PackyPlay'
+    }
+
+    // Open URL in new tab
+    window.open(urls[platform], '_blank')
+
+    // Update completion status and add packies in Firestore
+    const updates: any = {
+      packies: (userDataFromDB?.packies || 0) + (platform === 'twitter' ? 500 : 1000)
+    }
+
+    if (platform === 'twitter') {
+      updates.twitterCompleted = true
+    } else {
+      updates.telegramCompleted = true
+    }
+
+    await updateUserData(updates)
+  }
+
+  const isTwitterCompleted = userDataFromDB?.twitterCompleted
+  const isTelegramCompleted = userDataFromDB?.telegramCompleted
 
   return (
     <div className="min-h-screen bg-white py-4 px-0 space-y-6">
@@ -35,18 +65,34 @@ export function EarnScreen() {
       <div>
         <h2 className="text-xl text-gray-500 font-semibold mb-4 px-4">{t('earn.completeNow')}</h2>
         <div className="space-y-3 px-2">
-          <button className="w-full bg-white rounded-2xl border border-gray-200 p-4 flex items-center justify-between">
+          <button 
+            onClick={() => !isTwitterCompleted && handleSocialClick('twitter')}
+            disabled={isTwitterCompleted}
+            className={`w-full bg-white rounded-2xl border border-gray-200 p-4 flex items-center justify-between
+              ${isTwitterCompleted ? 'opacity-50' : ''}`}
+          >
             <div className="flex items-center gap-4">
               <img src={packyAvatar} alt="Packy" className="w-12 h-12 rounded-full" />
               <div className="flex flex-col text-left">
                 <span className="text-base font-medium">{t('earn.followPackyX')}</span>
-                <span className="text-sm text-gray-500">{t('earn.points', { amount: 300 })}</span>
+                <span className="text-sm text-gray-500">{t('earn.points', { amount: 500 })}</span>
               </div>
             </div>
-            <ChevronRight className="w-5 h-5 text-gray-400" />
+            {isTwitterCompleted ? (
+              <div className="bg-[#D6F905] rounded-full p-2">
+                <Check className="w-5 h-5" />
+              </div>
+            ) : (
+              <ChevronRight className="w-5 h-5 text-gray-400" />
+            )}
           </button>
 
-          <button className="w-full bg-white rounded-2xl border border-gray-200 p-4 flex items-center justify-between">
+          <button 
+            onClick={() => !isTelegramCompleted && handleSocialClick('telegram')}
+            disabled={isTelegramCompleted}
+            className={`w-full bg-white rounded-2xl border border-gray-200 p-4 flex items-center justify-between
+              ${isTelegramCompleted ? 'opacity-50' : ''}`}
+          >
             <div className="flex items-center gap-4">
               <img src={packyAvatar} alt="Packy" className="w-12 h-12 rounded-full" />
               <div className="flex flex-col text-left">
@@ -54,18 +100,13 @@ export function EarnScreen() {
                 <span className="text-sm text-gray-500">{t('earn.points', { amount: 1000 })}</span>
               </div>
             </div>
-            <ChevronRight className="w-5 h-5 text-gray-400" />
-          </button>
-
-          <button className="w-full bg-white rounded-2xl border border-gray-200 p-4 flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <img src={packyAvatar} alt="Packy" className="w-12 h-12 rounded-full" />
-              <div className="flex flex-col text-left">
-                <span className="text-base font-medium">{t('earn.followAdrena')}</span>
-                <span className="text-sm text-gray-500">{t('earn.points', { amount: 800 })}</span>
+            {isTelegramCompleted ? (
+              <div className="bg-[#D6F905] rounded-full p-2">
+                <Check className="w-5 h-5" />
               </div>
-            </div>
-            <ChevronRight className="w-5 h-5 text-gray-400" />
+            ) : (
+              <ChevronRight className="w-5 h-5 text-gray-400" />
+            )}
           </button>
         </div>
       </div>

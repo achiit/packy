@@ -48,7 +48,7 @@ export function GamePage() {
     const centerY = rect.top + (rect.height / 2)
 
     // Create 8 elements in a circle around the center
-    const newElements = Array.from({ length: 8 }, (_, i) => {
+    const newElements = Array.from({ length: 15 }, (_, i) => {
       const angle = (i * Math.PI * 2) / 8 // Evenly space around circle
       return {
         id: idCounterRef.current++,
@@ -85,7 +85,13 @@ export function GamePage() {
   }, [packies, updatePackies])
 
   return (
-    <div className="h-[calc(98vh-150px)] flex flex-col bg-white px-0 overflow-hidden relative">
+    <div className="h-[calc(98vh-150px)] flex flex-col bg-white px-0 overflow-hidden relative bg-gradient-to-br from-purple-50 via-white to-blue-50">
+      <div className="absolute inset-0 opacity-10 pointer-events-none" 
+        style={{
+          backgroundImage: `radial-gradient(circle at 2px 2px, #4F46E5 2px, transparent 0)`,
+          backgroundSize: '32px 32px'
+        }}
+      />
       {/* Floating Elements Animations */}
       <AnimatePresence>
         {floatingElements.map(element => (
@@ -160,7 +166,7 @@ export function GamePage() {
           animate={{ scale: packies > 0 ? [1, 1.1, 1] : 1 }}
           transition={{ duration: 0.3 }}
         >
-          <div className="flex items-center gap-2 px-3 py-2 bg-[#F6F6F6] border border-gray-200 rounded-[15px]">
+          <div className="flex items-center gap-2 px-3 py-2 bg-white/70 backdrop-blur-sm border border-gray-200/50 rounded-[15px]">
             <img src={intro4} alt="Packy" className="w-6 h-6" />
             <span className="font-medium text-black text-xs">
               {packies} {t('game.packies')}
@@ -168,7 +174,7 @@ export function GamePage() {
           </div>
         </motion.div>
 
-        <div className="flex items-center gap-2 px-3 py-2 bg-[#F6F6F6] border border-gray-200 rounded-[15px]">
+        <div className="flex items-center gap-2 px-3 py-2 bg-white/70 backdrop-blur-sm border border-gray-200/50 rounded-[15px]">
           <button 
             className="flex items-center gap-2"
             onClick={() => setIsLevelSheetOpen(true)}
@@ -188,9 +194,9 @@ export function GamePage() {
           className={`relative w-60 h-60 rounded-full
             transition-all duration-100 ease-out
             ${isPressed ? 'scale-105' : 'scale-100'}
-            bg-white
-            shadow-[35px_35px_70px_#bebebe,-35px_-35px_70px_#ffffff]
-            active:shadow-[inset_35px_35px_70px_#bebebe,inset_-35px_-35px_70px_#ffffff]`}
+            bg-white/80 backdrop-blur-sm
+            shadow-[0_0_40px_rgba(79,70,229,0.1)]
+            active:shadow-[inset_0_0_20px_rgba(79,70,229,0.2)]`}
         >
           <div className="absolute inset-0 rounded-full border-[#9FE870] border-2">
             <img
@@ -204,7 +210,7 @@ export function GamePage() {
 
       {/* Footer */}
       <div className="h-[60px] flex items-center justify-between">
-        <div className="flex items-center gap-2 px-4 py-2 bg-[#F6F6F6] border border-gray-200 rounded-[15px]">
+        <div className="flex items-center gap-2 px-4 py-2 bg-white/70 backdrop-blur-sm border border-gray-200/50 rounded-[15px]">
           <img src={flash} alt="Lightning" className="w-6 h-6" />
           <motion.span
             className="text-[#9FE870] font-medium text-xs"
@@ -216,7 +222,7 @@ export function GamePage() {
         </div>
 
         <div
-          className="flex items-center gap-2 px-4 py-2 bg-[#F6F6F6] border border-gray-200 rounded-[15px] cursor-pointer"
+          className="flex items-center gap-2 px-4 py-2 bg-white/70 backdrop-blur-sm border border-gray-200/50 rounded-[15px] cursor-pointer"
           onClick={() => setIsLeaderboardOpen(true)}
         >
           <img src={intro4} alt="Packy" className="w-6 h-6" />

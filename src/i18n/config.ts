@@ -45,14 +45,14 @@ export const resources = {
       cards: {
         packySpin: {
           title: 'packy',
-          title1:'spin',
-          subtitle: 'spin & win',
+          title1:'Packy Game',
+          subtitle: 'tap & win',
           action: 'Play now'
         },
         packyBookings: {
           title: 'packy',
           title1:'bookings',
-          action: 'Book now'
+          action: 'Coming Soon'
         },
         packyReferEarn: {
           title: 'packy',
@@ -61,7 +61,7 @@ export const resources = {
         }
       },
       header: {
-        title: 'Adrena Games'
+        title: 'Packy Games'
       },
       game: {
         title: 'Nub Packy',
@@ -88,9 +88,9 @@ export const resources = {
         inviteFriends: "Invite Friends",
         completeNow: "Complete Now",
         followPackyX: "Follow packy on X",
-        packyCommunity: "Join packy's Discord Community",
+        packyCommunity: "Join packy's Telegram Community",
         followAdrena: "Follow Adrena on Instagram",
-        points: "{{amount}} Adrena points"
+        points: "{{amount}} Packy points"
        },
        levels: {
         title: "Packy levels & Perks",

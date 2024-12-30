@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { db } from '../config/firebase';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 
 interface TelegramUser {
   id: number;
@@ -13,6 +13,8 @@ interface UserDataFromDB extends TelegramUser {
   createdAt: string;
   lastLogin: string;
   packies: number;
+  twitterCompleted?: boolean;
+  telegramCompleted?: boolean;
 }
 
 interface TelegramContextType {
@@ -21,6 +23,7 @@ interface TelegramContextType {
   error: string | null;
   userDataFromDB: UserDataFromDB | null;
   updatePackies: (newCount: number) => Promise<void>;
+  updateUserData: (updates: any) => Promise<void>;
 }
 
 const TelegramContext = createContext<TelegramContextType | undefined>(undefined);
@@ -79,6 +82,11 @@ export function TelegramProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const updateUserData = async (updates: any) => {
+    if (!user?.uid) return
+    await updateDoc(doc(db, 'users', user.uid), updates)
+  }
+
   useEffect(() => {
     try {
       // @ts-ignore - Since Telegram.WebApp might not be recognized by TypeScript
@@ -100,7 +108,7 @@ export function TelegramProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <TelegramContext.Provider value={{ user, isLoading, error, userDataFromDB, updatePackies }}>
+    <TelegramContext.Provider value={{ user, isLoading, error, userDataFromDB, updatePackies, updateUserData }}>
       {children}
     </TelegramContext.Provider>
   );
