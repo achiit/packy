@@ -78,7 +78,7 @@ export function LevelSheet({ isOpen, onClose }: LevelSheetProps) {
     }
   }, [isOpen])
 
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+  const handleScroll = () => {
     if (!headerRef.current) return
 
     // setIsHeaderSticky(scrollTop > headerOffset)
