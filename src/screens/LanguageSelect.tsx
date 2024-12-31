@@ -8,7 +8,7 @@ interface LanguageSelectProps {
   startParam?: string
 }
 
-export function LanguageSelect({ onContinue, startParam }: LanguageSelectProps) {
+export function LanguageSelect({ onContinue}: LanguageSelectProps) {
     const { t, i18n } = useTranslation()
     
     const languages = [
