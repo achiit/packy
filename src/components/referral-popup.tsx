@@ -64,11 +64,11 @@ export function ReferralPopup({
     try {
       // @ts-ignore
       const WebApp = window.Telegram?.WebApp
-      if (WebApp) {
-        const shareText = `Join me on Packy!`
-        WebApp.shareUrl(referralLink, shareText)
+      if (WebApp && typeof WebApp.shareUrl === 'function') {
+        // Use Telegram WebApp share if available
+        WebApp.shareUrl(referralLink, 'Join me on Packy!')
       } else {
-        // Fallback for testing
+        // Fallback to old-school share link
         const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent('Join me on Packy!')}`
         window.open(fullUrl, '_blank')
       }
