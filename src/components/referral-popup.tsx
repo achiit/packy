@@ -24,27 +24,25 @@ export function ReferralPopup({
   const [copied, setCopied] = useState(false)
   const [showToast, setShowToast] = useState(false)
 
-  // Single base link (no "/app" in path)
-  const BOT_BASE_URL = 'https://t.me/athpacky_bot'
-
-  // This is the final referral link that opens your Web App
-  const referralLink = `${BOT_BASE_URL}?startapp=${referralCode}`
+  // Because you used /setdomain with "packy", use that path:
+  // So the official deep-link is "https://t.me/athpacky_bot/packy?startapp=..."
+  const referralLink = `https://t.me/athpacky_bot/packy?startapp=${referralCode}`
 
   const handleCopy = async () => {
     console.log('Copy button clicked')
     try {
       // @ts-ignore
-      const tg = window.Telegram.WebApp
+      const tg = window.Telegram?.WebApp
       console.log('Telegram WebApp object:', tg)
       console.log('Attempting to copy link:', referralLink)
 
-      // Try Telegram’s in-app clipboard first
+      // Try Telegram's clipboard API first
       try {
         await tg.clipboard.writeText(referralLink)
         console.log('Successfully copied using Telegram clipboard API')
-      } catch (err) {
-        console.log('Telegram clipboard failed, trying navigator clipboard:', err)
-        // Fallback to the standard browser clipboard
+      } catch (e) {
+        console.log('Telegram clipboard failed, trying navigator clipboard:', e)
+        // Fallback to regular clipboard API
         await navigator.clipboard.writeText(referralLink)
         console.log('Successfully copied using navigator clipboard')
       }
@@ -61,9 +59,11 @@ export function ReferralPopup({
   }
 
   const handleShare = () => {
-    // Same link, but open a Telegram share link
+    // Similar idea: pass "packy?startapp=..."
+    const inviteLink = `https://t.me/athpacky_bot/packy?startapp=${referralCode}`
     const shareText = `Join me on this awesome Telegram mini app!`
-    const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent(shareText)}`
+    const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent(shareText)}`
+
     window.open(fullUrl, '_blank')
   }
 
@@ -97,7 +97,7 @@ export function ReferralPopup({
                 <h2 className="text-2xl font-bold text-center">
                   {t('referral.invite')}
                 </h2>
-                
+
                 <div className="w-full p-4 bg-gray-50 rounded-xl">
                   <div className="flex items-center justify-between gap-2">
                     <code className="text-sm bg-white px-3 py-2 rounded flex-1 overflow-hidden">
