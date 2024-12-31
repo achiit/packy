@@ -84,7 +84,10 @@ export function ProfileScreen() {
         {/* Additional Items Section - Reduced padding */}
         <div className="px-2">
           <h2 className="text-gray-500 text-sm px-0 mb-2">{t('profile.additionalItems')}</h2>
-          <button className="w-full flex items-center justify-between py-4 hover:bg-gray-50 active:bg-gray-100">
+          <button
+            className="w-full flex items-center justify-between py-4 hover:bg-gray-50 active:bg-gray-100"
+            onClick={() => setIsReferralPopupOpen(true)}
+          >
             <div className="flex items-center gap-3">
               <img src={inviteIcon} alt="Invite" className="w-7 h-7 opacity-40" />
               <span className="text-base">{t('profile.inviteEarn')}</span>
@@ -134,19 +137,12 @@ export function ProfileScreen() {
         onClose={() => setIsLevelSheetOpen(false)} 
       />
 
-      <button
-        onClick={() => setIsReferralPopupOpen(true)}
-        className="invite-earn-button"
-      >
-        Invite and Earn
-      </button>
-
       <ReferralPopup
         isOpen={isReferralPopupOpen}
         onClose={() => setIsReferralPopupOpen(false)}
-        referralCode="yourReferralCode" // Replace with actual referral code
-        referralCount={0} // Replace with actual data
-        rewardsEarned={0} // Replace with actual data
+        referralCode={user?.referralCode || 'N/A'} // Replace with actual referral code
+        referralCount={user?.referralCount || 0} // Replace with actual data
+        rewardsEarned={user?.referralRewardsEarned || 0} // Replace with actual data
       />
     </>
   )

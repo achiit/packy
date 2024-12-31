@@ -5,9 +5,12 @@ import { initializeReferralCode } from '../utils/referral';
 
 interface TelegramUser {
   id: number;
-  username?: string;
-  first_name?: string;
+  username: string;
+  first_name: string;
   last_name?: string;
+  referralCode?: string;
+  referralCount?: number;
+  referralRewardsEarned?: number;
 }
 
 interface UserDataFromDB extends TelegramUser {
@@ -109,6 +112,24 @@ export function TelegramProvider({ children }: { children: React.ReactNode }) {
     if (!user?.id) return
     await updateDoc(doc(db, 'users', user.id.toString()), updates)
   }
+
+  // const fetchUserData = async (userId: string) => {
+  //   const userRef = doc(db, 'users', userId)
+  //   const userSnap = await getDoc(userRef)
+
+  //   if (userSnap.exists()) {
+  //     const userData = userSnap.data()
+  //     setUser({
+  //       id: userId,
+  //       username: userData.username,
+  //       first_name: userData.first_name,
+  //       last_name: userData.last_name,
+  //       referralCode: userData.referralCode,
+  //       referralCount: userData.referralCount,
+  //       referralRewardsEarned: userData.referralRewardsEarned,
+  //     })
+  //   }
+  // }
 
   useEffect(() => {
     try {
