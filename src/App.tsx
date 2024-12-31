@@ -16,6 +16,7 @@ import { ProfileScreen } from './screens/ProfileScreen'
 import { EarnScreen } from './screens/EarnScreen'
 import { LanguageSelect } from './screens/LanguageSelect'
 
+
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState(0)
   const [showMainApp, setShowMainApp] = useState(false)
