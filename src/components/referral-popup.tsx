@@ -93,7 +93,7 @@ export function ReferralPopup({
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="fixed inset-x-4 top-1/2 -translate-y-1/2 bg-white rounded-2xl p-6 z-50"
+              className="fixed inset-x-4 top-1/3 -translate-y-1/2 bg-white rounded-2xl p-6 z-50 max-h-[80vh] overflow-y-auto"
             >
               <button
                 onClick={onClose}

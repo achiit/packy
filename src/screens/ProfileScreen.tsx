@@ -11,12 +11,14 @@ import { LevelSheet } from '../components/level-sheet'
 import { useState } from 'react'
 import { useTelegram } from '../context/TelegramContext'
 import { useNavigate } from 'react-router-dom'
+import { ReferralPopup } from '../components/referral-popup'
 
 export function ProfileScreen() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { user } = useTelegram()
   const [isLevelSheetOpen, setIsLevelSheetOpen] = useState(false)
+  const [isReferralPopupOpen, setIsReferralPopupOpen] = useState(false)
 
   const handleLanguageClick = () => {
     navigate('/language') // Assuming '/language' is your language selection route
@@ -130,6 +132,21 @@ export function ProfileScreen() {
       <LevelSheet 
         isOpen={isLevelSheetOpen} 
         onClose={() => setIsLevelSheetOpen(false)} 
+      />
+
+      <button
+        onClick={() => setIsReferralPopupOpen(true)}
+        className="invite-earn-button"
+      >
+        Invite and Earn
+      </button>
+
+      <ReferralPopup
+        isOpen={isReferralPopupOpen}
+        onClose={() => setIsReferralPopupOpen(false)}
+        referralCode="yourReferralCode" // Replace with actual referral code
+        referralCount={0} // Replace with actual data
+        rewardsEarned={0} // Replace with actual data
       />
     </>
   )
