@@ -13,6 +13,7 @@ interface TelegramWebApp {
       writeText: (text: string) => Promise<void>;
     };
     shareUrl: (url: string, text?: string) => void;
+    switchInlineQuery: (query: string) => void;
   }
 }
 

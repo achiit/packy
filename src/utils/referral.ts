@@ -4,10 +4,10 @@ import {
   updateDoc,
   getDoc,
   increment,
-  collection,
-  query,
-  where,
-  getDocs
+//   collection,
+//   query,
+//   where,
+//   getDocs
 } from 'firebase/firestore'
 
 const REFERRAL_REWARD = 500
@@ -26,30 +26,38 @@ export const handleReferral = async (newUserId: string, referralCode: string) =>
   try {
     console.log('Handling referral:', { newUserId, referralCode })
     
+    if (!newUserId || !referralCode) {
+      console.log('Missing userId or referralCode')
+      return false
+    }
+
     // Check if user already has a referrer
-    const newUserRef = doc(db, 'users', newUserId)
+    const newUserRef = doc(db, 'users', newUserId.toString())
     const newUserSnap = await getDoc(newUserRef)
     
-    if (newUserSnap.exists() && newUserSnap.data().referredBy) {
+    if (!newUserSnap.exists()) {
+      console.log('New user document does not exist')
+      return false
+    }
+
+    if (newUserSnap.data().referredBy) {
       console.log('User already has a referrer')
       return false
     }
 
-    // Find referrer by referral code
-    const usersRef = collection(db, 'users')
-    const q = query(usersRef, where('referralCode', '==', referralCode))
-    const querySnapshot = await getDocs(q)
-    
-    if (querySnapshot.empty) {
-      console.log('No referrer found with code:', referralCode)
-      return false
-    }
-
-    const referrerId = querySnapshot.docs[0].id
+    // Find referrer by their userId (which is now the referral code)
+    const referrerId = referralCode
 
     // Don't let users refer themselves
     if (referrerId === newUserId) {
       console.log('User tried to refer themselves')
+      return false
+    }
+
+    // Verify referrer exists
+    const referrerSnap = await getDoc(doc(db, 'users', referrerId))
+    if (!referrerSnap.exists()) {
+      console.log('Referrer does not exist')
       return false
     }
 
