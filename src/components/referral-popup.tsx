@@ -63,10 +63,10 @@ export function ReferralPopup({
   const handleShare = () => {
     try {
       // @ts-ignore
-      const tg = window.Telegram?.WebApp
-      if (tg) {
-        // Use switchInlineQuery for forwarding to chats
-        tg.switchInlineQuery(referralCode)
+      const WebApp = window.Telegram?.WebApp
+      if (WebApp) {
+        const shareText = `Join me on Packy!`
+        WebApp.shareUrl(referralLink, shareText)
       } else {
         // Fallback for testing
         const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent('Join me on Packy!')}`
@@ -93,7 +93,7 @@ export function ReferralPopup({
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="fixed inset-x-4 top-1/2 -translate-y-1/2 bg-white rounded-2xl p-6 z-50 max-h-[90vh] overflow-y-auto"
+              className="fixed inset-x-4 top-1/2 -translate-y-1/2 bg-white rounded-2xl p-6 z-50"
             >
               <button
                 onClick={onClose}

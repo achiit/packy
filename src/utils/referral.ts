@@ -4,10 +4,10 @@ import {
   updateDoc,
   getDoc,
   increment,
-//   collection,
-//   query,
-//   where,
-//   getDocs
+  collection,
+  query,
+  where,
+  getDocs
 } from 'firebase/firestore'
 
 const REFERRAL_REWARD = 500
@@ -26,44 +26,32 @@ export const handleReferral = async (newUserId: string, referralCode: string) =>
   try {
     console.log('Handling referral:', { newUserId, referralCode })
     
-    if (!newUserId || !referralCode) {
-      console.log('Missing userId or referralCode')
-      return false
-    }
-
-    // Check if user already has a referrer
-    const newUserRef = doc(db, 'users', newUserId.toString())
+    const newUserRef = doc(db, 'users', newUserId)
     const newUserSnap = await getDoc(newUserRef)
     
-    if (!newUserSnap.exists()) {
-      console.log('New user document does not exist')
-      return false
-    }
-
-    if (newUserSnap.data().referredBy) {
+    if (newUserSnap.exists() && newUserSnap.data().referredBy) {
       console.log('User already has a referrer')
       return false
     }
 
-    // Find referrer by their userId (which is now the referral code)
-    const referrerId = referralCode
+    const usersRef = collection(db, 'users')
+    const q = query(usersRef, where('referralCode', '==', referralCode))
+    const querySnapshot = await getDocs(q)
+    
+    if (querySnapshot.empty) {
+      console.log('No referrer found with code:', referralCode)
+      return false
+    }
 
-    // Don't let users refer themselves
+    const referrerId = querySnapshot.docs[0].id
+
     if (referrerId === newUserId) {
       console.log('User tried to refer themselves')
       return false
     }
 
-    // Verify referrer exists
-    const referrerSnap = await getDoc(doc(db, 'users', referrerId))
-    if (!referrerSnap.exists()) {
-      console.log('Referrer does not exist')
-      return false
-    }
-
     console.log('Updating referrer stats:', referrerId)
     
-    // Update referrer's stats
     await updateDoc(doc(db, 'users', referrerId), {
       referralCount: increment(1),
       packies: increment(REFERRAL_REWARD),
@@ -72,7 +60,6 @@ export const handleReferral = async (newUserId: string, referralCode: string) =>
 
     console.log('Updating new user data')
     
-    // Update new user's data
     await updateDoc(newUserRef, {
       referredBy: referrerId,
       packies: increment(REFERRAL_REWARD)
