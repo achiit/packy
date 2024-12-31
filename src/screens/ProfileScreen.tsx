@@ -11,14 +11,12 @@ import { LevelSheet } from '../components/level-sheet'
 import { useState } from 'react'
 import { useTelegram } from '../context/TelegramContext'
 import { useNavigate } from 'react-router-dom'
-import { ReferralPopup } from '../components/referral-popup'
 
 export function ProfileScreen() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { user } = useTelegram()
   const [isLevelSheetOpen, setIsLevelSheetOpen] = useState(false)
-  const [isReferralPopupOpen, setIsReferralPopupOpen] = useState(false)
 
   const handleLanguageClick = () => {
     navigate('/language') // Assuming '/language' is your language selection route
@@ -82,19 +80,16 @@ export function ProfileScreen() {
         </div>
 
         {/* Additional Items Section - Reduced padding */}
-        <div className="px-2">
+        {/* <div className="px-2">
           <h2 className="text-gray-500 text-sm px-0 mb-2">{t('profile.additionalItems')}</h2>
-          <button
-            className="w-full flex items-center justify-between py-4 hover:bg-gray-50 active:bg-gray-100"
-            onClick={() => setIsReferralPopupOpen(true)}
-          >
+          <button className="w-full flex items-center justify-between py-4 hover:bg-gray-50 active:bg-gray-100">
             <div className="flex items-center gap-3">
               <img src={inviteIcon} alt="Invite" className="w-7 h-7 opacity-40" />
               <span className="text-base">{t('profile.inviteEarn')}</span>
             </div>
             <ChevronRight className="w-5 h-5 text-gray-400" />
           </button>
-        </div>
+        </div> */}
 
         {/* Help & Support Section - Reduced padding */}
         <div className="px-2">
@@ -135,14 +130,6 @@ export function ProfileScreen() {
       <LevelSheet 
         isOpen={isLevelSheetOpen} 
         onClose={() => setIsLevelSheetOpen(false)} 
-      />
-
-      <ReferralPopup
-        isOpen={isReferralPopupOpen}
-        onClose={() => setIsReferralPopupOpen(false)}
-        referralCode={user?.referralCode || 'N/A'} // Replace with actual referral code
-        referralCount={user?.referralCount || 0} // Replace with actual data
-        rewardsEarned={user?.referralRewardsEarned || 0} // Replace with actual data
       />
     </>
   )
