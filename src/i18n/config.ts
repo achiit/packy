@@ -118,6 +118,8 @@ export const resources = {
         invites: 'invites',
         totalInvites: 'Total Invites',
         packiesEarned: 'Packies Earned',
+        perReferral: 'Per Referral',
+        copied: 'Link copied successfully!'
       }
     }
   },
@@ -236,6 +238,8 @@ export const resources = {
         invites: 'invites',
         totalInvites: 'Total Invites',
         packiesEarned: 'Packies Earned',
+        perReferral: 'Per Referral',
+        copied: 'Link copied successfully!'
       }
     }
   },
@@ -354,6 +358,8 @@ export const resources = {
         invites: 'invites',
         totalInvites: 'Total Invites',
         packiesEarned: 'Packies Earned',
+        perReferral: 'Per Referral',
+        copied: 'Link copied successfully!'
       }
     }
   },
@@ -472,6 +478,8 @@ export const resources = {
         invites: 'invites',
         totalInvites: 'Total Invites',
         packiesEarned: 'Packies Earned',
+        perReferral: 'Per Referral',
+        copied: 'Link copied successfully!'
       }
     }
   },
@@ -590,6 +598,8 @@ export const resources = {
         invites: 'invites',
         totalInvites: 'Total Invites',
         packiesEarned: 'Packies Earned',
+        perReferral: 'Per Referral',
+        copied: 'Link copied successfully!'
       }
     }
   },
@@ -708,6 +718,8 @@ export const resources = {
         invites: 'invites',
         totalInvites: 'Total Invites',
         packiesEarned: 'Packies Earned',
+        perReferral: 'Per Referral',
+        copied: 'Link copied successfully!'
       }
     }
   },
@@ -826,6 +838,8 @@ export const resources = {
         invites: 'invites',
         totalInvites: 'Total Invites',
         packiesEarned: 'Packies Earned',
+        perReferral: 'Per Referral',
+        copied: 'Link copied successfully!'
       }
     }
   },
@@ -944,6 +958,8 @@ export const resources = {
         invites: 'invites',
         totalInvites: 'Total Invites',
         packiesEarned: 'Packies Earned',
+        perReferral: 'Per Referral',
+        copied: 'Link copied successfully!'
       }
     }
   }
