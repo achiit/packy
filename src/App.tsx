@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 import { IntroScreen1 } from './screens/IntroScreen1'
@@ -18,6 +18,7 @@ import { LanguageSelect } from './screens/LanguageSelect'
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState(0)
   const [showMainApp, setShowMainApp] = useState(false)
+  const [startParam, setStartParam] = useState('')
 
   const handleContinue = () => {
     if (currentScreen === 4) {
@@ -26,6 +27,18 @@ export default function App() {
       setCurrentScreen((prev) => prev + 1)
     }
   }
+
+  useEffect(() => {
+    const initWebApp = async () => {
+      if (typeof window !== 'undefined') {
+        const WebApp = (await import('@twa-dev/sdk')).default;
+        WebApp.ready();
+        setStartParam(WebApp.initDataUnsafe.start_param || '');
+      }
+    };
+
+    initWebApp();
+  }, [])
 
   if (showMainApp) {
     return (
@@ -56,7 +69,9 @@ export default function App() {
               <ProfileScreen />
             </MainLayout>
           } />
-          {/* <Route path="/language" element={<LanguageScreen />} /> */}
+          <Route path="/language" element={
+            <LanguageSelect onContinue={handleContinue} startParam={startParam} />
+          } />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>

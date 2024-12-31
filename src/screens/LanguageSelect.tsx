@@ -5,9 +5,10 @@ import { Check } from 'lucide-react'
 
 interface LanguageSelectProps {
   onContinue: () => void
+  startParam?: string
 }
 
-export function LanguageSelect({ onContinue }: LanguageSelectProps) {
+export function LanguageSelect({ onContinue, startParam }: LanguageSelectProps) {
     const { t, i18n } = useTranslation()
     
     const languages = [
@@ -26,6 +27,13 @@ export function LanguageSelect({ onContinue }: LanguageSelectProps) {
       <div className="min-h-screen flex flex-col justify-end bg-white px-6">
         <div className="flex-1 flex flex-col justify-end pb-8">
           <h2 className="text-[28px] font-semibold mb-8">{t('selectLanguage')}</h2>
+          
+          {startParam && (
+            <p className="text-lg text-gray-600 mb-4">
+              You were referred by: <strong>{startParam}</strong>
+            </p>
+          )}
+
           <div className="space-y-6 mb-8">
             {languages.map((lang) => (
               <button
