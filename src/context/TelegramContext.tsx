@@ -39,9 +39,9 @@ interface TelegramContextType {
 const TelegramContext = createContext<TelegramContextType | undefined>(undefined);
 
 export function TelegramProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<TelegramUser | null>(null);
+  const [user] = useState<TelegramUser | null>(null);
   const [userDataFromDB, setUserDataFromDB] = useState<UserDataFromDB | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const updatePackies = async (newCount: number) => {
