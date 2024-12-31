@@ -10,7 +10,7 @@ export const generateReferralCode = (userId: string): string => {
 }
 
 export const generateReferralLink = (referralCode: string): string => {
-  return `https://t.me/athpacky_bot?start=${referralCode}`
+  return `https://t.me/athpacky_bot/app?startapp=${referralCode}`
 }
 
 export const handleReferral = async (newUserId: string, referralCode: string) => {

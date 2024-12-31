@@ -18,12 +18,27 @@ export function ReferralPopup({ isOpen, onClose, referralCode, referralCount, re
   const [copied, setCopied] = useState(false)
   const [showToast, setShowToast] = useState(false)
 
-  const referralLink = `https://t.me/athpacky_bot?start=${referralCode}`
+  const referralLink = `https://t.me/athpacky_bot/app?startapp=${referralCode}`
 
   const handleCopy = async () => {
+    console.log('Copy button clicked')
     try {
       // @ts-ignore
-      await window.Telegram.WebApp.clipboard.writeText(referralLink)
+      const tg = window.Telegram.WebApp
+      console.log('Telegram WebApp object:', tg)
+      console.log('Attempting to copy link:', referralLink)
+
+      // Try Telegram's clipboard API first
+      try {
+        await tg.clipboard.writeText(referralLink)
+        console.log('Successfully copied using Telegram clipboard API')
+      } catch (e) {
+        console.log('Telegram clipboard failed, trying navigator clipboard:', e)
+        // Fallback to regular clipboard API
+        await navigator.clipboard.writeText(referralLink)
+        console.log('Successfully copied using navigator clipboard')
+      }
+
       setCopied(true)
       setShowToast(true)
       setTimeout(() => {
@@ -31,16 +46,40 @@ export function ReferralPopup({ isOpen, onClose, referralCode, referralCount, re
         setShowToast(false)
       }, 2000)
     } catch (error) {
-      console.error('Failed to copy:', error)
+      console.error('Copy failed with error:', error)
     }
   }
 
   const handleShare = () => {
+    console.log('Share button clicked')
     try {
       // @ts-ignore
-      window.Telegram.WebApp.switchInlineQuery(referralLink, ['users', 'groups'])
+      const tg = window.Telegram.WebApp
+      console.log('Telegram WebApp object:', tg)
+      console.log('Attempting to share link:', referralLink)
+
+      // Try shareUrl if available
+      if (tg.shareUrl) {
+        console.log('Using shareUrl method')
+        tg.shareUrl(referralLink)
+      } else {
+        console.log('Using switchInlineQuery method')
+        tg.switchInlineQuery(referralLink, ['users', 'groups'])
+      }
     } catch (error) {
-      console.error('Failed to share:', error)
+      console.error('Share failed with error:', error)
+      // Fallback to regular share if available
+      try {
+        if (navigator.share) {
+          navigator.share({
+            title: 'Join Packy',
+            text: 'Join me on Packy!',
+            url: referralLink
+          })
+        }
+      } catch (shareError) {
+        console.error('Native share failed:', shareError)
+      }
     }
   }
 
@@ -83,7 +122,8 @@ export function ReferralPopup({ isOpen, onClose, referralCode, referralCount, re
                     <div className="flex gap-2">
                       <button
                         onClick={handleCopy}
-                        className="p-2 rounded-lg bg-[#D6F905]"
+                        className="p-2 rounded-lg bg-[#D6F905] relative"
+                        disabled={copied}
                       >
                         {copied ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
                       </button>
