@@ -61,7 +61,7 @@ export function LanguageSelect({ onContinue, startParam }: LanguageSelectProps) 
           <ProgressDots total={5} current={0} />
           <div className="mt-4">
             <ContinueButton onClick={onContinue}>
-              {t('continue')} {/* Make sure this translation key exists in your i18n config */}
+              {t('continue')}
             </ContinueButton>
           </div>
         </div>
