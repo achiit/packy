@@ -33,16 +33,18 @@ export function ReferralPopup({
     try {
       // @ts-ignore
       const tg = window.Telegram?.WebApp
+      if (!tg) {
+        throw new Error('Telegram WebApp not available')
+      }
+
       console.log('Telegram WebApp object:', tg)
       console.log('Attempting to copy link:', referralLink)
 
-      // Try Telegram's clipboard API first
       try {
         await tg.clipboard.writeText(referralLink)
         console.log('Successfully copied using Telegram clipboard API')
       } catch (e) {
         console.log('Telegram clipboard failed, trying navigator clipboard:', e)
-        // Fallback to regular clipboard API
         await navigator.clipboard.writeText(referralLink)
         console.log('Successfully copied using navigator clipboard')
       }
