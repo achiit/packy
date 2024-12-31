@@ -26,15 +26,15 @@ interface UserDataFromDB extends TelegramUser {
   referralRewardsEarned?: number;
 }
 
-interface TelegramContextType {
-  user: TelegramUser | null;
-  isLoading: boolean;
-  error: string | null;
-  userDataFromDB: UserDataFromDB | null;
-  updatePackies: (newCount: number) => Promise<void>;
-  updateUserData: (updates: any) => Promise<void>;
-  setUserDataFromDB: React.Dispatch<React.SetStateAction<UserDataFromDB | null>>;
-}
+// interface TelegramContextType {
+//   user: TelegramUser | null;
+//   isLoading: boolean;
+//   error: string | null;
+//   userDataFromDB: UserDataFromDB | null;
+//   updatePackies: (newCount: number) => Promise<void>;
+//   updateUserData: (updates: any) => Promise<void>;
+//   setUserDataFromDB: React.Dispatch<React.SetStateAction<UserDataFromDB | null>>;
+// }
 
 export const TelegramContext = createContext<any>(null);
 
