@@ -71,10 +71,18 @@ export const getReferralStats = async (userId: string) => {
 // Initialize referral code for new user
 export const initializeReferralCode = async (userId: string) => {
   const referralCode = generateReferralCode(userId)
-  await updateDoc(doc(db, 'users', userId.toString()), {
+  const userRef = doc(db, 'users', userId.toString())
+  
+  // Get current user data
+  const userDoc = await getDoc(userRef)
+  const userData = userDoc.data()
+
+  // Only initialize stats if they don't exist
+  await updateDoc(userRef, {
     referralCode,
-    referralCount: 0,
-    referralRewardsEarned: 0
+    referralCount: userData?.referralCount ?? 0,
+    referralRewardsEarned: userData?.referralRewardsEarned ?? 0
   })
+  
   return referralCode
 } 

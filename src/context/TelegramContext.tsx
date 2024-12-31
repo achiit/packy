@@ -63,39 +63,47 @@ export function TelegramProvider({ children }: { children: React.ReactNode }) {
 
   const saveUserToFirestore = async (userData: TelegramUser) => {
     try {
-      const userRef = doc(db, 'users', userData.id.toString());
-      
-      const docSnap = await getDoc(userRef);
+      const userRef = doc(db, 'users', userData.id.toString())
+      const docSnap = await getDoc(userRef)
       
       if (!docSnap.exists()) {
+        // New user
         const newUserData: UserDataFromDB = {
           ...userData,
           createdAt: new Date().toISOString(),
           lastLogin: new Date().toISOString(),
           packies: 0,
-        };
-        await setDoc(userRef, newUserData);
+        }
+        await setDoc(userRef, newUserData)
         
         // Initialize referral code for new user
-        const referralCode = await initializeReferralCode(userData.id.toString());
-        newUserData.referralCode = referralCode;
+        const referralCode = await initializeReferralCode(userData.id.toString())
+        newUserData.referralCode = referralCode
         
-        setUserDataFromDB(newUserData);
+        setUserDataFromDB(newUserData)
       } else {
-        const existingData = docSnap.data() as UserDataFromDB;
+        // Existing user
+        const existingData = docSnap.data() as UserDataFromDB
         const updatedData = {
           ...existingData,
           ...userData,
           lastLogin: new Date().toISOString(),
-        };
-        await setDoc(userRef, updatedData, { merge: true });
-        setUserDataFromDB(updatedData);
+        }
+
+        // Check if user doesn't have a referral code yet
+        if (!existingData.referralCode) {
+          const referralCode = await initializeReferralCode(userData.id.toString())
+          updatedData.referralCode = referralCode
+        }
+
+        await setDoc(userRef, updatedData, { merge: true })
+        setUserDataFromDB(updatedData)
       }
     } catch (err) {
-      console.error('Error saving user to Firestore:', err);
-      setError('Failed to save user data');
+      console.error('Error saving user to Firestore:', err)
+      setError('Failed to save user data')
     }
-  };
+  }
 
   const updateUserData = async (updates: any) => {
     if (!user?.id) return
