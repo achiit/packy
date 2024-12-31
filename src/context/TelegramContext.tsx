@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { db } from '../config/firebase';
 import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
-import { initializeReferralCode } from '../utils/referral';
+import { initializeReferralCode, handleReferral } from '../utils/referral';
 
 interface TelegramUser {
   id: number;
@@ -36,12 +36,12 @@ interface TelegramContextType {
   setUserDataFromDB: React.Dispatch<React.SetStateAction<UserDataFromDB | null>>;
 }
 
-const TelegramContext = createContext<TelegramContextType | undefined>(undefined);
+export const TelegramContext = createContext<any>(null);
 
-export function TelegramProvider({ children }: { children: React.ReactNode }) {
+export function TelegramProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<TelegramUser | null>(null);
   const [userDataFromDB, setUserDataFromDB] = useState<UserDataFromDB | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const updatePackies = async (newCount: number) => {
@@ -111,24 +111,40 @@ export function TelegramProvider({ children }: { children: React.ReactNode }) {
   }
 
   useEffect(() => {
-    try {
-      // @ts-ignore - Since Telegram.WebApp might not be recognized by TypeScript
-      const telegram = window.Telegram.WebApp;
-      telegram.ready();
-      
-      const userData = telegram.initDataUnsafe?.user || null;
-      setUser(userData);
+    const initApp = async () => {
+      try {
+        // @ts-ignore
+        const tg = window.Telegram.WebApp
 
-      if (userData) {
-        saveUserToFirestore(userData);
+        // Get the start parameter from the URL
+        const urlParams = new URLSearchParams(window.location.search)
+        const startParam = urlParams.get('startapp')
+
+        if (tg.initDataUnsafe.user && startParam) {
+          console.log('Referral detected:', startParam)
+          // Handle the referral
+          await handleReferral(tg.initDataUnsafe.user.id.toString(), startParam)
+        }
+
+        if (tg.initDataUnsafe.user) {
+          const userData = {
+            id: tg.initDataUnsafe.user.id,
+            first_name: tg.initDataUnsafe.user.first_name,
+            last_name: tg.initDataUnsafe.user.last_name,
+            username: tg.initDataUnsafe.user.username,
+            language_code: tg.initDataUnsafe.user.language_code,
+          }
+          await saveUserToFirestore(userData)
+          setUser(userData)
+        }
+      } catch (err) {
+        console.error('Error initializing app:', err)
+        setError('Failed to initialize app')
       }
-
-      setIsLoading(false);
-    } catch (err) {
-      setError('Failed to initialize Telegram Web App');
-      setIsLoading(false);
     }
-  }, []);
+
+    initApp()
+  }, [])
 
   return (
     <TelegramContext.Provider value={{ 
