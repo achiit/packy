@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { db } from '../config/firebase';
 import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
-import { initializeReferralCode, handleReferral } from '../utils/referral';
+import { initializeReferralCode } from '../utils/referral';
 
 interface TelegramUser {
   id: number;
@@ -38,10 +38,10 @@ interface TelegramContextType {
 
 const TelegramContext = createContext<TelegramContextType | undefined>(undefined);
 
-export function TelegramProvider({ children }: { children: ReactNode }) {
-  const [user] = useState<TelegramUser | null>(null);
+export function TelegramProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<TelegramUser | null>(null);
   const [userDataFromDB, setUserDataFromDB] = useState<UserDataFromDB | null>(null);
-  const [isLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const updatePackies = async (newCount: number) => {
@@ -111,34 +111,24 @@ export function TelegramProvider({ children }: { children: ReactNode }) {
   }
 
   useEffect(() => {
-    const initApp = async () => {
-      try {
-        // @ts-ignore
-        const tg = window.Telegram.WebApp
+    try {
+      // @ts-ignore - Since Telegram.WebApp might not be recognized by TypeScript
+      const telegram = window.Telegram.WebApp;
+      telegram.ready();
+      
+      const userData = telegram.initDataUnsafe?.user || null;
+      setUser(userData);
 
-        // Get the startapp parameter (referral code)
-        const startParam = tg.initDataUnsafe.start_param
-        console.log('Start parameter (referral code):', startParam)
-
-        if (user && startParam) {
-          console.log('Processing referral for user:', user.id, 'with code:', startParam)
-          // Handle the referral
-          const success = await handleReferral(user.id.toString(), startParam)
-          console.log('Referral processing result:', success)
-        }
-
-        // Continue with normal user data loading
-        if (user) {
-          await saveUserToFirestore(user)
-        }
-      } catch (err) {
-        console.error('Error initializing app:', err)
-        setError('Failed to initialize app')
+      if (userData) {
+        saveUserToFirestore(userData);
       }
-    }
 
-    initApp()
-  }, [user])
+      setIsLoading(false);
+    } catch (err) {
+      setError('Failed to initialize Telegram Web App');
+      setIsLoading(false);
+    }
+  }, []);
 
   return (
     <TelegramContext.Provider value={{ 
