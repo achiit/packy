@@ -59,12 +59,20 @@ export function ReferralPopup({
   }
 
   const handleShare = () => {
-    // Similar idea: pass "packy?startapp=..."
-    const inviteLink = `https://t.me/athpacky_bot/packy?startapp=${referralCode}`
-    const shareText = `Join me on this awesome Telegram mini app!`
-    const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent(shareText)}`
-
-    window.open(fullUrl, '_blank')
+    try {
+      // @ts-ignore
+      const WebApp = window.Telegram?.WebApp
+      if (WebApp) {
+        const shareText = `Join me on Packy!`
+        WebApp.shareUrl(referralLink, shareText)
+      } else {
+        // Fallback for testing
+        const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent('Join me on Packy!')}`
+        window.open(fullUrl, '_blank')
+      }
+    } catch (error) {
+      console.error('Share failed:', error)
+    }
   }
 
   return (

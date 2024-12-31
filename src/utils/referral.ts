@@ -11,27 +11,27 @@ import {
 } from 'firebase/firestore'
 
 const REFERRAL_REWARD = 500
+const BOT_USERNAME = 'athpacky_bot'
+const APP_NAME = 'packy' // This should match what you set in BotFather
 
-// You said you set domain to "packy",
-// so let's be consistent with the link:
 export const generateReferralCode = (userId: string): string => {
-  // Create a short unique code from userId
-  return userId.slice(0, 6)
+  return userId
 }
 
 export const generateReferralLink = (referralCode: string): string => {
-  // Uses "packy?startapp=" for the mini app domain
-  return `https://t.me/athpacky_bot/packy?startapp=${referralCode}`
+  return `https://t.me/${BOT_USERNAME}/${APP_NAME}?startapp=${referralCode}`
 }
 
-// The main logic for awarding referrer & new user
 export const handleReferral = async (newUserId: string, referralCode: string) => {
   try {
+    console.log('Handling referral:', { newUserId, referralCode })
+    
     // Check if user already has a referrer
     const newUserRef = doc(db, 'users', newUserId)
     const newUserSnap = await getDoc(newUserRef)
+    
     if (newUserSnap.exists() && newUserSnap.data().referredBy) {
-      // Already referred, skip
+      console.log('User already has a referrer')
       return false
     }
 
@@ -39,19 +39,22 @@ export const handleReferral = async (newUserId: string, referralCode: string) =>
     const usersRef = collection(db, 'users')
     const q = query(usersRef, where('referralCode', '==', referralCode))
     const querySnapshot = await getDocs(q)
-
+    
     if (querySnapshot.empty) {
-      // No user with that referralCode
+      console.log('No referrer found with code:', referralCode)
       return false
     }
 
     const referrerId = querySnapshot.docs[0].id
 
-    // Don't let a user refer themselves
+    // Don't let users refer themselves
     if (referrerId === newUserId) {
+      console.log('User tried to refer themselves')
       return false
     }
 
+    console.log('Updating referrer stats:', referrerId)
+    
     // Update referrer's stats
     await updateDoc(doc(db, 'users', referrerId), {
       referralCount: increment(1),
@@ -59,6 +62,8 @@ export const handleReferral = async (newUserId: string, referralCode: string) =>
       referralRewardsEarned: increment(REFERRAL_REWARD)
     })
 
+    console.log('Updating new user data')
+    
     // Update new user's data
     await updateDoc(newUserRef, {
       referredBy: referrerId,
