@@ -111,6 +111,13 @@ export const resources = {
           qt: "QT Packy"
         },
         unlockWith: "Unlock with {{amount}} Packy"
+      },
+      referral: {
+        invite: 'Invite Friends',
+        yourLink: 'Your Invite Link',
+        invites: 'invites',
+        totalInvites: 'Total Invites',
+        packiesEarned: 'Packies Earned',
       }
     }
   },
@@ -202,8 +209,8 @@ export const resources = {
         packyCommunity: "Rejoindre la communauté Discord de packy",
         followAdrena: "Suivre Adrena sur Instagram",
         points: "{{amount}} points Adrena"
-       },
-       levels: {
+      },
+      levels: {
         title: "Packy levels & Perks",
         currentLevel: "You're at this level",
         levelBronze: "Level 1 - Bronze",
@@ -222,6 +229,13 @@ export const resources = {
           qt: "QT Packy"
         },
         unlockWith: "Unlock with {{amount}} Packy"
+      },
+      referral: {
+        invite: 'Invite Friends',
+        yourLink: 'Your Invite Link',
+        invites: 'invites',
+        totalInvites: 'Total Invites',
+        packiesEarned: 'Packies Earned',
       }
     }
   },
@@ -303,8 +317,8 @@ export const resources = {
         support: "Support",
         madeWith: "Fait avec",
         version: "V 1.0.1"
-       },
-       earn: {
+      },
+      earn: {
         title: "Jeux Adrena",
         claimNow: "Réclamer maintenant",
         inviteFriends: "Inviter des amis",
@@ -313,8 +327,8 @@ export const resources = {
         packyCommunity: "Rejoindre la communauté Discord de packy",
         followAdrena: "Suivre Adrena sur Instagram",
         points: "{{amount}} points Adrena"
-       },
-       levels: {
+      },
+      levels: {
         title: "Packy levels & Perks",
         currentLevel: "You're at this level",
         levelBronze: "Level 1 - Bronze",
@@ -333,6 +347,13 @@ export const resources = {
           qt: "QT Packy"
         },
         unlockWith: "Unlock with {{amount}} Packy"
+      },
+      referral: {
+        invite: 'Invite Friends',
+        yourLink: 'Your Invite Link',
+        invites: 'invites',
+        totalInvites: 'Total Invites',
+        packiesEarned: 'Packies Earned',
       }
     }
   },
@@ -414,8 +435,8 @@ export const resources = {
         support: "Support",
         madeWith: "Gemacht mit",
         version: "V 1.0.1"
-       },
-       earn: {
+      },
+      earn: {
         title: "Adrena Spiele",
         claimNow: "Jetzt einlösen",
         inviteFriends: "Freunde einladen",
@@ -424,8 +445,8 @@ export const resources = {
         packyCommunity: "Packys Discord-Community beitreten",
         followAdrena: "Adrena auf Instagram folgen",
         points: "{{amount}} Adrena-Punkte"
-       },
-       levels: {
+      },
+      levels: {
         title: "Packy levels & Perks",
         currentLevel: "You're at this level",
         levelBronze: "Level 1 - Bronze",
@@ -444,6 +465,13 @@ export const resources = {
           qt: "QT Packy"
         },
         unlockWith: "Unlock with {{amount}} Packy"
+      },
+      referral: {
+        invite: 'Invite Friends',
+        yourLink: 'Your Invite Link',
+        invites: 'invites',
+        totalInvites: 'Total Invites',
+        packiesEarned: 'Packies Earned',
       }
     }
   },
@@ -525,8 +553,8 @@ export const resources = {
         support: "Suporta",
         madeWith: "Ginawa gamit ang",
         version: "V 1.0.1"
-       },
-       earn: {
+      },
+      earn: {
         title: "Mga Larong Adrena",
         claimNow: "Kunin ngayon",
         inviteFriends: "Mag-imbita ng Kaibigan",
@@ -535,8 +563,8 @@ export const resources = {
         packyCommunity: "Sumali sa Discord Community ni packy",
         followAdrena: "Sundan ang Adrena sa Instagram",
         points: "{{amount}} Adrena points"
-       },
-       levels: {
+      },
+      levels: {
         title: "Packy levels & Perks",
         currentLevel: "You're at this level",
         levelBronze: "Level 1 - Bronze",
@@ -555,8 +583,14 @@ export const resources = {
           qt: "QT Packy"
         },
         unlockWith: "Unlock with {{amount}} Packy"
+      },
+      referral: {
+        invite: 'Invite Friends',
+        yourLink: 'Your Invite Link',
+        invites: 'invites',
+        totalInvites: 'Total Invites',
+        packiesEarned: 'Packies Earned',
       }
-       
     }
   },
   ja: {
@@ -637,8 +671,8 @@ export const resources = {
         support: "サポート",
         madeWith: "制作",
         version: "V 1.0.1"
-       },
-       earn: {
+      },
+      earn: {
         title: "アドレナゲーム",
         claimNow: "今すぐ受け取る",
         inviteFriends: "友達を招待",
@@ -647,8 +681,8 @@ export const resources = {
         packyCommunity: "加入packyのDiscordコミュニティに参加",
         followAdrena: "InstagramでAdrenaをフォロー",
         points: "{{amount}}アドレナポイント"
-       },
-       levels: {
+      },
+      levels: {
         title: "Packy levels & Perks",
         currentLevel: "You're at this level",
         levelBronze: "Level 1 - Bronze",
@@ -667,6 +701,13 @@ export const resources = {
           qt: "QT Packy"
         },
         unlockWith: "Unlock with {{amount}} Packy"
+      },
+      referral: {
+        invite: 'Invite Friends',
+        yourLink: 'Your Invite Link',
+        invites: 'invites',
+        totalInvites: 'Total Invites',
+        packiesEarned: 'Packies Earned',
       }
     }
   },
@@ -748,8 +789,8 @@ export const resources = {
         support: "지원",
         madeWith: "제작",
         version: "V 1.0.1"
-       },
-       earn: {
+      },
+      earn: {
         title: "아드레나 게임",
         claimNow: "지금 받기",
         inviteFriends: "친구 초대",
@@ -758,8 +799,8 @@ export const resources = {
         packyCommunity: "packy의 Discord 커뮤니티 가입",
         followAdrena: "Instagram에서 Adrena 팔로우",
         points: "{{amount}} 아드레나 포인트"
-       },
-       levels: {
+      },
+      levels: {
         title: "Packy levels & Perks",
         currentLevel: "You're at this level",
         levelBronze: "Level 1 - Bronze",
@@ -778,6 +819,13 @@ export const resources = {
           qt: "QT Packy"
         },
         unlockWith: "Unlock with {{amount}} Packy"
+      },
+      referral: {
+        invite: 'Invite Friends',
+        yourLink: 'Your Invite Link',
+        invites: 'invites',
+        totalInvites: 'Total Invites',
+        packiesEarned: 'Packies Earned',
       }
     }
   },
@@ -859,8 +907,8 @@ export const resources = {
         support: "支持",
         madeWith: "制作工具",
         version: "V 1.0.1"
-       },
-       earn: {
+      },
+      earn: {
         title: "阿德雷娜游戏",
         claimNow: "立即领取",
         inviteFriends: "邀请好友",
@@ -869,8 +917,8 @@ export const resources = {
         packyCommunity: "加入packy的Discord社区",
         followAdrena: "在Instagram上关注Adrena",
         points: "{{amount}}阿德雷娜积分"
-       },
-       levels: {
+      },
+      levels: {
         title: "Packy levels & Perks",
         currentLevel: "You're at this level",
         levelBronze: "Level 1 - Bronze",
@@ -889,6 +937,13 @@ export const resources = {
           qt: "QT Packy"
         },
         unlockWith: "Unlock with {{amount}} Packy"
+      },
+      referral: {
+        invite: 'Invite Friends',
+        yourLink: 'Your Invite Link',
+        invites: 'invites',
+        totalInvites: 'Total Invites',
+        packiesEarned: 'Packies Earned',
       }
     }
   }

@@ -10,6 +10,8 @@ import telegramLogo from '../assets/telegram1.png'
 import { useTelegram } from '../context/TelegramContext'
 import { useState, useEffect } from 'react'
 import { ClaimPopup } from '../components/claim-popup'
+import { ReferralPopup } from '../components/referral-popup'
+import { getReferralStats } from '../utils/referral'
 
 export function EarnScreen() {
   const { t } = useTranslation()
@@ -17,6 +19,12 @@ export function EarnScreen() {
   const [isClaimPopupOpen, setIsClaimPopupOpen] = useState(false)
   const [timeRemaining, setTimeRemaining] = useState<string | null>(null)
   const [nextClaimTime, setNextClaimTime] = useState<Date | null>(null)
+  const [isReferralPopupOpen, setIsReferralPopupOpen] = useState(false)
+  const [referralStats, setReferralStats] = useState<{
+    referralCode: string | null;
+    referralCount: number;
+    referralRewardsEarned: number;
+  } | null>(null)
 
   const calculateNextClaimTime = () => {
     if (!userDataFromDB?.lastClaimTime) return null
@@ -48,6 +56,14 @@ export function EarnScreen() {
     const interval = setInterval(updateTimeRemaining, 1000) // Update every second
     return () => clearInterval(interval)
   }, [userDataFromDB?.lastClaimTime])
+
+  useEffect(() => {
+    if (userDataFromDB?.id) {
+      getReferralStats(userDataFromDB.id.toString()).then(stats => {
+        if (stats) setReferralStats(stats)
+      })
+    }
+  }, [userDataFromDB?.id])
 
   const handleClaim = async () => {
     if (!userDataFromDB) return
@@ -135,7 +151,10 @@ export function EarnScreen() {
           <div className="flex-1 flex items-center justify-center mb-1">
             <img src={treasureIcon} alt="Treasure" className="w-24 h-24" />
           </div>
-          <button className="w-[90%] absolute bottom-2 bg-[#E67E22] text-black py-2 px-4 rounded-full font-medium border-2 border-[#c0560e]">
+          <button 
+            onClick={() => setIsReferralPopupOpen(true)}
+            className="w-[90%] absolute bottom-2 bg-[#E67E22] text-black py-2 px-4 rounded-full font-medium border-2 border-[#c0560e]"
+          >
             {t('earn.inviteFriends')}
           </button>
         </div>
@@ -194,6 +213,38 @@ export function EarnScreen() {
           </button>
         </div>
       </div>
+
+      {referralStats && (
+        <div className="px-4">
+          <div 
+            onClick={() => setIsReferralPopupOpen(true)}
+            className="w-full bg-white rounded-2xl border border-gray-200 p-4 flex items-center justify-between cursor-pointer"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-[#D6F905] flex items-center justify-center">
+                <img src={treasureIcon} alt="Referral" className="w-6 h-6" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-base font-medium">{t('referral.yourLink')}</span>
+                <span className="text-sm text-gray-500">
+                  {referralStats.referralCount} {t('referral.invites')}
+                </span>
+              </div>
+            </div>
+            <ChevronRight className="w-5 h-5 text-gray-400" />
+          </div>
+        </div>
+      )}
+
+      {referralStats && (
+        <ReferralPopup 
+          isOpen={isReferralPopupOpen}
+          onClose={() => setIsReferralPopupOpen(false)}
+          referralCode={referralStats.referralCode || ''}
+          referralCount={referralStats.referralCount}
+          rewardsEarned={referralStats.referralRewardsEarned}
+        />
+      )}
 
       <ClaimPopup 
         isOpen={isClaimPopupOpen}

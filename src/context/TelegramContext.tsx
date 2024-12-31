@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { db } from '../config/firebase';
 import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
+import { initializeReferralCode } from '../utils/referral';
 
 interface TelegramUser {
   id: number;
@@ -16,8 +17,13 @@ interface UserDataFromDB extends TelegramUser {
   twitterCompleted?: boolean;
   telegramCompleted?: boolean;
   lastClaimTime?: string;
-  claimCooldown?: number; // in minutes (180 for 3hrs, 360 for 6hrs, etc)
-  claimCount?: number; // to track number of claims for multiplier
+  claimCooldown?: number;
+  claimCount?: number;
+  // Add referral fields
+  referralCode?: string;
+  referredBy?: string;
+  referralCount?: number;
+  referralRewardsEarned?: number;
 }
 
 interface TelegramContextType {
@@ -66,9 +72,14 @@ export function TelegramProvider({ children }: { children: React.ReactNode }) {
           ...userData,
           createdAt: new Date().toISOString(),
           lastLogin: new Date().toISOString(),
-          packies: 0, // Initialize packies count
+          packies: 0,
         };
         await setDoc(userRef, newUserData);
+        
+        // Initialize referral code for new user
+        const referralCode = await initializeReferralCode(userData.id.toString());
+        newUserData.referralCode = referralCode;
+        
         setUserDataFromDB(newUserData);
       } else {
         const existingData = docSnap.data() as UserDataFromDB;
