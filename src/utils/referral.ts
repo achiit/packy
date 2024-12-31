@@ -1,44 +1,61 @@
 import { db } from '../config/firebase'
-import { doc, updateDoc, getDoc, increment, collection, query, where, getDocs } from 'firebase/firestore'
+import {
+  doc,
+  updateDoc,
+  getDoc,
+  increment,
+  collection,
+  query,
+  where,
+  getDocs
+} from 'firebase/firestore'
 
-const REFERRAL_REWARD = 500 // Changed from 1000 to 500 Packies per referral
-// const BOT_USERNAME = 'athpacky_bot' // Replace with your bot's username
+const REFERRAL_REWARD = 500 // 500 Packies per referral
 
+/**
+ * Generate a short code from the user's Telegram ID.
+ * Example: "12345678" => "123456"
+ */
 export const generateReferralCode = (userId: string): string => {
-  // Create a short unique code from userId
-  return `${userId.slice(0, 6)}`
+  return userId.slice(0, 6)
 }
 
+/**
+ * Return a single consistent link: e.g.
+ * https://t.me/athpacky_bot?startapp=abcdef
+ */
 export const generateReferralLink = (referralCode: string): string => {
-  return `https://t.me/athpacky_bot/app?startapp=${referralCode}`
+  return `https://t.me/athpacky_bot?startapp=${referralCode}`
 }
 
+/**
+ * Main referral logic: pass newUserId and referralCode
+ */
 export const handleReferral = async (newUserId: string, referralCode: string) => {
   try {
-    // Check if user already has a referrer
-    const userDoc = await getDoc(doc(db, 'users', newUserId.toString()))
-    if (userDoc.exists() && userDoc.data().referredBy) {
-      return false
+    // 1) Check if user doc exists and already has "referredBy"
+    const userDocSnap = await getDoc(doc(db, 'users', newUserId))
+    if (userDocSnap.exists() && userDocSnap.data().referredBy) {
+      return false // user already referred
     }
 
-    // Find referrer by referral code
+    // 2) Find the user with matching referralCode
     const usersRef = collection(db, 'users')
     const q = query(usersRef, where('referralCode', '==', referralCode))
     const querySnapshot = await getDocs(q)
-    
-    if (querySnapshot.empty) return false
+    if (querySnapshot.empty) return false // no match
 
     const referrerId = querySnapshot.docs[0].id
 
-    // Update referrer's stats
+    // 3) Update referrer's stats
     await updateDoc(doc(db, 'users', referrerId), {
       referralCount: increment(1),
       packies: increment(REFERRAL_REWARD),
       referralRewardsEarned: increment(REFERRAL_REWARD)
     })
 
-    // Update new user's data
-    await updateDoc(doc(db, 'users', newUserId.toString()), {
+    // 4) Update the new user
+    await updateDoc(doc(db, 'users', newUserId), {
       referredBy: referrerId,
       packies: increment(REFERRAL_REWARD)
     })
@@ -50,17 +67,24 @@ export const handleReferral = async (newUserId: string, referralCode: string) =>
   }
 }
 
+/**
+ * Get a user's referral stats:
+ *  - referralCode
+ *  - referralCount
+ *  - referralRewardsEarned
+ *  - referredBy
+ */
 export const getReferralStats = async (userId: string) => {
   try {
-    const userDoc = await getDoc(doc(db, 'users', userId.toString()))
-    if (!userDoc.exists()) return null
+    const snap = await getDoc(doc(db, 'users', userId))
+    if (!snap.exists()) return null
 
-    const userData = userDoc.data()
+    const data = snap.data()
     return {
-      referralCode: userData.referralCode || null,
-      referralCount: userData.referralCount || 0,
-      referralRewardsEarned: userData.referralRewardsEarned || 0,
-      referredBy: userData.referredBy || null
+      referralCode: data?.referralCode || null,
+      referralCount: data?.referralCount || 0,
+      referralRewardsEarned: data?.referralRewardsEarned || 0,
+      referredBy: data?.referredBy || null
     }
   } catch (error) {
     console.error('Error getting referral stats:', error)
@@ -68,21 +92,23 @@ export const getReferralStats = async (userId: string) => {
   }
 }
 
-// Initialize referral code for new user
+/**
+ * Initialize a referral code for a new user if none exists
+ */
 export const initializeReferralCode = async (userId: string) => {
-  const referralCode = generateReferralCode(userId)
-  const userRef = doc(db, 'users', userId.toString())
-  
-  // Get current user data
-  const userDoc = await getDoc(userRef)
-  const userData = userDoc.data()
+  const userRef = doc(db, 'users', userId)
+  const snap = await getDoc(userRef)
+  const userData = snap.data()
 
-  // Only initialize stats if they don't exist
+  // Generate a code from userId
+  const referralCode = generateReferralCode(userId)
+
+  // Update the doc with code if not present
   await updateDoc(userRef, {
-    referralCode,
+    referralCode: referralCode,
     referralCount: userData?.referralCount ?? 0,
     referralRewardsEarned: userData?.referralRewardsEarned ?? 0
   })
-  
+
   return referralCode
-} 
+}

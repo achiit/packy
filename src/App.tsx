@@ -33,6 +33,7 @@ export default function App() {
       if (typeof window !== 'undefined') {
         const WebApp = (await import('@twa-dev/sdk')).default;
         WebApp.ready();
+        console.log('WebApp initialized:', WebApp.initDataUnsafe);
         setStartParam(WebApp.initDataUnsafe.start_param || '');
       }
     };

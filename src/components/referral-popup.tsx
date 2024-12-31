@@ -6,19 +6,29 @@ import { useTranslation } from 'react-i18next'
 import { Toast } from './ui/toast'
 
 interface ReferralPopupProps {
-  isOpen: boolean;
-  onClose: () => void;
-  referralCode: string;
-  referralCount: number;
-  rewardsEarned: number;
+  isOpen: boolean
+  onClose: () => void
+  referralCode: string
+  referralCount: number
+  rewardsEarned: number
 }
 
-export function ReferralPopup({ isOpen, onClose, referralCode, referralCount, rewardsEarned }: ReferralPopupProps) {
+export function ReferralPopup({
+  isOpen,
+  onClose,
+  referralCode,
+  referralCount,
+  rewardsEarned
+}: ReferralPopupProps) {
   const { t } = useTranslation()
   const [copied, setCopied] = useState(false)
   const [showToast, setShowToast] = useState(false)
 
-  const referralLink = `https://t.me/athpacky_bot/app?startapp=${referralCode}`
+  // Single base link (no "/app" in path)
+  const BOT_BASE_URL = 'https://t.me/athpacky_bot'
+
+  // This is the final referral link that opens your Web App
+  const referralLink = `${BOT_BASE_URL}?startapp=${referralCode}`
 
   const handleCopy = async () => {
     console.log('Copy button clicked')
@@ -28,13 +38,13 @@ export function ReferralPopup({ isOpen, onClose, referralCode, referralCount, re
       console.log('Telegram WebApp object:', tg)
       console.log('Attempting to copy link:', referralLink)
 
-      // Try Telegram's clipboard API first
+      // Try Telegram’s in-app clipboard first
       try {
         await tg.clipboard.writeText(referralLink)
         console.log('Successfully copied using Telegram clipboard API')
-      } catch (e) {
-        console.log('Telegram clipboard failed, trying navigator clipboard:', e)
-        // Fallback to regular clipboard API
+      } catch (err) {
+        console.log('Telegram clipboard failed, trying navigator clipboard:', err)
+        // Fallback to the standard browser clipboard
         await navigator.clipboard.writeText(referralLink)
         console.log('Successfully copied using navigator clipboard')
       }
@@ -51,10 +61,9 @@ export function ReferralPopup({ isOpen, onClose, referralCode, referralCount, re
   }
 
   const handleShare = () => {
-    const inviteLink = `https://t.me/athpacky_bot?startapp=${referralCode}`
+    // Same link, but open a Telegram share link
     const shareText = `Join me on this awesome Telegram mini app!`
-    const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent(shareText)}`
-    
+    const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent(shareText)}`
     window.open(fullUrl, '_blank')
   }
 
@@ -134,4 +143,4 @@ export function ReferralPopup({ isOpen, onClose, referralCode, referralCount, re
       <Toast message={t('referral.copied')} isVisible={showToast} />
     </>
   )
-} 
+}

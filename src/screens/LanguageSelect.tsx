@@ -28,11 +28,9 @@ export function LanguageSelect({ onContinue, startParam }: LanguageSelectProps) 
         <div className="flex-1 flex flex-col justify-end pb-8">
           <h2 className="text-[28px] font-semibold mb-8">{t('selectLanguage')}</h2>
           
-          {startParam && (
-            <p className="text-lg text-gray-600 mb-4">
-              You were referred by: <strong>{startParam}</strong>
-            </p>
-          )}
+          <p className="text-lg text-gray-600 mb-4">
+            You were referred by: <strong>{startParam || 'No referral code'}</strong>
+          </p>
 
           <div className="space-y-6 mb-8">
             {languages.map((lang) => (
