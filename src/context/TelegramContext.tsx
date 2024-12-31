@@ -115,6 +115,7 @@ export function TelegramProvider({ children }: { children: ReactNode }) {
       try {
         // @ts-ignore
         const tg = window.Telegram.WebApp
+        tg.ready()
 
         // Get the start parameter from the URL
         const urlParams = new URLSearchParams(window.location.search)
@@ -122,8 +123,12 @@ export function TelegramProvider({ children }: { children: ReactNode }) {
 
         if (tg.initDataUnsafe.user && startParam) {
           console.log('Referral detected:', startParam)
-          // Handle the referral
-          await handleReferral(tg.initDataUnsafe.user.id.toString(), startParam)
+          // Extract referral code from format A_code_inviteEarn
+          const referralCode = startParam.split('_')[1]
+          if (referralCode) {
+            // Handle the referral
+            await handleReferral(tg.initDataUnsafe.user.id.toString(), referralCode)
+          }
         }
 
         if (tg.initDataUnsafe.user) {
