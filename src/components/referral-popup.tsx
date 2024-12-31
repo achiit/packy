@@ -18,25 +18,24 @@ export function ReferralPopup({ isOpen, onClose, referralCode, referralCount, re
   const [copied, setCopied] = useState(false)
   const [showToast, setShowToast] = useState(false)
 
-  const referralLink = `https://t.me/athpacky_bot/app?startapp=${referralCode}`
+  // Use the correct URL format for the mini app
+  const INVITE_URL = "https://t.me/athpacky_bot/app"
+  const inviteLink = `${INVITE_URL}?startapp=${referralCode}`
+  const shareText = "Join me on Packy and earn rewards together! 🎮"
 
   const handleCopy = async () => {
     console.log('Copy button clicked')
     try {
       // @ts-ignore
       const tg = window.Telegram.WebApp
-      console.log('Telegram WebApp object:', tg)
-      console.log('Attempting to copy link:', referralLink)
+      console.log('Attempting to copy link:', inviteLink)
 
-      // Try Telegram's clipboard API first
       try {
-        await tg.clipboard.writeText(referralLink)
+        await tg.clipboard.writeText(inviteLink)
         console.log('Successfully copied using Telegram clipboard API')
       } catch (e) {
-        console.log('Telegram clipboard failed, trying navigator clipboard:', e)
-        // Fallback to regular clipboard API
-        await navigator.clipboard.writeText(referralLink)
-        console.log('Successfully copied using navigator clipboard')
+        console.log('Fallback to navigator clipboard')
+        await navigator.clipboard.writeText(inviteLink)
       }
 
       setCopied(true)
@@ -46,7 +45,7 @@ export function ReferralPopup({ isOpen, onClose, referralCode, referralCount, re
         setShowToast(false)
       }, 2000)
     } catch (error) {
-      console.error('Copy failed with error:', error)
+      console.error('Copy failed:', error)
     }
   }
 
@@ -55,31 +54,14 @@ export function ReferralPopup({ isOpen, onClose, referralCode, referralCount, re
     try {
       // @ts-ignore
       const tg = window.Telegram.WebApp
-      console.log('Telegram WebApp object:', tg)
-      console.log('Attempting to share link:', referralLink)
-
-      // Try shareUrl if available
-      if (tg.shareUrl) {
-        console.log('Using shareUrl method')
-        tg.shareUrl(referralLink)
-      } else {
-        console.log('Using switchInlineQuery method')
-        tg.switchInlineQuery(referralLink, ['users', 'groups'])
-      }
+      
+      // Create the full sharing URL with text
+      const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent(shareText)}`
+      
+      console.log('Opening share URL:', fullUrl)
+      tg.openLink(fullUrl)
     } catch (error) {
-      console.error('Share failed with error:', error)
-      // Fallback to regular share if available
-      try {
-        if (navigator.share) {
-          navigator.share({
-            title: 'Join Packy',
-            text: 'Join me on Packy!',
-            url: referralLink
-          })
-        }
-      } catch (shareError) {
-        console.error('Native share failed:', shareError)
-      }
+      console.error('Share failed:', error)
     }
   }
 
@@ -117,7 +99,7 @@ export function ReferralPopup({ isOpen, onClose, referralCode, referralCount, re
                 <div className="w-full p-4 bg-gray-50 rounded-xl">
                   <div className="flex items-center justify-between gap-2">
                     <code className="text-sm bg-white px-3 py-2 rounded flex-1 overflow-hidden">
-                      {referralLink}
+                      {inviteLink}
                     </code>
                     <div className="flex gap-2">
                       <button
