@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { initUtils } from '@telegram-apps/sdk'
+// import { initUtils } from '@telegram-apps/sdk'
 
 interface ReferralSystemProps {
   initData: string
@@ -7,7 +7,7 @@ interface ReferralSystemProps {
   startParam: string
 }
 
-const ReferralSystem: React.FC<ReferralSystemProps> = ({ initData, userId, startParam }) => {
+const ReferralSystem: React.FC<ReferralSystemProps> = ({ userId, startParam }) => {
   const [referrals, setReferrals] = useState<string[]>([])
   const [referrer, setReferrer] = useState<string | null>(null)
   const INVITE_URL = "https://t.me/athpacky_bot?startapp"
@@ -47,11 +47,12 @@ const ReferralSystem: React.FC<ReferralSystemProps> = ({ initData, userId, start
   }, [userId, startParam])
 
   const handleInviteFriend = () => {
-    const utils = initUtils()
     const inviteLink = `${INVITE_URL}?startapp=${userId}`
     const shareText = `Join me on this awesome Telegram mini app!`
     const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent(shareText)}`
-    utils.openTelegramLink(fullUrl)
+    
+    // Open the Telegram link
+    window.open(fullUrl, '_blank')
   }
 
   const handleCopyLink = () => {

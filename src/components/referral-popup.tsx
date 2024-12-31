@@ -51,36 +51,11 @@ export function ReferralPopup({ isOpen, onClose, referralCode, referralCount, re
   }
 
   const handleShare = () => {
-    console.log('Share button clicked')
-    try {
-      // @ts-ignore
-      const tg = window.Telegram.WebApp
-      console.log('Telegram WebApp object:', tg)
-      console.log('Attempting to share link:', referralLink)
-
-      // Try shareUrl if available
-      if (tg.shareUrl) {
-        console.log('Using shareUrl method')
-        tg.shareUrl(referralLink)
-      } else {
-        console.log('Using switchInlineQuery method')
-        tg.switchInlineQuery(referralLink, ['users', 'groups'])
-      }
-    } catch (error) {
-      console.error('Share failed with error:', error)
-      // Fallback to regular share if available
-      try {
-        if (navigator.share) {
-          navigator.share({
-            title: 'Join Packy',
-            text: 'Join me on Packy!',
-            url: referralLink
-          })
-        }
-      } catch (shareError) {
-        console.error('Native share failed:', shareError)
-      }
-    }
+    const inviteLink = `https://t.me/athpacky_bot?startapp=${referralCode}`
+    const shareText = `Join me on this awesome Telegram mini app!`
+    const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent(shareText)}`
+    
+    window.open(fullUrl, '_blank')
   }
 
   return (
