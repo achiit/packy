@@ -14,10 +14,19 @@ export const generateReferralLink = (referralCode: string): string => {
 }
 
 export const handleReferral = async (newUserId: string, referralCode: string) => {
+  console.log('Handling referral:', { newUserId, referralCode })
+  
   try {
     // Check if user already has a referrer
     const userDoc = await getDoc(doc(db, 'users', newUserId.toString()))
-    if (userDoc.exists() && userDoc.data().referredBy) {
+    if (!userDoc.exists()) {
+      console.log('New user document does not exist yet')
+      return false
+    }
+
+    const userData = userDoc.data()
+    if (userData.referredBy) {
+      console.log('User already has a referrer:', userData.referredBy)
       return false
     }
 
@@ -26,9 +35,20 @@ export const handleReferral = async (newUserId: string, referralCode: string) =>
     const q = query(usersRef, where('referralCode', '==', referralCode))
     const querySnapshot = await getDocs(q)
     
-    if (querySnapshot.empty) return false
+    if (querySnapshot.empty) {
+      console.log('No user found with referral code:', referralCode)
+      return false
+    }
 
     const referrerId = querySnapshot.docs[0].id
+    
+    // Don't allow self-referral
+    if (referrerId === newUserId) {
+      console.log('Self-referral attempted')
+      return false
+    }
+
+    console.log('Found referrer:', referrerId)
 
     // Update referrer's stats
     await updateDoc(doc(db, 'users', referrerId), {
@@ -43,6 +63,7 @@ export const handleReferral = async (newUserId: string, referralCode: string) =>
       packies: increment(REFERRAL_REWARD)
     })
 
+    console.log('Referral completed successfully')
     return true
   } catch (error) {
     console.error('Error handling referral:', error)
