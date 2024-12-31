@@ -2,7 +2,7 @@ import { db } from '../config/firebase'
 import { doc, updateDoc, getDoc, increment, collection, query, where, getDocs } from 'firebase/firestore'
 
 const REFERRAL_REWARD = 1000 // Packies for both referrer and referee
-const BOT_USERNAME = 'YourBotUsername' // Replace with your bot's username
+const BOT_USERNAME = 'athpacky_bot' // Replace with your bot's username
 
 export const generateReferralCode = (userId: string): string => {
   // Create a short unique code from userId
