@@ -133,7 +133,8 @@ export function EarnScreen() {
     <div className="min-h-screen bg-white py-4 px-0 space-y-6">
       {/* Top Cards Grid */}
       <div className="grid grid-cols-2 gap-4 ">
-        <div className="bg-[#D6F905] rounded-[20px]  flex flex-col items-center relative aspect-square border-2 border-[#b8cc0c]">
+        <div className="bg-[#D6F905] rounded-[20px] flex flex-col items-center relative aspect-square border-2 border-[#b8cc0c]">
+          <div className="absolute top-2 text-lg font-bold text-black">500 Packy</div>
           <div className="flex-1 flex items-center justify-center mb-1">
             <img src={giftIcon} alt="Gift" className="w-24 h-24" />
           </div>
@@ -141,7 +142,7 @@ export function EarnScreen() {
             onClick={handleClaim}
             disabled={!!timeRemaining}
             className={`w-[90%] absolute bottom-2 bg-[#E67E22] text-black py-2 px-4 
-              rounded-full font-medium border-2 border-[#c0560e]
+              rounded-full font-medium border-2 border-[#c0560e] shimmer-effect
               ${timeRemaining ? 'opacity-50' : ''}`}
           >
             {timeRemaining ? timeRemaining : t('earn.claimNow')}

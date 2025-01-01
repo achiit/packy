@@ -108,7 +108,7 @@ export function GamePage() {
       <div className="h-[calc(100%-120px)] flex items-center justify-center relative">
         <button
           onClick={handleTap}
-          className="relative w-60 h-60 rounded-full bg-white/80 backdrop-blur-sm shadow-[0_0_40px_rgba(79,70,229,0.1)] transition-transform duration-100 ease-out"
+          className="relative w-72 h-72 rounded-full bg-white/80 backdrop-blur-sm shadow-[0_0_40px_rgba(79,70,229,0.1)] transition-transform duration-100 ease-out"
         >
           <div className="absolute inset-0 rounded-full border-[#D6F905] border-2">
             <img
