@@ -94,11 +94,7 @@ export function GamePage() {
               {packies} {t('game.packies')}
             </span>
           </div>
-          <div className="flex items-center gap-2 px-3 py-2 bg-white/70 backdrop-blur-sm border border-gray-200/50 rounded-[15px]">
-            <span className="font-medium text-black text-xs">
-              {levelName} {t('levels.currentLevel')}
-            </span>
-          </div>
+       
         </div>
 
         <div className="flex items-center gap-2 px-3 py-2 bg-white/70 backdrop-blur-sm border border-gray-200/50 rounded-[15px]">
@@ -107,7 +103,7 @@ export function GamePage() {
             onClick={() => setIsLevelSheetOpen(true)}
           >
             <img src={intro4} alt="Backpack" className="w-4 h-4" />
-            <span className="text-xs">{t('game.title')}</span>
+            <span className="text-xs">{levelName}</span>
           </button>
           <ChevronRight className="w-4 h-4 text-gray-400" />
         </div>
