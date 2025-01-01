@@ -1,9 +1,11 @@
+"use client"
+
 import { useTranslation } from 'react-i18next'
 import { ChevronRight } from 'lucide-react'
 import profilePic from '../assets/intro1.png'
-import languageIcon from '../assets/language.png'
+// import languageIcon from '../assets/language.png'
 // import rewardIcon from '../assets/cup.png'
-// import inviteIcon from '../assets/inviteearn.png'
+import inviteIcon from '../assets/inviteearn.png'
 import telegramIcon from '../assets/telegram.png'
 // import supportIcon from '../assets/support.png'
 import tonIcon from '../assets/ton.png'
@@ -18,9 +20,9 @@ export function ProfileScreen() {
   const { user } = useTelegram()
   const [isLevelSheetOpen, setIsLevelSheetOpen] = useState(false)
 
-  const handleLanguageClick = () => {
-    navigate('/language') // Assuming '/language' is your language selection route
-  }
+  // const handleLanguageClick = () => {
+  //   navigate('/language') // Assuming '/language' is your language selection route
+  // }
 
   const handleTelegramClick = () => {
     try {
@@ -59,7 +61,7 @@ export function ProfileScreen() {
 
         {/* Main Options - Reduced padding */}
         <div className="space-y-2 px-2">
-          <button 
+          {/* <button 
             onClick={handleLanguageClick}
             className="w-full flex items-center justify-between py-4 hover:bg-gray-50 active:bg-gray-100"
           >
@@ -68,15 +70,19 @@ export function ProfileScreen() {
               <span className="text-base">{t('profile.selectLanguage')}</span>
             </div>
             <ChevronRight className="w-5 h-5 text-gray-400" />
-          </button>
+          </button> */}
 
-          {/* <button className="w-full flex items-center justify-between py-4 hover:bg-gray-50 active:bg-gray-100">
+          <button
+            className="w-full flex items-center justify-between py-4 hover:bg-gray-50 active:bg-gray-100"
+            onClick={() => navigate('/earn')}
+          >
             <div className="flex items-center gap-3">
-              <img src={rewardIcon} alt="Reward" className="w-8 h-8 " />
-              <span className="text-base">{t('profile.claimReward')}</span>
+            <img src={inviteIcon} alt="Invite" className="w-7 h-7 opacity-40" />
+
+              <span className="text-base">{t('profile.inviteEarn')}</span>
             </div>
             <ChevronRight className="w-5 h-5 text-gray-400" />
-          </button> */}
+          </button>
         </div>
 
         {/* Additional Items Section - Reduced padding */}

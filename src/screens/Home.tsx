@@ -41,7 +41,9 @@ const cards = [
   const handleCardClick = (index: number) => {
     if (index === 0) {
       navigate('/game')
-    }
+    } else if (index === 2) {
+      navigate('/earn')
+    } 
   }
 
   return (

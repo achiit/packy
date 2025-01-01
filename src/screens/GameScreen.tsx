@@ -77,19 +77,14 @@ export function GamePage() {
   const levelName = getLevelTitle(currentLevel)
 
   return (
-    <div className="h-[calc(98vh-150px)] flex flex-col bg-white px-0 overflow-hidden relative bg-gradient-to-br from-purple-50 via-white to-blue-50">
-      <div className="absolute inset-0 opacity-10 pointer-events-none" 
-        style={{
-          backgroundImage: `radial-gradient(circle at 2px 2px, #4F46E5 2px, transparent 0)`,
-          backgroundSize: '32px 32px'
-        }}
-      />
-
+    <div className="h-[calc(98vh-150px)] flex flex-col bg-white px-0 overflow-hidden relative">
+      {/* Removed background gradient and pattern */}
+      
       {/* Header */}
       <div className="h-[60px] flex items-center justify-between z-40">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-2 px-3 py-2 bg-white/70 backdrop-blur-sm border border-gray-200/50 rounded-[15px]">
-            <img src={intro4} alt="Packy" className="w-6 h-6" />
+            <img src={intro4} alt="Packy" className="w-4 h-4" />
             <span className="font-medium text-black text-xs">
               {packies} {t('game.packies')}
             </span>
@@ -115,7 +110,7 @@ export function GamePage() {
           onClick={handleTap}
           className="relative w-60 h-60 rounded-full bg-white/80 backdrop-blur-sm shadow-[0_0_40px_rgba(79,70,229,0.1)] transition-transform duration-100 ease-out"
         >
-          <div className="absolute inset-0 rounded-full border-[#9FE870] border-2">
+          <div className="absolute inset-0 rounded-full border-[#D6F905] border-2">
             <img
               src={intro4}
               alt="Tap Area"
@@ -137,7 +132,7 @@ export function GamePage() {
               }}
               onAnimationEnd={() => handleAnimationEnd(click.id)}
             >
-              <Heart className="w-12 h-12 text-[#9FE870] fill-[#D6F905]" />
+              <Heart className="w-12 h-12 text-[#D6F905] fill-[#D6F905]" />
             </div>
           ))}
         </div>
@@ -151,7 +146,7 @@ export function GamePage() {
           >
             <div className="flex items-center gap-2 px-4 py-2 bg-white shadow-lg rounded-full">
               <img src={intro4} alt="Packy" className="w-6 h-6" />
-              <span className="font-bold text-[#9FE870]">+1 Packy!</span>
+              <span className="font-bold text-[#D6F905]">+1 Packy!</span>
             </div>
           </div>
         ))}
@@ -169,15 +164,15 @@ export function GamePage() {
 
       {/* Footer */}
       <div className="h-[60px] flex items-center justify-between z-40">
-        <div className="flex items-center gap-2 px-4 py-2 bg-white/70 backdrop-blur-sm border border-gray-200/50 rounded-[15px]">
+        <div className="flex items-center gap-2 px-4 py-2 bg-white/70  rounded-[15px]">
           <img src={flash} alt="Lightning" className="w-6 h-6" />
-          <span className="text-[#9FE870] font-medium text-xs">
+          <span className="text-[#34C759] font-medium text-xs">
             {lightning}/100 {t('game.lightning')}
           </span>
         </div>
 
         <div
-          className="flex items-center gap-2 px-4 py-2 bg-white/70 backdrop-blur-sm border border-gray-200/50 rounded-[15px] cursor-pointer"
+          className="flex items-center gap-2 px-3 py-2 bg-white/70 backdrop-blur-sm border border-gray-200/50 rounded-[15px] cursor-pointer"
           onClick={() => setIsLeaderboardOpen(true)}
         >
           <img src={intro4} alt="Packy" className="w-6 h-6" />
