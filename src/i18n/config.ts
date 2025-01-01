@@ -64,7 +64,7 @@ export const resources = {
         title: 'Packy Games'
       },
       game: {
-        title: 'Nub Packy',
+        title: 'Starter Packy',
         packies: 'Packies',
         lightning: 'Lightning',
         leaderboard: 'Leaderboard'
@@ -96,7 +96,7 @@ export const resources = {
         title: "Packy levels & Perks",
         currentLevel: "You're at this level",
         levelBronze: "Level 1 - Bronze",
-        nubPacky: "Nub Packy",
+        StarterPacky: "Starter Packy",
         needMore: "Need {{amount}} Packy more to upgrade",
         tabs: {
           all: "All",
@@ -184,7 +184,7 @@ export const resources = {
         title: 'Juegos Adrena'
       },
       game: {
-        title: "Nub Packy",
+        title: "Starter Packy",
         packies: "Paquetes",
         lightning: "Relámpago",
         leaderboard: "Tabla de clasificación"
@@ -216,7 +216,7 @@ export const resources = {
         title: "Packy levels & Perks",
         currentLevel: "You're at this level",
         levelBronze: "Level 1 - Bronze",
-        nubPacky: "Nub Packy",
+        StarterPacky: "Starter Packy",
         needMore: "Need {{amount}} Packy more to upgrade",
         tabs: {
           all: "All",
@@ -304,7 +304,7 @@ export const resources = {
         title: 'Jeux Adrena'
       },
       game: {
-        title: "Nub Packy",
+        title: "Starter Packy",
         packies: "Paquets",
         lightning: "Éclair",
         leaderboard: "Classement"
@@ -336,7 +336,7 @@ export const resources = {
         title: "Packy levels & Perks",
         currentLevel: "You're at this level",
         levelBronze: "Level 1 - Bronze",
-        nubPacky: "Nub Packy",
+        StarterPacky: "Starter Packy",
         needMore: "Need {{amount}} Packy more to upgrade",
         tabs: {
           all: "All",
@@ -424,7 +424,7 @@ export const resources = {
         title: 'Adrena Spiele'
       },
       game: {
-        title: "Nub Packy",
+        title: "Starter Packy",
         packies: "Pakete",
         lightning: "Blitz",
         leaderboard: "Bestenliste"
@@ -456,7 +456,7 @@ export const resources = {
         title: "Packy levels & Perks",
         currentLevel: "You're at this level",
         levelBronze: "Level 1 - Bronze",
-        nubPacky: "Nub Packy",
+        StarterPacky: "Starter Packy",
         needMore: "Need {{amount}} Packy more to upgrade",
         tabs: {
           all: "All",
@@ -544,7 +544,7 @@ export const resources = {
         title: 'Adrena Games'
       },
       game: {
-        title: "Nub Packy",
+        title: "Starter Packy",
         packies: "Mga Packy",
         lightning: "Kidlat",
         leaderboard: "Leaderboard"
@@ -576,7 +576,7 @@ export const resources = {
         title: "Packy levels & Perks",
         currentLevel: "You're at this level",
         levelBronze: "Level 1 - Bronze",
-        nubPacky: "Nub Packy",
+        StarterPacky: "Starter Packy",
         needMore: "Need {{amount}} Packy more to upgrade",
         tabs: {
           all: "All",
@@ -664,7 +664,7 @@ export const resources = {
         title: 'アドレナゲームズ'
       },
       game: {
-        title: "Nub Packy",
+        title: "Starter Packy",
         packies: "パッキー",
         lightning: "ライトニング",
         leaderboard: "リーダーボード"
@@ -696,7 +696,7 @@ export const resources = {
         title: "Packy levels & Perks",
         currentLevel: "You're at this level",
         levelBronze: "Level 1 - Bronze",
-        nubPacky: "Nub Packy",
+        StarterPacky: "Starter Packy",
         needMore: "Need {{amount}} Packy more to upgrade",
         tabs: {
           all: "All",
@@ -784,7 +784,7 @@ export const resources = {
         title: '아드레나 게임즈'
       },
       game: {
-        title: "Nub Packy",
+        title: "Starter Packy",
         packies: "패키",
         lightning: "번개",
         leaderboard: "리더보드"
@@ -816,7 +816,7 @@ export const resources = {
         title: "Packy levels & Perks",
         currentLevel: "You're at this level",
         levelBronze: "Level 1 - Bronze",
-        nubPacky: "Nub Packy",
+        StarterPacky: "Starter Packy",
         needMore: "Need {{amount}} Packy more to upgrade",
         tabs: {
           all: "All",
@@ -904,7 +904,7 @@ export const resources = {
         title: 'Adrena 游戏'
       },
       game: {
-        title: "Nub Packy",
+        title: "Starter Packy",
         packies: "包裹",
         lightning: "闪电",
         leaderboard: "排行榜"
@@ -936,7 +936,7 @@ export const resources = {
         title: "Packy levels & Perks",
         currentLevel: "You're at this level",
         levelBronze: "Level 1 - Bronze",
-        nubPacky: "Nub Packy",
+        StarterPacky: "Starter Packy",
         needMore: "Need {{amount}} Packy more to upgrade",
         tabs: {
           all: "All",

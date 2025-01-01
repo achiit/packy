@@ -1,9 +1,8 @@
 "use client"
 
-import { useState, useCallback, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronRight } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { ChevronRight, Heart } from 'lucide-react'
 
 import intro4 from '../assets/packy.png'
 import flash from '../assets/flash.png'
@@ -11,12 +10,14 @@ import { LeaderboardSheet } from '../components/leaderboard-sheet'
 import { LevelSheet } from '../components/level-sheet'
 import { useTelegram } from '../context/TelegramContext'
 
-interface FloatingElement {
+type Click = {
   id: number
   x: number
   y: number
-  angle: number
-  delay: number
+}
+
+type PackyAnimation = {
+  id: number
 }
 
 export function GamePage() {
@@ -24,65 +25,56 @@ export function GamePage() {
   const { userDataFromDB, updatePackies } = useTelegram()
   const [packies, setPackies] = useState(0)
   const [lightning, setLightning] = useState(0)
-  const [isPressed, setIsPressed] = useState(false)
-  const [showBounce, setShowBounce] = useState(false)
-  const [floatingElements, setFloatingElements] = useState<FloatingElement[]>([])
-  const idCounterRef = useRef(0)
-  const buttonRef = useRef<HTMLButtonElement>(null)
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false)
   const [isLevelSheetOpen, setIsLevelSheetOpen] = useState(false)
+  const [clicks, setClicks] = useState<Click[]>([])
+  const [packyAnimations, setPackyAnimations] = useState<PackyAnimation[]>([])
 
-  // Initialize packies from Firestore data
   useEffect(() => {
     if (userDataFromDB) {
       setPackies(userDataFromDB.packies || 0)
     }
   }, [userDataFromDB])
 
-  // Handle the tap interaction
-  const handleTap = useCallback(async () => {
-    if (!buttonRef.current) return
+  const handleTap = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // Get the absolute position for the animation
+    const x = e.clientX
+    const y = e.clientY
 
-    const rect = buttonRef.current.getBoundingClientRect()
-    const centerX = rect.left + (rect.width / 2)
-    const centerY = rect.top + (rect.height / 2)
-
-    // Create 8 elements in a circle around the center
-    const newElements = Array.from({ length: 15 }, (_, i) => {
-      const angle = (i * Math.PI * 2) / 8 // Evenly space around circle
-      return {
-        id: idCounterRef.current++,
-        x: centerX,
-        y: centerY,
-        angle: angle,
-        delay: i * 0.05 // Stagger the animations
-      }
-    })
-
-    setFloatingElements(prev => [...prev, ...newElements])
-
-    // Remove elements after animation
+    // 3D tilt effect
+    const button = e.currentTarget
+    const rect = button.getBoundingClientRect()
+    const tiltX = (e.clientX - rect.left - rect.width / 2) / 10
+    const tiltY = (e.clientY - rect.top - rect.height / 2) / 10
+    
+    button.style.transform = `perspective(1000px) rotateX(${-tiltY}deg) rotateY(${tiltX}deg)`
+    
     setTimeout(() => {
-      setFloatingElements(prev => 
-        prev.filter(el => !newElements.find(newEl => newEl.id === el.id))
-      )
-    }, 1000)
+      button.style.transform = ''
+    }, 100)
 
-    setLightning(prev => {
-      if (prev + 1 >= 100) {
-        const newPackiesCount = packies + 1
-        setPackies(newPackiesCount)
-        updatePackies(newPackiesCount)
-        setShowBounce(true)
-        setTimeout(() => setShowBounce(false), 2000)
-        return 0
-      }
-      return prev + 1
-    })
+    // Add heart animation at exact click position
+    setClicks([...clicks, { id: Date.now(), x, y }])
 
-    setIsPressed(true)
-    setTimeout(() => setIsPressed(false), 100)
-  }, [packies, updatePackies])
+    // Game logic with packy animation
+    if (lightning + 1 >= 100) {
+      const newPackiesCount = packies + 1
+      setPackies(newPackiesCount)
+      updatePackies(newPackiesCount)
+      setLightning(0)
+      setPackyAnimations(prev => [...prev, { id: Date.now() }])
+    } else {
+      setLightning(lightning + 1)
+    }
+  }
+
+  const handleAnimationEnd = (id: number) => {
+    setClicks(prevClicks => prevClicks.filter(click => click.id !== id))
+  }
+
+  const handlePackyAnimationEnd = (id: number) => {
+    setPackyAnimations(prev => prev.filter(anim => anim.id !== id))
+  }
 
   return (
     <div className="h-[calc(98vh-150px)] flex flex-col bg-white px-0 overflow-hidden relative bg-gradient-to-br from-purple-50 via-white to-blue-50">
@@ -92,87 +84,17 @@ export function GamePage() {
           backgroundSize: '32px 32px'
         }}
       />
-      {/* Floating Elements Animations */}
-      <AnimatePresence>
-        {floatingElements.map(element => (
-          <motion.div
-            key={element.id}
-            initial={{ 
-              opacity: 0,
-              scale: 0.2,
-              x: element.x,
-              y: element.y
-            }}
-            animate={{ 
-              opacity: [0, 1, 0],
-              scale: [0.2, 1.5, 0.8],
-              x: element.x + Math.cos(element.angle) * 100, // Increased radius
-              y: element.y + Math.sin(element.angle) * 100 - 50, // Added upward drift
-              transition: {
-                duration: 0.8,
-                delay: element.delay,
-                ease: "easeOut"
-              }
-            }}
-            className="fixed pointer-events-none z-50 font-bold text-2xl"
-            style={{
-              background: 'linear-gradient(to right, #9FE870, #70E8C5)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              transform: 'translate(-50%, -50%)'
-            }}
-          >
-            +1
-          </motion.div>
-        ))}
-      </AnimatePresence>
-
-      {/* Bouncing Animation */}
-      <AnimatePresence>
-        {showBounce && (
-          <motion.div
-            initial={{ scale: 0, y: 100 }}
-            animate={{
-              scale: [0, 1.2, 1],
-              y: [100, -20, 0],
-              rotate: [0, -10, 10, 0]
-            }}
-            exit={{
-              scale: [1, 1.2, 0],
-              y: [0, -50, 100],
-              rotate: [0, -10, 10, 0]
-            }}
-            transition={{
-              duration: 1,
-              times: [0, 0.6, 1],
-              bounce: 0.5,
-              type: "spring",
-              stiffness: 200
-            }}
-            className="fixed inset-0 flex items-center justify-center pointer-events-none z-50"
-          >
-            <div className="flex items-center gap-3 bg-gradient-to-r from-[#9FE870] to-[#70E8C5] p-6 rounded-2xl shadow-lg">
-              <img src={intro4} alt="Packy" className="w-12 h-12" />
-              <span className="text-4xl font-bold text-white">+1</span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Header */}
-      <div className="h-[60px] flex items-center justify-between">
-        <motion.div
-          className="flex items-center gap-2"
-          animate={{ scale: packies > 0 ? [1, 1.1, 1] : 1 }}
-          transition={{ duration: 0.3 }}
-        >
+      <div className="h-[60px] flex items-center justify-between z-40">
+        <div className="flex items-center gap-2">
           <div className="flex items-center gap-2 px-3 py-2 bg-white/70 backdrop-blur-sm border border-gray-200/50 rounded-[15px]">
             <img src={intro4} alt="Packy" className="w-6 h-6" />
             <span className="font-medium text-black text-xs">
               {packies} {t('game.packies')}
             </span>
           </div>
-        </motion.div>
+        </div>
 
         <div className="flex items-center gap-2 px-3 py-2 bg-white/70 backdrop-blur-sm border border-gray-200/50 rounded-[15px]">
           <button 
@@ -189,14 +111,8 @@ export function GamePage() {
       {/* Main Game Area */}
       <div className="h-[calc(100%-120px)] flex items-center justify-center relative">
         <button
-          ref={buttonRef}
           onClick={handleTap}
-          className={`relative w-60 h-60 rounded-full
-            transition-all duration-100 ease-out
-            ${isPressed ? 'scale-105' : 'scale-100'}
-            bg-white/80 backdrop-blur-sm
-            shadow-[0_0_40px_rgba(79,70,229,0.1)]
-            active:shadow-[inset_0_0_20px_rgba(79,70,229,0.2)]`}
+          className="relative w-60 h-60 rounded-full bg-white/80 backdrop-blur-sm shadow-[0_0_40px_rgba(79,70,229,0.1)] transition-transform duration-100 ease-out"
         >
           <div className="absolute inset-0 rounded-full border-[#9FE870] border-2">
             <img
@@ -206,19 +122,57 @@ export function GamePage() {
             />
           </div>
         </button>
+
+        {/* Animation Layer - Updated positioning and z-index */}
+        <div className="fixed inset-0 pointer-events-none z-50">
+          {clicks.map((click) => (
+            <div
+              key={click.id}
+              className="absolute pointer-events-none animate-heart-float"
+              style={{
+                top: `${click.y}px`,
+                left: `${click.x}px`,
+                transform: 'translate(-50%, -50%)'
+              }}
+              onAnimationEnd={() => handleAnimationEnd(click.id)}
+            >
+              <Heart className="w-12 h-12 text-[#9FE870] fill-[#D6F905]" />
+            </div>
+          ))}
+        </div>
+
+        {/* Packy animations */}
+        {packyAnimations.map((anim) => (
+          <div
+            key={anim.id}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none animate-packy"
+            onAnimationEnd={() => handlePackyAnimationEnd(anim.id)}
+          >
+            <div className="flex items-center gap-2 px-4 py-2 bg-white shadow-lg rounded-full">
+              <img src={intro4} alt="Packy" className="w-6 h-6" />
+              <span className="font-bold text-[#9FE870]">+1 Packy!</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Progress Bar */}
+      <div className="px-4 mb-4">
+        <div className="w-full h-5 bg-gray-200 rounded-full overflow-hidden">
+          <div 
+            className="h-full bg-[#D6F905] transition-all duration-300 ease-out"
+            style={{ width: `${(lightning / 100) * 100}%` }}
+          />
+        </div>
       </div>
 
       {/* Footer */}
-      <div className="h-[60px] flex items-center justify-between">
+      <div className="h-[60px] flex items-center justify-between z-40">
         <div className="flex items-center gap-2 px-4 py-2 bg-white/70 backdrop-blur-sm border border-gray-200/50 rounded-[15px]">
           <img src={flash} alt="Lightning" className="w-6 h-6" />
-          <motion.span
-            className="text-[#9FE870] font-medium text-xs"
-            animate={{ scale: lightning === 99 ? [1, 1.2, 1] : 1 }}
-            transition={{ duration: 0.3 }}
-          >
+          <span className="text-[#9FE870] font-medium text-xs">
             {lightning}/100 {t('game.lightning')}
-          </motion.span>
+          </span>
         </div>
 
         <div
@@ -235,6 +189,48 @@ export function GamePage() {
         isOpen={isLevelSheetOpen} 
         onClose={() => setIsLevelSheetOpen(false)} 
       />
+
+      <style>
+        {`
+          @keyframes heart-float {
+            0% {
+              opacity: 1;
+              transform: translate(-50%, -50%) scale(0.8);
+            }
+            100% {
+              opacity: 0;
+              transform: translate(-50%, -300%) scale(1.2);
+            }
+          }
+          .animate-heart-float {
+            animation: heart-float 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          }
+
+          @keyframes packy {
+            0% {
+              opacity: 0;
+              transform: translate(-50%, -50%) scale(0.5);
+            }
+            20% {
+              opacity: 1;
+              transform: translate(-50%, -50%) scale(1.2);
+            }
+            40% {
+              transform: translate(-50%, -50%) scale(1);
+            }
+            60% {
+              transform: translate(-50%, -50%) scale(1);
+            }
+            100% {
+              opacity: 0;
+              transform: translate(-50%, -80%) scale(1);
+            }
+          }
+          .animate-packy {
+            animation: packy 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+          }
+        `}
+      </style>
     </div>
   )
 }

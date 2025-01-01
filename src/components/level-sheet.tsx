@@ -40,15 +40,30 @@ const levelImages = {
 }
 
 const getLevelTitle = (level: number) => {
-  switch(level) {
-    case 0: return "Nub Packy"
-    case 1: return "Bronze Packy"
-    case 2: return "Silver Packy"
-    case 3: return "Gold Packy"
-    case 4: return "Platinum Packy"
-    case 5: return "Diamond Packy"
-    default: return `Level ${level} Packy`
+  switch (level) {
+    case 0: return "Rookie Explorer";
+    case 1: return "Weekend Wanderer";
+    case 2: return "Miles Master";
+    case 3: return "Roaming Ranger";
+    case 4: return "Globetrotter";
+    case 5: return "Jetsetter";
+    case 6: return "Trailblazer";
+    case 7: return "Sunset Sailor";
+    case 8: return "Nomadic Navigator";
+    case 9: return "Boundless Backpacker";
+    case 10: return "Wayfarer Warrior";
+    case 11: return "Global Guru";
+    case 12: return "Intrepid Itinerant";
+    case 13: return "Frontier Fighter";
+    case 14: return "Wanderlust Whisperer";
+    case 15: return "Expedition Expert";
+    case 16: return "Skyline Surfer";
+    case 17: return "Odyssey Oracle";
+    case 18: return "Nomad Noble";
+    case 19: return "Legendary Voyager";
+    default: return "Unknown Explorer";
   }
+  
 }
 
 interface LevelSheetProps {
