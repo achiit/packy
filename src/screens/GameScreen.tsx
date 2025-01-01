@@ -9,6 +9,7 @@ import flash from '../assets/flash.png'
 import { LeaderboardSheet } from '../components/leaderboard-sheet'
 import { LevelSheet } from '../components/level-sheet'
 import { useTelegram } from '../context/TelegramContext'
+import { calculateLevel, getLevelTitle } from '../utils/levelCalculator'
 
 type Click = {
   id: number
@@ -37,11 +38,9 @@ export function GamePage() {
   }, [userDataFromDB])
 
   const handleTap = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // Get the absolute position for the animation
     const x = e.clientX
     const y = e.clientY
 
-    // 3D tilt effect
     const button = e.currentTarget
     const rect = button.getBoundingClientRect()
     const tiltX = (e.clientX - rect.left - rect.width / 2) / 10
@@ -53,10 +52,8 @@ export function GamePage() {
       button.style.transform = ''
     }, 100)
 
-    // Add heart animation at exact click position
     setClicks([...clicks, { id: Date.now(), x, y }])
 
-    // Game logic with packy animation
     if (lightning + 1 >= 100) {
       const newPackiesCount = packies + 1
       setPackies(newPackiesCount)
@@ -76,6 +73,9 @@ export function GamePage() {
     setPackyAnimations(prev => prev.filter(anim => anim.id !== id))
   }
 
+  const { level: currentLevel } = calculateLevel(packies)
+  const levelName = getLevelTitle(currentLevel)
+
   return (
     <div className="h-[calc(98vh-150px)] flex flex-col bg-white px-0 overflow-hidden relative bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <div className="absolute inset-0 opacity-10 pointer-events-none" 
@@ -92,6 +92,11 @@ export function GamePage() {
             <img src={intro4} alt="Packy" className="w-6 h-6" />
             <span className="font-medium text-black text-xs">
               {packies} {t('game.packies')}
+            </span>
+          </div>
+          <div className="flex items-center gap-2 px-3 py-2 bg-white/70 backdrop-blur-sm border border-gray-200/50 rounded-[15px]">
+            <span className="font-medium text-black text-xs">
+              {levelName} {t('levels.currentLevel')}
             </span>
           </div>
         </div>
